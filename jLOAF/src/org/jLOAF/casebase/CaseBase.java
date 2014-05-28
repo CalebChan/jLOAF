@@ -46,8 +46,10 @@ public class CaseBase implements Serializable{
 					
 			//make sure we read a CaseBase
 			if( !(o instanceof CaseBase)){
-					return null;
+				ois.close();
+				return null;
 			}
+			ois.close();
 			return (CaseBase)o;
 		}catch(Exception e){
 			//if there was a file problem we return null
