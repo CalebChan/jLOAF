@@ -1,6 +1,8 @@
 package org.jLOAF;
 
+import org.jLOAF.action.Action;
 import org.jLOAF.casebase.CaseBase;
+import org.jLOAF.inputs.Input;
 
 public abstract class Agent {
 
@@ -15,4 +17,6 @@ public abstract class Agent {
 		this.p = perception;
 		this.cb = casebase;
 	}
+	
+	public abstract Action senseEnvironment(Input input);
 }
