@@ -20,22 +20,36 @@ public class kNN implements Retrieval {
 	@Override
 	public List<Case> retrieve(Input i) {
 		//FIXME so it works with k>1
-		double[] bestSim = new double[1];
-		bestSim[0] = -1;
-		Case[] bestCases = new Case[1];
+		double[] sim = new double[cb.getSize()];
+		Case[] bestCases = new Case[k];
 		bestCases[0] = null;
 		
+		int index = 0;
 		for(Case c: cb.getCases()){
-			double sim = i.similarity(c.getInput());
-			//FIXME for k > 1
-			if(sim > bestSim[0]){
-				bestSim[0] = sim;
-				bestCases[0] = c;
+			sim[index] = i.similarity(c.getInput());
+		}
+		
+		double bestSim;
+		int bestIndex;
+		Case cases[] = cb.getCases().toArray(new Case[cb.getSize()]);
+		for (int j = 0; j < k; j++){
+			bestSim = -1;
+			bestIndex = -1;
+			for (int m = 0; m < cb.getSize(); m++){
+				if (sim[m] > bestSim){
+					bestSim = sim[m];
+					bestIndex = m;
+				}
 			}
+			bestCases[j] = cases[bestIndex];
+			cases[bestIndex] = null;
+			sim[bestIndex] = -1;
 		}
 		
 		List<Case> best = new ArrayList<Case>();
-		best.add(bestCases[0]);
+		for (Case c : bestCases){
+			best.add(c);
+		}
 		
 		return best;
 	}
