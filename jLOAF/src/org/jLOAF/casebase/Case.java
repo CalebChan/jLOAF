@@ -12,9 +12,16 @@ public class Case implements Serializable{
 	private Input in;
 	private Action act;
 	
-	public Case(Input input, Action action){
+	private Case previousCase;
+	
+	public Case(Input input, Action action, Case previousCase){
 		this.in = input;
 		this.act = action;
+		this.previousCase = previousCase;
+	}
+	
+	public Case getPreviousCase(){
+		return this.previousCase;
 	}
 	
 	public Input getInput(){

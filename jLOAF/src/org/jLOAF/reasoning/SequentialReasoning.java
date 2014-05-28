@@ -1,6 +1,7 @@
 package org.jLOAF.reasoning;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.jLOAF.Reasoning;
 import org.jLOAF.action.Action;
@@ -9,46 +10,41 @@ import org.jLOAF.casebase.CaseBase;
 import org.jLOAF.casebase.CaseRun;
 import org.jLOAF.inputs.Input;
 import org.jLOAF.retrieve.SequentialRetrival;
+import org.jLOAF.retrieve.kNN;
 
 public class SequentialReasoning implements Reasoning  {
 
 	private SequentialRetrival retrival;
 	
 	private static final double DEFAULT_THREHSOLD = 0.5;
-	private static final double DEFAULT_CANDIDATE_THREHSOLD = 0.75;
-	private CaseBase cb;
+	private static final int DEFAULT_K = 2;
 	private CaseRun currentRun;
+	
+	private kNN knn;
 	
 	public SequentialReasoning(CaseBase cb, CaseRun currentRun){
 		retrival = new SequentialRetrival(DEFAULT_THREHSOLD, DEFAULT_THREHSOLD);
-		this.cb = cb;
 		this.currentRun = currentRun;
+		
+		this.knn = new kNN(DEFAULT_K, cb);
 	}
 	
 	@Override
 	public Action selectAction(Input i) {
-		CaseRun curRun = currentRun;
-		
 		ArrayList<CaseRun> candidates = new ArrayList<CaseRun>();
-		ArrayList<Case> pastCases = (ArrayList<Case>) cb.getCases();
-		
-		int index = 0;
-		for (Case c : pastCases){
-			//System.out.println("Case : " + c.toString());
-			double sim = c.getInput().similarity(curRun.getCurrentCase().getInput());
-			//System.out.println("Sim : " + sim);
-			if (sim >= DEFAULT_CANDIDATE_THREHSOLD){
-				CaseRun run = new CaseRun();
-				for (int j = 0; j <= index; j++){
-					run.addCaseToRun(pastCases.get(j));
-				}
-				candidates.add(run);
+		List<Case> closestCase = knn.retrieve(i);
+		for (Case c : closestCase){
+			Case tmp = c;
+			CaseRun run  = new CaseRun();
+			while(tmp != null){
+				run.addCaseToRun(tmp);
+				tmp = tmp.getPreviousCase();
 			}
-			
-			index++;
+			run.reverseRun();
+			candidates.add(run);
 		}
 		//System.out.println("Candidate Length : " + candidates.size());
-		return retrival.stateRetrival(curRun, candidates, 0);
+		return retrival.stateRetrival(currentRun, candidates, 0);
 	}
 
 }

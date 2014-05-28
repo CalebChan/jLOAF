@@ -2,6 +2,7 @@ package org.jLOAF.casebase;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CaseRun implements Serializable{
@@ -21,7 +22,14 @@ public class CaseRun implements Serializable{
 	}
 	
 	public Case getCurrentCase(){
+		if (run.size() == 0){
+			return null;
+		}
 		return this.run.get(run.size() - 1);
+	}
+	
+	public void reverseRun(){
+		Collections.reverse(run);
 	}
 	
 	public Case getCase(int time){

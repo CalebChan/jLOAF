@@ -19,7 +19,6 @@ public class kNN implements Retrieval {
 	
 	@Override
 	public List<Case> retrieve(Input i) {
-		//FIXME so it works with k>1
 		double[] sim = new double[cb.getSize()];
 		Case[] bestCases = new Case[k];
 		bestCases[0] = null;
@@ -41,9 +40,11 @@ public class kNN implements Retrieval {
 					bestIndex = m;
 				}
 			}
-			bestCases[j] = cases[bestIndex];
-			cases[bestIndex] = null;
-			sim[bestIndex] = -1;
+			if (bestIndex > -1){
+				bestCases[j] = cases[bestIndex];
+				cases[bestIndex] = null;
+				sim[bestIndex] = -1;
+			}
 		}
 		
 		List<Case> best = new ArrayList<Case>();
