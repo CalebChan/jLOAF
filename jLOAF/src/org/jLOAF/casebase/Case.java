@@ -24,4 +24,8 @@ public class Case implements Serializable{
 	public Action getAction(){
 		return this.act;
 	}
+	
+	public void setAction(Action a){
+		this.act = a;
+	}
 }
