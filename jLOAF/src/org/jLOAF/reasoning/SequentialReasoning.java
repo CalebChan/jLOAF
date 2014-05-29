@@ -17,7 +17,7 @@ public class SequentialReasoning implements Reasoning  {
 	private SequentialRetrival retrival;
 	
 	private static final double DEFAULT_THREHSOLD = 0.5;
-	private static final int DEFAULT_K = 2;
+	private static final int DEFAULT_K = 3;
 	private CaseRun currentRun;
 	
 	private kNN knn;

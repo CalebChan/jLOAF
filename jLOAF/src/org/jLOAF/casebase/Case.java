@@ -35,4 +35,14 @@ public class Case implements Serializable{
 	public void setAction(Action a){
 		this.act = a;
 	}
+	
+	@Override
+	public String toString(){
+		String s = "";
+		
+		s += "Input : " + this.in.toString();
+		s += "Action : " + this.act.toString();
+		
+		return s;
+	}
 }

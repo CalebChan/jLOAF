@@ -24,6 +24,13 @@ public class AtomicInput extends Input {
 		return this.feat;
 	}
 	
+	@Override
+	public String toString(){
+		String s = "Atomic Input : " + this.name + "\n";
+		s += "Feature : " + feat.toString();
+		return s;
+	}
+	
 
 	@Override
 	public double similarity(Input i) {

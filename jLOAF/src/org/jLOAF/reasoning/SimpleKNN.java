@@ -1,5 +1,6 @@
 package org.jLOAF.reasoning;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.jLOAF.Reasoning;
@@ -21,8 +22,28 @@ public class SimpleKNN implements Reasoning {
 	@Override
 	public Action selectAction(Input i) {
 		List<Case> nn = ret.retrieve(i);
-		//FIXME I should do something in the case k > 1
-		return nn.get(0).getAction();
+		HashMap<String, Integer> classes = new HashMap<String, Integer>();
+		for (Case c : nn){
+			if (classes.containsKey(c.getAction().getName())){
+				classes.put(c.getAction().getName(), classes.get(c.getAction().getName()) + 1);
+			}else{
+				classes.put(c.getAction().getName(), 1);
+			}			
+		}
+		int largestClass = 0;
+		String className = "";
+		for (String s : classes.keySet()){
+			if (classes.get(s) > largestClass){
+				className = s;
+				largestClass = classes.get(s);
+			}
+		}
+		for (Case c : nn){
+			if (c.getAction().getName().equals(className)){
+				return c.getAction();
+			}
+		}
+		return null;
 	}
 
 }

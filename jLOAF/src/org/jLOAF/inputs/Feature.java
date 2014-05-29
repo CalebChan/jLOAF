@@ -15,4 +15,9 @@ public class Feature implements Serializable{
 	public double getValue(){
 		return this.val;
 	}
+	
+	@Override
+	public String toString(){
+		return "Value : " + this.val;
+	}
 }

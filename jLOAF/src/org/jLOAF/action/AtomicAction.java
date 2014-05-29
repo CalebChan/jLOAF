@@ -37,4 +37,14 @@ public class AtomicAction extends Action {
 	public List<Feature> getFeatures(){
 		return this.features;
 	}
+	
+	@Override
+	public String toString(){
+		String s = "Atomic Action : " + this.name + "\n";
+		s += "Feature :\n";
+		for (Feature f : this.features){
+			s += f.toString() + "\n";
+		}
+		return s;
+	}
 }

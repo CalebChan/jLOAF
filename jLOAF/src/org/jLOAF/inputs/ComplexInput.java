@@ -32,6 +32,16 @@ public class ComplexInput extends Input {
 	}
 	
 	@Override
+	public String toString(){
+		String s = "Complex Input : " + this.name + "\n";
+		s += "Inputs :\n";
+		for (String ss : this.collect.keySet()){
+			s += this.collect.get(ss).toString() + "\n";
+		}
+		return s;
+	}
+	
+	@Override
 	public double similarity(Input i) {
 		//See if the user has defined similarity for each specific input, for all inputs
 		//  of a specific type, of defered to superclass

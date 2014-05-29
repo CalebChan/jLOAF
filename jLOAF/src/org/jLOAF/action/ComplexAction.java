@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.jLOAF.inputs.Feature;
+
 public class ComplexAction extends Action {
 
 	private static final long serialVersionUID = 1L;
@@ -27,4 +29,13 @@ public class ComplexAction extends Action {
 		return collect.keySet();
 	}
 	
+	@Override
+	public String toString(){
+		String s = "Complex Action : " + this.name + "\n";
+		s += "Actions :\n";
+		for (String ss : this.collect.keySet()){
+			s += this.collect.get(ss).toString() + "\n";
+		}
+		return s;
+	}
 }
