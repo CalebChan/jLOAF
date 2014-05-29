@@ -36,6 +36,18 @@ public class Case implements Serializable{
 		this.act = a;
 	}
 	
+	public int caseIndex(){
+		int index = 1;
+		
+		Case c = this.previousCase;
+		while (c != null){
+			index++;
+			c = c.getPreviousCase();
+		}
+		
+		return index;
+	}
+	
 	@Override
 	public String toString(){
 		String s = "";

@@ -34,6 +34,15 @@ public class AtomicAction extends Action {
 		}
 	}
 	
+	@Override
+	public boolean equals(Object o){
+		if (!(o instanceof AtomicAction)){
+			return false;
+		}
+		AtomicAction a = (AtomicAction)o;
+		return this.name.equals(a.name) && this.features.equals(features);
+	}
+	
 	public List<Feature> getFeatures(){
 		return this.features;
 	}

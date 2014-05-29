@@ -2,9 +2,12 @@ package org.jLOAF.retrieve;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.jLOAF.action.Action;
 import org.jLOAF.casebase.CaseRun;
+import org.jLOAF.inputs.Input;
+import org.jLOAF.util.CaseLogger;
 
 public class SequentialRetrival {
 	
@@ -25,13 +28,13 @@ public class SequentialRetrival {
 		CaseRun bestRun = pastRuns.get(0);
 		
 		for (CaseRun past : pastRuns){
-			double sim;
-			if (past.getRunLength() < time || run.getRunLength() < time){
-				sim = -1;
-			}else{
-				sim = calculateSimInput(run, past, time);
+			double sim = -1;
+			if (time < run.getRunLength() && time < past.getRunLength()){
+				Input pastIn = past.getCase(past.getRunLength() - 1 - time).getInput();
+				Input runIn = run.getCase(run.getRunLength() - 1 - time).getInput();
+				sim = pastIn.similarity(runIn);
 			}
-			//System.out.println("SIM : " + sim);
+			CaseLogger.log(Level.INFO, "SIM State : " + sim + "\n");
 			if (sim > bestSim){
 				bestSim = sim;
 				bestRun = past;
@@ -39,47 +42,27 @@ public class SequentialRetrival {
 			
 			if (sim > this.problemThreshold){
 				NN.add(past);
-				if (!NNAction.contains(past.getCase(time).getAction())){
-					NNAction.add(past.getCase(time).getAction());
+				if (!NNAction.contains(past.getCurrentCase().getAction())){
+					NNAction.add(past.getCurrentCase().getAction());
 				}
 			}
 		}
 		
 		if (NN.isEmpty()){
-			return bestRun.getCase(bestRun.getRunLength() - 1).getAction();
+			return bestRun.getCurrentCase().getAction();
 		}else if (NNAction.size() == 1){
 			return NNAction.get(0);
 		}
 		
-		return actionRetrival(run, NN, time - 1);
+		return actionRetrival(run, NN, time + 1);
 	}
-	
-	private double calculateSimInput(CaseRun run, CaseRun past, int index){
-		double total = 0;
-		
-		int lowIndex = Math.min(run.getRunLength(), past.getRunLength());
-		for(int i = Math.max(lowIndex - index, 0); i < lowIndex; i++){
-			total += past.getCase(i).getInput().similarity(run.getCase(i).getInput());
-			System.out.println("Total : " + total);
-		}
-		
-		return total;
-	}
-	
-	private double calculateSimAction(CaseRun run, CaseRun past, int index){
-		double total = 0;
-		
-		int lowIndex = Math.min(run.getRunLength(), past.getRunLength());
-		for(int i = Math.max(lowIndex - index, 0); i < lowIndex; i++){
-			total += similarityActions(past.getCase(i).getAction(), run.getCase(i).getAction());
-		}
-		return total;
-	}
-	
+
 	private double similarityActions(Action a1, Action a2){
 		if (a1.equals(a2)){
 			return 1;
 		}
+		CaseLogger.log(Level.INFO, "Action 1 : " + a1.toString() + "\n");
+		CaseLogger.log(Level.INFO, "Action 2 : " + a2.toString() + "\n");
 		return -1;
 	}
 	
@@ -91,28 +74,27 @@ public class SequentialRetrival {
 		CaseRun bestRun = pastRuns.get(0);
 		
 		for (CaseRun past : pastRuns){
-			double sim;
-			if (past.getRunLength() < time || run.getRunLength() < time){
-				sim = -1;
-			}else{
-				sim = calculateSimAction(run, past, time);
+			double sim = -1;
+			if (time < run.getRunLength() && time < past.getRunLength()){
+				Action pastAction = past.getCase(past.getRunLength() - 1 - time).getAction();
+				Action runAction = run.getCase(run.getRunLength() - 1 - time).getAction();
+				sim = similarityActions(pastAction, runAction);
 			}
-			
+			CaseLogger.log(Level.INFO, "SIM Action : " + sim + "\n");
 			if (sim > bestSim){
 				bestSim = sim;
 				bestRun = past;
 			}
-			
 			if (sim > this.solutionThreshold){
 				NN.add(past);
-				if (!NNAction.contains(past.getCase(time).getAction())){
-					NNAction.add(past.getCase(time).getAction());
+				if (!NNAction.contains(past.getCurrentCase().getAction())){
+					NNAction.add(past.getCurrentCase().getAction());
 				}
 			}
 		}
 		
 		if (NN.isEmpty()){
-			return bestRun.getCase(bestRun.getRunLength() - 1).getAction();
+			return bestRun.getCurrentCase().getAction();
 		}else if (NNAction.size() == 1){
 			return NNAction.get(0);
 		}

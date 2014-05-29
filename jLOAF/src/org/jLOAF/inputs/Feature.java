@@ -17,6 +17,15 @@ public class Feature implements Serializable{
 	}
 	
 	@Override
+	public boolean equals(Object o){
+		if (!(o instanceof Feature)){
+			return false;
+		}
+		Feature f = (Feature)o;
+		return this.val == f.val;
+	}
+	
+	@Override
 	public String toString(){
 		return "Value : " + this.val;
 	}

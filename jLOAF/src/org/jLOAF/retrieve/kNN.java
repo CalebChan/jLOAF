@@ -56,7 +56,7 @@ public class kNN implements Retrieval {
 		List<Case> best = new ArrayList<Case>();
 		for (Case c : bestCases){
 			best.add(c);
-			CaseLogger.log(Level.INFO, "Best Case : " + c.toString() + "\n");
+			CaseLogger.log(Level.INFO, "Best Case : " + c.toString() + "Index : " + c.caseIndex() + "\n");
 		}
 		CaseLogger.log(Level.INFO, "Ending Retrival");
 		return best;
