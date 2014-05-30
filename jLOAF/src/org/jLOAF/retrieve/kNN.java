@@ -49,6 +49,7 @@ public class kNN implements Retrieval {
 			if (bestIndex > -1){
 				bestCases[j] = cases[bestIndex];
 				cases[bestIndex] = null;
+				CaseLogger.log(Level.INFO, "Best Case : " + bestCases[j].toString() + "Index : " + bestCases[j].caseIndex() + " Sim : " + sim[bestIndex]+ "\n");
 				sim[bestIndex] = -1;
 			}
 		}
@@ -56,7 +57,6 @@ public class kNN implements Retrieval {
 		List<Case> best = new ArrayList<Case>();
 		for (Case c : bestCases){
 			best.add(c);
-			CaseLogger.log(Level.INFO, "Best Case : " + c.toString() + "Index : " + c.caseIndex() + "\n");
 		}
 		CaseLogger.log(Level.INFO, "Ending Retrival");
 		return best;

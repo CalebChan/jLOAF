@@ -20,16 +20,15 @@ public class SequentialReasoning implements Reasoning  {
 	
 	private static final double DEFAULT_THREHSOLD = 0.5;
 	private static final double DEFAULT_SOLUTION_THRESHOLD = 0.0;
-	private static final int DEFAULT_K = 3;
 	private CaseRun currentRun;
 	
 	private kNN knn;
 	
-	public SequentialReasoning(CaseBase cb, CaseRun currentRun){
+	public SequentialReasoning(CaseBase cb, CaseRun currentRun, int k){
 		retrival = new SequentialRetrival(DEFAULT_THREHSOLD, DEFAULT_SOLUTION_THRESHOLD);
 		this.currentRun = currentRun;
 		
-		this.knn = new kNN(DEFAULT_K, cb);
+		this.knn = new kNN(k, cb);
 	}
 	
 	@Override
