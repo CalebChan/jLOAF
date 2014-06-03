@@ -28,6 +28,11 @@ public class CaseRun implements Serializable{
 		return this.run.get(run.size() - 1);
 	}
 	
+	public void amendCurrentCase(Case newCase){
+		this.run.remove(getRunLength() - 1);
+		this.run.add(newCase);
+	}
+	
 	public void reverseRun(){
 		Collections.reverse(run);
 	}

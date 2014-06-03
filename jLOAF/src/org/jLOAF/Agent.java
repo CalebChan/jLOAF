@@ -1,6 +1,7 @@
 package org.jLOAF;
 
 import org.jLOAF.action.Action;
+import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
 import org.jLOAF.inputs.Input;
 
@@ -19,4 +20,12 @@ public abstract class Agent {
 	}
 	
 	public abstract Action senseEnvironment(Input input);
+	
+	/**
+	 * This method will add the new case to the case based as a amendment to the case just performed
+	 * @param newCase The new case to be added
+	 */
+	public void learn(Case newCase){
+		this.cb.add(newCase);
+	}
 }
