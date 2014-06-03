@@ -24,6 +24,9 @@ public class SimpleKNN implements Reasoning {
 		List<Case> nn = ret.retrieve(i);
 		HashMap<String, Integer> classes = new HashMap<String, Integer>();
 		for (Case c : nn){
+			if (c == null || c.getAction() == null){
+				continue;
+			}
 			if (classes.containsKey(c.getAction().getName())){
 				classes.put(c.getAction().getName(), classes.get(c.getAction().getName()) + 1);
 			}else{
