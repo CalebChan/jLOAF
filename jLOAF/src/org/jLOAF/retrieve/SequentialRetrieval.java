@@ -9,12 +9,12 @@ import org.jLOAF.casebase.CaseRun;
 import org.jLOAF.inputs.Input;
 import org.jLOAF.util.CaseLogger;
 
-public class SequentialRetrival {
+public class SequentialRetrieval {
 	
 	private double problemThreshold;
 	private double solutionThreshold;
 	
-	public SequentialRetrival(double probThresh, double solThresh){
+	public SequentialRetrieval(double probThresh, double solThresh){
 		this.problemThreshold = probThresh;
 		this.solutionThreshold = solThresh;
 	}
