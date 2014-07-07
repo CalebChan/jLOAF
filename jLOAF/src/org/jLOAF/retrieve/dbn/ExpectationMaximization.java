@@ -70,13 +70,26 @@ public class ExpectationMaximization {
 			}
 			
 			Matrix tmp = c.times(this.v[i - 1][i]).times(c.transpose()).plus(r);
+			System.out.println("V: \n" + this.v[i - 1][i].toString());
+			System.out.println("C: \n" + c.toString());
+			System.out.println("R: \n" + r.toString());
+			System.out.println("TMP 1: \n" + tmp.toString());
+			System.out.println("Square ? : " + tmp.isSquare());
 			tmp.inverse();
+			System.out.println("TMP 2: \n" + tmp.toString());
 			k[i] = this.v[i - 1][i].times(c.transpose()).times(tmp);
-
+			System.out.println("K: \n" + k[i].toString());
+			System.out.println("Y: \n" + y[i].toString());
+			System.out.println("X: \n" + x[i - 1][i].toString());
+			System.out.println("M: \n" + m.toString());
+			System.out.println("U: \n" + u[i].toString());
 			tmp = y[i].minus(c.times(this.x[i - 1][i])).minus(m.times(u[i]));
+			
 			this.x[i][i] = this.x[i - 1][i].plus(k[i].times(tmp));
 			
 			tmp = k[i].times(c).times(this.v[i - 1][i]);
+			
+			System.out.println("TMP: \n" + tmp.toString());
 			this.v[i][i] = this.v[i - 1][i].minus(tmp);
 		}
 	}
