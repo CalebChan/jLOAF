@@ -2,27 +2,23 @@ package org.jLOAF.tools;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.jLOAF.casebase.CaseRun;
 
 public class LeaveOneOut {
-
-	private List<CaseRun> training;
-	private CaseRun testing;
 	
-	public LeaveOneOut(List<CaseRun> runs){
-		this.training = new ArrayList<CaseRun>(runs);
-		Random r = new Random();
-		this.testing = this.training.remove(r.nextInt(this.training.size()));
+	private List<TestingTrainingPair> testTrainPair;
+	
+	public LeaveOneOut(List<CaseRun> runs, int numOfTest){
+		this.testTrainPair = new ArrayList<TestingTrainingPair>();
+		for (int i = 0; i < Math.min(runs.size(), numOfTest); i++){
+			ArrayList<CaseRun> train = new ArrayList<CaseRun>(runs);
+			CaseRun test = train.remove(i);
+			this.testTrainPair.add(new TestingTrainingPair(train, test));
+		}	
 	}
 	
-	public CaseRun getTestRun(){
-		return this.testing;
+	public List<TestingTrainingPair> getTestingAndTrainingSets(){
+		return this.testTrainPair;
 	}
-	
-	public List<CaseRun> getTrainingRun(){
-		return this.training;
-	}
-
 }
