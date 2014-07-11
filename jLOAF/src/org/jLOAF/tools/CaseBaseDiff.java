@@ -34,8 +34,10 @@ import org.jLOAF.casebase.CaseBase;
  * 
  */
 public class CaseBaseDiff {
-	private CaseBase CBone;
-	private CaseBase CBtwo;
+	@SuppressWarnings("unused")
+	private CaseBase CBone; //TODO: REMOVE / FIX
+	@SuppressWarnings("unused")
+	private CaseBase CBtwo; //TODO: REMOVE / FIX
 
 	/**
 	 * Main procedure

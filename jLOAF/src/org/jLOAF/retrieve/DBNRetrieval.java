@@ -38,8 +38,6 @@ public class DBNRetrieval implements Retrieval{
 	private CaseRun run;
 	private int internalState;
 	
-	private static final double DEFAULT_MATRIX_VALUE = 0.5;
-	
 	public DBNRetrieval(CaseBase cb, int iterations, CaseRun run, int internalState){
 		this.cb = cb;
 		this.run = run;

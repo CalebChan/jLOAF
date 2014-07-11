@@ -61,6 +61,7 @@ public class CaseBaseIO {
 			
 			Object o = ois.readObject();
 			
+			ois.close();
 			//make sure we read a CaseBase
 			if( !(o instanceof CaseBase)){
 				return null;
