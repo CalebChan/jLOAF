@@ -15,11 +15,11 @@ public class DBNReasoning implements Reasoning{
 	private DBNRetrieval dbn;
 	
 	public DBNReasoning(CaseBase cb, int iterations, CaseRun run, int internalState){
-		dbn = new DBNRetrieval(cb, iterations, run, internalState);
+		//dbn = new DBNRetrieval(cb, iterations, run, internalState);
 	}
 	
 	public void setCaseRun(CaseRun run){
-		dbn.setCaseRun(run);
+		//dbn.setCaseRun(run);
 	}
 	
 	@Override
