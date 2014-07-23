@@ -1,20 +1,19 @@
 package org.jLOAF.tools;
 
-import java.util.List;
-
+import org.jLOAF.casebase.CaseBase;
 import org.jLOAF.casebase.CaseRun;
 
 public class TestingTrainingPair {
 
-	private List<CaseRun> training;
+	private CaseBase training;
 	private CaseRun testing;
 	
-	public TestingTrainingPair(List<CaseRun> training, CaseRun testing){
+	public TestingTrainingPair(CaseBase training, CaseRun testing){
 		this.testing = testing;
 		this.training = training;
 	}
 
-	public List<CaseRun> getTraining() {
+	public CaseBase getTraining() {
 		return training;
 	}
 
