@@ -46,6 +46,16 @@ public class SequentialReasoning implements Reasoning  {
 			CaseLogger.log(Level.INFO, "Run Length : " + run.getRunLength());
 			candidates.add(run);
 		}
+		List<Action> actions = new ArrayList<Action>();
+		for (CaseRun r : candidates){
+			Action curAction = r.getCase(r.getRunLength() - 1).getAction();
+			if (!actions.contains(curAction)){
+				actions.add(curAction);
+			}
+		}
+		if (actions.size() == 1){
+			return actions.get(0);
+		}
 		CaseLogger.log(Level.INFO, "Candidate Length : " + candidates.size() + "\n");
 		return retrival.stateRetrival(currentRun, candidates, 0);
 	}
