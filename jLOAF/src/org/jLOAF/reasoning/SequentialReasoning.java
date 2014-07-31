@@ -2,8 +2,6 @@ package org.jLOAF.reasoning;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-
 import org.jLOAF.Reasoning;
 import org.jLOAF.action.Action;
 import org.jLOAF.casebase.Case;
@@ -12,7 +10,6 @@ import org.jLOAF.casebase.CaseRun;
 import org.jLOAF.inputs.Input;
 import org.jLOAF.retrieve.SequentialRetrieval;
 import org.jLOAF.retrieve.kNN;
-import org.jLOAF.util.CaseLogger;
 
 public class SequentialReasoning implements Reasoning  {
 
@@ -43,7 +40,6 @@ public class SequentialReasoning implements Reasoning  {
 				tmp = tmp.getPreviousCase();
 			}
 			run.reverseRun();
-			CaseLogger.log(Level.INFO, "Run Length : " + run.getRunLength());
 			candidates.add(run);
 		}
 		List<Action> actions = new ArrayList<Action>();
@@ -56,7 +52,6 @@ public class SequentialReasoning implements Reasoning  {
 		if (actions.size() == 1){
 			return actions.get(0);
 		}
-		CaseLogger.log(Level.INFO, "Candidate Length : " + candidates.size() + "\n");
 		return retrival.stateRetrival(currentRun, candidates, 0);
 	}
 

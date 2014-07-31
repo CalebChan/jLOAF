@@ -14,14 +14,17 @@ public class CaseLogger {
 	
 	public static void createLogger(boolean writeToFile, String filename){
 		LOGGER = Logger.getLogger("org.jLOAF.reasoning");
+		LOGGER.setUseParentHandlers(false);
 		try {
-			if (writeToFile && !filename.isEmpty()){
+			if (writeToFile && filename != null && !filename.isEmpty()){
 				FileHandler fh = new FileHandler(filename);
 				SimpleFormatter formatter = new SimpleFormatter();  
 				fh.setFormatter(formatter);
 				LOGGER.addHandler(fh);
-			}else if (writeToFile && filename.isEmpty()){
+			}else if (writeToFile && (filename == null || filename.isEmpty())){
 				FileHandler fh = new FileHandler("LOG.xml");
+				SimpleFormatter formatter = new SimpleFormatter();  
+				fh.setFormatter(formatter);
 				LOGGER.addHandler(fh);
 			}
 		} catch (SecurityException e) {
@@ -33,7 +36,7 @@ public class CaseLogger {
 	
 	public static void log(Level level, String message){
 		if (LOGGER != null){
-			LOGGER.log(level, message);
+			LOGGER.log(level, message + "\n");
 		}
 	}
 }

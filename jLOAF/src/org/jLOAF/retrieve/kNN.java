@@ -2,12 +2,9 @@ package org.jLOAF.retrieve;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-
 import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
 import org.jLOAF.inputs.Input;
-import org.jLOAF.util.CaseLogger;
 
 public class kNN implements Retrieval {
 
@@ -21,8 +18,6 @@ public class kNN implements Retrieval {
 	
 	@Override
 	public List<Case> retrieve(Input i) {
-		CaseLogger.log(Level.INFO, "kNN Retrieve of Input : " + i.toString());
-		
 		double[] sim = new double[cb.getSize()];
 		Case[] bestCases = new Case[k];
 		bestCases[0] = null;
@@ -36,7 +31,6 @@ public class kNN implements Retrieval {
 		double bestSim;
 		int bestIndex;
 		Case cases[] = cb.getCases().toArray(new Case[cb.getSize()]);
-		CaseLogger.log(Level.INFO, "Number of Cases : " + cases.length + "\n");
 		for (int j = 0; j < k; j++){
 			bestSim = -1;
 			bestIndex = -1;
@@ -49,7 +43,6 @@ public class kNN implements Retrieval {
 			if (bestIndex > -1){
 				bestCases[j] = cases[bestIndex];
 				cases[bestIndex] = null;
-				CaseLogger.log(Level.INFO, "Best Case : " + bestCases[j].toString() + "Index : " + bestCases[j].caseIndex() + " Sim : " + sim[bestIndex]+ "\n");
 				sim[bestIndex] = -1;
 			}
 		}
@@ -58,7 +51,6 @@ public class kNN implements Retrieval {
 		for (Case c : bestCases){
 			best.add(c);
 		}
-		CaseLogger.log(Level.INFO, "Ending Retrival");
 		return best;
 	}
 

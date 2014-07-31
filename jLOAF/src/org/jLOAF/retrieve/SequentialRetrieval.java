@@ -21,33 +21,44 @@ public class SequentialRetrieval {
 	
 	
 	public Action stateRetrival(CaseRun run, List<CaseRun> pastRuns, int time){
-		
+		CaseLogger.log(Level.INFO, "STATE GLOBAL TIME " + time);
 		ArrayList<CaseRun> NN = new ArrayList<CaseRun>();
 		ArrayList<Action> NNAction = new ArrayList<Action>();
 		double bestSim = -1;
 		CaseRun bestRun = pastRuns.get(0);
 		
 		for (CaseRun past : pastRuns){
+			CaseLogger.log(Level.INFO, "STATE RUN INDEX " + pastRuns.indexOf(past));
 			double sim = -1;
 			if (time < run.getRunLength() && time < past.getRunLength()){
 				Input pastIn = past.getCase(past.getRunLength() - 1 - time).getInput();
 				Input runIn = run.getCase(run.getRunLength() - 1 - time).getInput();
 				sim = pastIn.similarity(runIn);
+				CaseLogger.log(Level.INFO, "STATE INPUT PAST " + pastIn.getName());
+				CaseLogger.log(Level.INFO, "STATE INPUT RUN " + runIn.getName());
+				CaseLogger.log(Level.INFO, "STATE INPUT SIM " + sim);
 			}
-			CaseLogger.log(Level.INFO, "SIM State : " + sim + "\n");
 			if (sim > bestSim){
+				CaseLogger.log(Level.INFO, "STATE CHANGE SIM_OLD " + bestSim + " SIM_NEW " + sim);
+				CaseLogger.log(Level.INFO, "STATE CHANGE RUN_OLD " + pastRuns.lastIndexOf(bestRun) + " RUN_NEW " + pastRuns.lastIndexOf(past));
 				bestSim = sim;
 				bestRun = past;
 			}
 			
 			if (sim > this.problemThreshold){
+				CaseLogger.log(Level.INFO, "STATE THRESHOLD PASSED TRUE");
 				NN.add(past);
 				if (!NNAction.contains(past.getCurrentCase().getAction())){
 					NNAction.add(past.getCurrentCase().getAction());
+					CaseLogger.log(Level.INFO, "STATE THRESHOLD ACTION NEW");
 				}
+			}else{
+				CaseLogger.log(Level.INFO, "STATE THRESHOLD PASSED FALSE");
 			}
 		}
-		
+		CaseLogger.log(Level.INFO, "STATE GLOBAL BEST_SIM " + bestSim);
+		CaseLogger.log(Level.INFO, "STATE GLOBAL NN " + NN.size());
+		CaseLogger.log(Level.INFO, "STATE GLOBAL NNACTION " + NNAction.size());
 		if (NN.isEmpty()){
 			return bestRun.getCurrentCase().getAction();
 		}else if (NNAction.size() == 1){
@@ -61,13 +72,11 @@ public class SequentialRetrieval {
 		if (a1.equals(a2)){
 			return 1;
 		}
-		CaseLogger.log(Level.INFO, "Action 1 : " + a1.toString() + "\n");
-		CaseLogger.log(Level.INFO, "Action 2 : " + a2.toString() + "\n");
 		return -1;
 	}
 	
 	public Action actionRetrival(CaseRun run, List<CaseRun> pastRuns, int time){
-		
+		CaseLogger.log(Level.INFO, "ACTION GLOBAL TIME " + time);
 		ArrayList<CaseRun> NN = new ArrayList<CaseRun>();
 		ArrayList<Action> NNAction = new ArrayList<Action>();
 		double bestSim = -1;
@@ -75,24 +84,35 @@ public class SequentialRetrieval {
 		
 		for (CaseRun past : pastRuns){
 			double sim = -1;
+			CaseLogger.log(Level.INFO, "ACTION RUN INDEX " + pastRuns.indexOf(past));
 			if (time < run.getRunLength() && time < past.getRunLength()){
 				Action pastAction = past.getCase(past.getRunLength() - 1 - time).getAction();
 				Action runAction = run.getCase(run.getRunLength() - 1 - time).getAction();
 				sim = similarityActions(pastAction, runAction);
+				CaseLogger.log(Level.INFO, "ACTION INPUT PAST " + pastAction.getName());
+				CaseLogger.log(Level.INFO, "ACTION INPUT RUN " + runAction.getName());
+				CaseLogger.log(Level.INFO, "ACTION INPUT SIM " + sim);
 			}
-			CaseLogger.log(Level.INFO, "SIM Action : " + sim + "\n");
 			if (sim > bestSim){
+				CaseLogger.log(Level.INFO, "ACTION CHANGE SIM_OLD " + bestSim + " SIM_NEW " + sim);
+				CaseLogger.log(Level.INFO, "ACTION CHANGE RUN_OLD " + pastRuns.lastIndexOf(bestRun) + " RUN_NEW " + pastRuns.lastIndexOf(past));
 				bestSim = sim;
 				bestRun = past;
 			}
 			if (sim > this.solutionThreshold){
+				CaseLogger.log(Level.INFO, "ACTION THRESHOLD PASSED TRUE");
 				NN.add(past);
 				if (!NNAction.contains(past.getCurrentCase().getAction())){
 					NNAction.add(past.getCurrentCase().getAction());
+					CaseLogger.log(Level.INFO, "ACTION THRESHOLD ACTION NEW");
 				}
+			}else{
+				CaseLogger.log(Level.INFO, "ACTION THRESHOLD PASSED FALSE");
 			}
 		}
-		
+		CaseLogger.log(Level.INFO, "ACTION GLOBAL BEST_SIM " + bestSim);
+		CaseLogger.log(Level.INFO, "ACTION GLOBAL NN " + NN.size());
+		CaseLogger.log(Level.INFO, "ACTION GLOBAL NNACTION " + NNAction.size());
 		if (NN.isEmpty()){
 			return bestRun.getCurrentCase().getAction();
 		}else if (NNAction.size() == 1){
