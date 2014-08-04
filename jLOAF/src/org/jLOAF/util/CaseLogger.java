@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
+import org.jLOAF.util.logger.LoggerFormatter;
 
 public class CaseLogger {
 
@@ -18,12 +18,12 @@ public class CaseLogger {
 		try {
 			if (writeToFile && filename != null && !filename.isEmpty()){
 				FileHandler fh = new FileHandler(filename);
-				SimpleFormatter formatter = new SimpleFormatter();  
+				LoggerFormatter formatter = new LoggerFormatter();
 				fh.setFormatter(formatter);
 				LOGGER.addHandler(fh);
 			}else if (writeToFile && (filename == null || filename.isEmpty())){
 				FileHandler fh = new FileHandler("LOG.xml");
-				SimpleFormatter formatter = new SimpleFormatter();  
+				LoggerFormatter formatter = new LoggerFormatter();
 				fh.setFormatter(formatter);
 				LOGGER.addHandler(fh);
 			}
@@ -36,7 +36,7 @@ public class CaseLogger {
 	
 	public static void log(Level level, String message){
 		if (LOGGER != null){
-			LOGGER.log(level, message + "\n");
+			LOGGER.log(level, message);
 		}
 	}
 }
