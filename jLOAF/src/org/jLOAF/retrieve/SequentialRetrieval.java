@@ -26,7 +26,8 @@ public class SequentialRetrieval {
 		ArrayList<Action> NNAction = new ArrayList<Action>();
 		double bestSim = -1;
 		CaseRun bestRun = pastRuns.get(0);
-		
+		CaseLogger.log(Level.INFO, "STATE GLOBAL ACTION " + bestRun.getCurrentCase().getAction().getName());
+		CaseLogger.log(Level.INFO, "STATE GLOBAL INPUT " + bestRun.getCurrentCase().getInput().getName());
 		for (CaseRun past : pastRuns){
 			CaseLogger.log(Level.INFO, "STATE RUN INDEX " + pastRuns.indexOf(past));
 			double sim = -1;
@@ -37,6 +38,10 @@ public class SequentialRetrieval {
 				CaseLogger.log(Level.INFO, "STATE INPUT PAST " + pastIn.getName());
 				CaseLogger.log(Level.INFO, "STATE INPUT RUN " + runIn.getName());
 				CaseLogger.log(Level.INFO, "STATE INPUT SIM " + sim);
+			}else{
+				CaseLogger.log(Level.INFO, "STATE INPUT PAST -");
+				CaseLogger.log(Level.INFO, "STATE INPUT RUN -");
+				CaseLogger.log(Level.INFO, "STATE INPUT SIM -");
 			}
 			if (sim > bestSim){
 				CaseLogger.log(Level.INFO, "STATE CHANGE SIM_OLD " + bestSim + " SIM_NEW " + sim);
@@ -60,8 +65,12 @@ public class SequentialRetrieval {
 		CaseLogger.log(Level.INFO, "STATE GLOBAL NN " + NN.size());
 		CaseLogger.log(Level.INFO, "STATE GLOBAL NNACTION " + NNAction.size());
 		if (NN.isEmpty()){
+			CaseLogger.log(Level.INFO, "STATE GLOBAL CONSENSUS FALSE");
+			CaseLogger.log(Level.INFO, "STATE GLOBAL FINAL_ACTION " + bestRun.getCurrentCase().getAction().getName());
 			return bestRun.getCurrentCase().getAction();
 		}else if (NNAction.size() == 1){
+			CaseLogger.log(Level.INFO, "STATE GLOBAL CONSENSUS TRUE");
+			CaseLogger.log(Level.INFO, "STATE GLOBAL FINAL_ACTION " + NNAction.get(0).getName());
 			return NNAction.get(0);
 		}
 		
@@ -92,6 +101,10 @@ public class SequentialRetrieval {
 				CaseLogger.log(Level.INFO, "ACTION INPUT PAST " + pastAction.getName());
 				CaseLogger.log(Level.INFO, "ACTION INPUT RUN " + runAction.getName());
 				CaseLogger.log(Level.INFO, "ACTION INPUT SIM " + sim);
+			}else{
+				CaseLogger.log(Level.INFO, "ACTION INPUT PAST -");
+				CaseLogger.log(Level.INFO, "ACTION INPUT RUN -");
+				CaseLogger.log(Level.INFO, "ACTION INPUT SIM -");
 			}
 			if (sim > bestSim){
 				CaseLogger.log(Level.INFO, "ACTION CHANGE SIM_OLD " + bestSim + " SIM_NEW " + sim);
@@ -114,8 +127,12 @@ public class SequentialRetrieval {
 		CaseLogger.log(Level.INFO, "ACTION GLOBAL NN " + NN.size());
 		CaseLogger.log(Level.INFO, "ACTION GLOBAL NNACTION " + NNAction.size());
 		if (NN.isEmpty()){
+			CaseLogger.log(Level.INFO, "ACTION GLOBAL CONSENSUS FALSE");
+			CaseLogger.log(Level.INFO, "ACTION GLOBAL FINAL_ACTION " + bestRun.getCurrentCase().getAction().getName());
 			return bestRun.getCurrentCase().getAction();
 		}else if (NNAction.size() == 1){
+			CaseLogger.log(Level.INFO, "ACTION GLOBAL CONSENSUS TRUE");
+			CaseLogger.log(Level.INFO, "ACTION GLOBAL FINAL_ACTION " + NNAction.get(0).getName());
 			return NNAction.get(0);
 		}
 		
