@@ -39,8 +39,8 @@ public class CaseLoggerParser {
 			COLUMN[i] = NAMES.values()[i].name();
 		}
 	}
-
-	public DefaultTableModel parseLogger(ArrayList<String> lines){
+	
+	private DefaultTableModel parseRunBlock(ArrayList<String> lines){
 		ArrayList<String> blocks = new ArrayList<String>();
 		DefaultTableModel model = new DefaultTableModel(COLUMN, 1);
 		boolean isState = true;
@@ -48,7 +48,8 @@ public class CaseLoggerParser {
 			String l[] = s.split(" ");
 			if (isState && l[0].equals("ACTION")){
 				DefaultTableModel m = new DefaultTableModel(parseBlock(blocks), COLUMN);
-				Iterator<Vector> i = m.getDataVector().iterator();
+				@SuppressWarnings("unchecked")
+				Iterator<Vector<String>> i = m.getDataVector().iterator();
 				while(i.hasNext()){
 					model.addRow(i.next());
 				}
@@ -57,7 +58,8 @@ public class CaseLoggerParser {
 				isState = !isState;
 			}else if (!isState && l[0].equals("STATE")){
 				DefaultTableModel m = new DefaultTableModel(parseBlock(blocks), COLUMN);
-				Iterator<Vector> i = m.getDataVector().iterator();
+				@SuppressWarnings("unchecked")
+				Iterator<Vector<String>> i = m.getDataVector().iterator();
 				while(i.hasNext()){
 					model.addRow(i.next());
 				}
@@ -68,11 +70,36 @@ public class CaseLoggerParser {
 				blocks.add(s);
 			}
 		}
-		System.out.println("Columns : " + model.getColumnCount());
+		DefaultTableModel m = new DefaultTableModel(parseBlock(blocks), COLUMN);
+		@SuppressWarnings("unchecked")
+		Iterator<Vector<String>> i = m.getDataVector().iterator();
+		while(i.hasNext()){
+			model.addRow(i.next());
+		}
+		return model;
+	}
+
+	public DefaultTableModel parseLogger(ArrayList<String> lines){
+		ArrayList<String> block = new ArrayList<String>();
+		DefaultTableModel model = new DefaultTableModel(COLUMN, 1);
+		for (String s : lines){
+			if (s.contains("STATE GLOBAL TIME 0")){
+				if (block.size() != 0){
+					DefaultTableModel m = parseRunBlock(block);
+					@SuppressWarnings("unchecked")
+					Iterator<Vector<String>> i = m.getDataVector().iterator();
+					while(i.hasNext()){
+						model.addRow(i.next());
+					}
+					block.clear();
+				}
+			}
+			block.add(s);
+		}
 		return model;
 	}
 	
-	private Object[][] parseBlock(ArrayList<String> blocks){
+	private String[][] parseBlock(ArrayList<String> blocks){
 		int iter = 0;
 		for (String b : blocks){
 			String l[] = b.split(" ");
@@ -80,7 +107,7 @@ public class CaseLoggerParser {
 				iter++;
 			}
 		}
-		Object grid[][] = new Object[iter][NAMES.LAST_NAME.ordinal()];
+		String grid[][] = new String[iter][NAMES.LAST_NAME.ordinal()];
 		int run = -1;
 		for (String b : blocks){
 			String l[] = b.split(" ");
@@ -109,7 +136,7 @@ public class CaseLoggerParser {
 				}
 			}else if (l[1].equals("RUN")){
 				run = Integer.parseInt(l[3]);
-				grid[run][NAMES.RUN.ordinal()] = run;
+				grid[run][NAMES.RUN.ordinal()] = run + "";
 			}else if (l[1].equals("INPUT")){
 				if (l[2].equals("PAST")){
 					grid[run][NAMES.INPUT_PAST.ordinal()] = l[3];

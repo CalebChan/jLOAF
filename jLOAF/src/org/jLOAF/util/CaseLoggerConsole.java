@@ -26,6 +26,7 @@ public class CaseLoggerConsole {
 			frame.add(new JScrollPane(table));
 			frame.setVisible(true);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			System.out.println("DONE");
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Failed to find File");
