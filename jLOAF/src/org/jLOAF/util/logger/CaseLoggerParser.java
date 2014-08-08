@@ -139,9 +139,9 @@ public class CaseLoggerParser {
 				grid[run][NAMES.RUN.ordinal()] = run + "";
 			}else if (l[1].equals("INPUT")){
 				if (l[2].equals("PAST")){
-					grid[run][NAMES.INPUT_PAST.ordinal()] = l[3];
+					grid[run][NAMES.INPUT_PAST.ordinal()] = buildInput(l, 3, b);
 				}else if (l[2].equals("RUN")){
-					grid[run][NAMES.INPUT_CUR.ordinal()] = l[3];
+					grid[run][NAMES.INPUT_CUR.ordinal()] = buildInput(l, 3, b);
 				}else if (l[2].equals("SIM")){
 					grid[run][NAMES.INPUT_SIM.ordinal()] = l[3];
 				}
@@ -163,6 +163,15 @@ public class CaseLoggerParser {
 			
 		}
 		return grid;
+	}
+	
+	private String buildInput(String lineArray[], int index, String line){
+		int offset = index;
+		
+		for (int i = 0; i < index; i++){
+			offset += lineArray[i].length();
+		}
+		return line.substring(offset);
 	}
 
 }

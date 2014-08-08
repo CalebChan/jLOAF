@@ -33,10 +33,9 @@ public class ComplexInput extends Input {
 	
 	@Override
 	public String toString(){
-		String s = "Complex Input : " + this.name + "\n";
-		s += "Inputs :\n";
+		String s = this.name + " -> ";
 		for (String ss : this.collect.keySet()){
-			s += this.collect.get(ss).toString() + "\n";
+			s += this.collect.get(ss).toString() + ", ";
 		}
 		return s;
 	}

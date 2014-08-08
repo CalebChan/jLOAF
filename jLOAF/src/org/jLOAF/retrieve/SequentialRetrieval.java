@@ -35,8 +35,8 @@ public class SequentialRetrieval {
 				Input pastIn = past.getCase(past.getRunLength() - 1 - time).getInput();
 				Input runIn = run.getCase(run.getRunLength() - 1 - time).getInput();
 				sim = pastIn.similarity(runIn);
-				CaseLogger.log(Level.INFO, "STATE INPUT PAST " + pastIn.getName());
-				CaseLogger.log(Level.INFO, "STATE INPUT RUN " + runIn.getName());
+				CaseLogger.log(Level.INFO, "STATE INPUT PAST " + pastIn.toString());
+				CaseLogger.log(Level.INFO, "STATE INPUT RUN " + runIn.toString());
 				CaseLogger.log(Level.INFO, "STATE INPUT SIM " + sim);
 			}else{
 				CaseLogger.log(Level.INFO, "STATE INPUT PAST -");
