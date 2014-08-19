@@ -16,7 +16,7 @@ import org.jLOAF.util.logger.CaseLoggerParser;
 public class CaseLoggerConsole {
 	public static void main(String args[]){
 		try {
-			CaseLoggerConsole console = new CaseLoggerConsole("LOG_Random_1.txt");
+			CaseLoggerConsole console = new CaseLoggerConsole("C:/Users/Daywalker/git/jLOAF-Sandbox-Agent/LOG_Random_1.txt");
 			JFrame frame = new JFrame("");
 			frame.setSize(500, 500);
 			final JTable table = new JTable(console.getTableMode());

@@ -46,7 +46,7 @@ public class CaseLoggerParser {
 		boolean isState = true;
 		for (String s : lines){
 			String l[] = s.split(" ");
-			if (isState && l[0].equals("ACTION")){
+			if (isState && l[0].equals("A")){
 				DefaultTableModel m = new DefaultTableModel(parseBlock(blocks), COLUMN);
 				@SuppressWarnings("unchecked")
 				Iterator<Vector<String>> i = m.getDataVector().iterator();
@@ -56,7 +56,7 @@ public class CaseLoggerParser {
 				blocks.clear();
 				blocks.add(s);
 				isState = !isState;
-			}else if (!isState && l[0].equals("STATE")){
+			}else if (!isState && l[0].equals("S")){
 				DefaultTableModel m = new DefaultTableModel(parseBlock(blocks), COLUMN);
 				@SuppressWarnings("unchecked")
 				Iterator<Vector<String>> i = m.getDataVector().iterator();
@@ -83,7 +83,7 @@ public class CaseLoggerParser {
 		ArrayList<String> block = new ArrayList<String>();
 		DefaultTableModel model = new DefaultTableModel(COLUMN, 1);
 		for (String s : lines){
-			if (s.contains("STATE GLOBAL TIME 0")){
+			if (s.contains("S G T 0")){
 				if (block.size() != 0){
 					DefaultTableModel m = parseRunBlock(block);
 					@SuppressWarnings("unchecked")
@@ -103,7 +103,7 @@ public class CaseLoggerParser {
 		int iter = 0;
 		for (String b : blocks){
 			String l[] = b.split(" ");
-			if (l[1].equals("RUN")){
+			if (l[1].equals("R")){
 				iter++;
 			}
 		}
@@ -111,52 +111,52 @@ public class CaseLoggerParser {
 		int run = -1;
 		for (String b : blocks){
 			String l[] = b.split(" ");
-			if (l[1].equals("GLOBAL")){
+			if (l[1].equals("G")){
 				int index = -1;
-				if (l[2].equals("TIME")){
+				if (l[2].equals("T")){
 					index = NAMES.TIME.ordinal();
-				}else if (l[2].equals("BEST_SIM")){
+				}else if (l[2].equals("BS")){
 					index = NAMES.BEST_SIM.ordinal();
 				}else if (l[2].equals("NN")){
 					index = NAMES.NN.ordinal();
-				}else if (l[2].equals("NNACTION")){
+				}else if (l[2].equals("NNA")){
 					index = NAMES.NNACTION.ordinal();
-				}else if (l[2].equals("INPUT")){
+				}else if (l[2].equals("I")){
 					index = NAMES.BEST_INPUT.ordinal();
-				}else if (l[2].equals("ACTION")){
+				}else if (l[2].equals("A")){
 					index = NAMES.BEST_ACTION.ordinal();
-				}else if (l[2].equals("CONSENSUS")){
+				}else if (l[2].equals("C")){
 					index = NAMES.CONSENSUS.ordinal();
-				}else if (l[2].equals("FINAL_ACTION")){
+				}else if (l[2].equals("FA")){
 					index = NAMES.FINAL_ACTION.ordinal();
 				}				
 				for (int i = 0; i < iter; i++){
 					grid[i][index] = l[3];
 					grid[i][NAMES.TYPE.ordinal()] = l[0];
 				}
-			}else if (l[1].equals("RUN")){
+			}else if (l[1].equals("R")){
 				run = Integer.parseInt(l[3]);
 				grid[run][NAMES.RUN.ordinal()] = run + "";
-			}else if (l[1].equals("INPUT")){
-				if (l[2].equals("PAST")){
+			}else if (l[1].equals("I")){
+				if (l[2].equals("P")){
 					grid[run][NAMES.INPUT_PAST.ordinal()] = buildInput(l, 3, b);
-				}else if (l[2].equals("RUN")){
+				}else if (l[2].equals("R")){
 					grid[run][NAMES.INPUT_CUR.ordinal()] = buildInput(l, 3, b);
-				}else if (l[2].equals("SIM")){
+				}else if (l[2].equals("S")){
 					grid[run][NAMES.INPUT_SIM.ordinal()] = l[3];
 				}
-			}else if (l[1].equals("CHANGE")){
-				if (l[2].equals("SIM_OLD")){
+			}else if (l[1].equals("C")){
+				if (l[2].equals("SO")){
 					grid[run][NAMES.CHANGE_SIM_OLD.ordinal()] = l[3];
 					grid[run][NAMES.CHANGE_SIM_NEW.ordinal()] = l[5];
-				}else if (l[2].equals("RUN_OLD")){
+				}else if (l[2].equals("SN")){
 					grid[run][NAMES.CHANGE_RUN_OLD.ordinal()] = l[3];
 					grid[run][NAMES.CHANGE_RUN_NEW.ordinal()] = l[5];
 				}
-			}else if (l[1].equals("THRESHOLD")){
-				if (l[2].equals("PASSED")){
+			}else if (l[1].equals("T")){
+				if (l[2].equals("P")){
 					grid[run][NAMES.THRESHOLD_PASSED.ordinal()] = l[3];
-				}else if (l[2].equals("ACTION")){
+				}else if (l[2].equals("A")){
 					grid[run][NAMES.THRESHOLD_ACTION.ordinal()] = l[3];
 				}
 			}
