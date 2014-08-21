@@ -2,6 +2,7 @@ package org.jLOAF.util;
 
 import java.io.IOException;
 import java.util.logging.FileHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jLOAF.util.logger.LoggerFormatter;
@@ -13,6 +14,14 @@ public class CaseLogger {
 	protected CaseLogger(){}
 	
 	public static void createLogger(boolean writeToFile, String filename){
+		if (LOGGER != null){
+			for (Handler h : LOGGER.getHandlers()){
+				LOGGER.removeHandler(h);
+				if (h instanceof FileHandler){
+					((FileHandler) h).close();
+				}
+			}
+		}
 		LOGGER = Logger.getLogger("org.jLOAF.reasoning");
 		LOGGER.setUseParentHandlers(false);
 		try {
