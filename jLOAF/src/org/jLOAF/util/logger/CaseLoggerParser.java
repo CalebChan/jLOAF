@@ -104,7 +104,7 @@ public class CaseLoggerParser {
 		ArrayList<String> block = new ArrayList<String>();
 		DefaultTableModel model = new DefaultTableModel(COLUMN, 1);
 		for (String s : lines){
-			if (s.contains("S G T 0")){
+			if (s.contains("S G O 0")){
 				if (block.size() != 0){
 					DefaultTableModel m = parseRunBlock(block);
 					@SuppressWarnings("unchecked")
@@ -136,7 +136,7 @@ public class CaseLoggerParser {
 				int index = -1;
 				if (l[2].equals("T")){
 					index = NAMES.TIME.ordinal();
-				}else if (l[2].equals("OFFSET")){
+				}else if (l[2].equals("O")){
 					index = NAMES.OFFSET.ordinal();
 				}else if (l[2].equals("BS")){
 					index = NAMES.BEST_SIM.ordinal();
@@ -152,7 +152,7 @@ public class CaseLoggerParser {
 					index = NAMES.CONSENSUS.ordinal();
 				}else if (l[2].equals("FA")){
 					index = NAMES.FINAL_ACTION.ordinal();
-				}				
+				}		
 				for (int i = 0; i < iter; i++){
 					grid[i][index] = l[3];
 					grid[i][NAMES.TYPE.ordinal()] = l[0];
@@ -163,12 +163,12 @@ public class CaseLoggerParser {
 			}else if (l[1].equals("I")){
 				if (l[2].equals("P")){
 					grid[run][NAMES.INPUT_PAST.ordinal()] = l[3];
-					if (!l[3].equals("-") && l[0].equals("STATE")){
+					if (!l[3].equals("-") && l[0].equals("S")){
 						buildInput(l, 5, b, true, grid[run]);
 					}
 				}else if (l[2].equals("R")){
 					grid[run][NAMES.INPUT_CUR.ordinal()] = l[3];
-					if (!l[3].equals("-") && l[0].equals("STATE")){
+					if (!l[3].equals("-") && l[0].equals("S")){
 						buildInput(l, 5, b, false, grid[run]);
 					}
 				}else if (l[2].equals("S")){

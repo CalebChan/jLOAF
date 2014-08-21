@@ -86,8 +86,8 @@ public class SequentialRetrieval {
 	}
 	
 	public Action actionRetrival(CaseRun run, List<CaseRun> pastRuns, int time){
-		CaseLogger.log(Level.INFO, "A G T " + time);
-		CaseLogger.log(Level.INFO, "A G O " + run.getRunLength());
+		CaseLogger.log(Level.INFO, "A G O " + time);
+		CaseLogger.log(Level.INFO, "A G T " + run.getRunLength());
 		ArrayList<CaseRun> NN = new ArrayList<CaseRun>();
 		ArrayList<Action> NNAction = new ArrayList<Action>();
 		double bestSim = -1;
