@@ -1,8 +1,9 @@
-package org.jLOAF.util;
+ package org.jLOAF.util;
 
 import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ import org.jLOAF.util.logger.CaseLoggerParser;
 public class CaseLoggerConsole {
 	public static void main(String args[]){
 		try {
-			CaseLoggerConsole console = new CaseLoggerConsole("LOG_Random_1.txt");
+			CaseLoggerConsole console = new CaseLoggerConsole("C:/Users/Caleb/git/jLOAF-Sandbox-Agent/LOG_Random_6.txt");
 			JFrame frame = new JFrame("");
 			frame.setSize(500, 500);
 			final JTable table = new JTable(console.getTableMode());
@@ -24,8 +25,10 @@ public class CaseLoggerConsole {
 	        table.setFillsViewportHeight(true);
 	        table.setEnabled(false);
 			frame.add(new JScrollPane(table));
-			frame.setVisible(true);
+			
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			console.saveFile("SAVE_CSV.csv");
+			frame.setVisible(true);
 			System.out.println("DONE");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -44,6 +47,25 @@ public class CaseLoggerConsole {
 	
 	public DefaultTableModel getTableMode(){
 		return model;
+	}
+	
+	public void saveFile(String filename) throws IOException{
+		FileWriter writer = new FileWriter(filename);
+		for (int j = 0; j < model.getColumnCount(); j++){
+			writer.write(model.getColumnName(j) + ",");
+		}
+		for (int i = 0; i < model.getRowCount(); i++){
+			for (int j = 0; j < model.getColumnCount(); j++){
+				if (model.getValueAt(i, j) == null){
+					writer.write(",");
+				}else{
+					writer.write(model.getValueAt(i, j).toString() + ",");
+				}
+				
+			}
+			writer.write("\n");
+		}
+		writer.close();
 	}
 	
 	private void readFile() throws IOException{

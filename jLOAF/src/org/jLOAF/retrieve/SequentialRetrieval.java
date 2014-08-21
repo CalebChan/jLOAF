@@ -21,7 +21,8 @@ public class SequentialRetrieval {
 	
 	
 	public Action stateRetrival(CaseRun run, List<CaseRun> pastRuns, int time){
-		CaseLogger.log(Level.INFO, "STATE GLOBAL TIME " + time);
+		CaseLogger.log(Level.INFO, "STATE GLOBAL OFFSET " + time);
+		CaseLogger.log(Level.INFO, "STATE GLOBAL TIME " + run.getRunLength());
 		ArrayList<CaseRun> NN = new ArrayList<CaseRun>();
 		ArrayList<Action> NNAction = new ArrayList<Action>();
 		double bestSim = -1;
@@ -85,7 +86,8 @@ public class SequentialRetrieval {
 	}
 	
 	public Action actionRetrival(CaseRun run, List<CaseRun> pastRuns, int time){
-		CaseLogger.log(Level.INFO, "ACTION GLOBAL TIME " + time);
+		CaseLogger.log(Level.INFO, "ACTION GLOBAL OFFSET " + time);
+		CaseLogger.log(Level.INFO, "ACTION GLOBAL TIME " + run.getRunLength());
 		ArrayList<CaseRun> NN = new ArrayList<CaseRun>();
 		ArrayList<Action> NNAction = new ArrayList<Action>();
 		double bestSim = -1;

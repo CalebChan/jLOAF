@@ -27,6 +27,6 @@ public class Feature implements Serializable{
 	
 	@Override
 	public String toString(){
-		return "Value : " + this.val;
+		return "" + this.val;
 	}
 }

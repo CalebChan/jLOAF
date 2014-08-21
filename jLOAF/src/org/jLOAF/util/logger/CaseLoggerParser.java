@@ -10,12 +10,33 @@ public class CaseLoggerParser {
 	
 	private enum NAMES{
 		TIME,
+		OFFSET,
 		RUN,
 		TYPE,
 		BEST_INPUT,
 		BEST_ACTION,
 		INPUT_PAST,
+		
+		INPUT_PAST_NORTH_DIST,
+		INPUT_PAST_NORTH_TYPE,
+		INPUT_PAST_EAST_DIST,
+		INPUT_PAST_EAST_TYPE,
+		INPUT_PAST_SOUTH_DIST,
+		INPUT_PAST_SOUTH_TYPE,
+		INPUT_PAST_WEST_DIST,
+		INPUT_PAST_WEST_TYPE,
+		
 		INPUT_CUR,
+		
+		INPUT_CUR_NORTH_DIST,
+		INPUT_CUR_NORTH_TYPE,
+		INPUT_CUR_EAST_DIST,
+		INPUT_CUR_EAST_TYPE,
+		INPUT_CUR_SOUTH_DIST,
+		INPUT_CUR_SOUTH_TYPE,
+		INPUT_CUR_WEST_DIST,
+		INPUT_CUR_WEST_TYPE,
+		
 		INPUT_SIM,
 		CHANGE_SIM_OLD,
 		CHANGE_SIM_NEW,
@@ -83,7 +104,7 @@ public class CaseLoggerParser {
 		ArrayList<String> block = new ArrayList<String>();
 		DefaultTableModel model = new DefaultTableModel(COLUMN, 1);
 		for (String s : lines){
-			if (s.contains("STATE GLOBAL TIME 0")){
+			if (s.contains("STATE GLOBAL OFFSET 0")){
 				if (block.size() != 0){
 					DefaultTableModel m = parseRunBlock(block);
 					@SuppressWarnings("unchecked")
@@ -115,6 +136,8 @@ public class CaseLoggerParser {
 				int index = -1;
 				if (l[2].equals("TIME")){
 					index = NAMES.TIME.ordinal();
+				}else if (l[2].equals("OFFSET")){
+					index = NAMES.OFFSET.ordinal();
 				}else if (l[2].equals("BEST_SIM")){
 					index = NAMES.BEST_SIM.ordinal();
 				}else if (l[2].equals("NN")){
@@ -139,9 +162,15 @@ public class CaseLoggerParser {
 				grid[run][NAMES.RUN.ordinal()] = run + "";
 			}else if (l[1].equals("INPUT")){
 				if (l[2].equals("PAST")){
-					grid[run][NAMES.INPUT_PAST.ordinal()] = buildInput(l, 3, b);
+					grid[run][NAMES.INPUT_PAST.ordinal()] = l[3];
+					if (!l[3].equals("-") && l[0].equals("STATE")){
+						buildInput(l, 5, b, true, grid[run]);
+					}
 				}else if (l[2].equals("RUN")){
-					grid[run][NAMES.INPUT_CUR.ordinal()] = buildInput(l, 3, b);
+					grid[run][NAMES.INPUT_CUR.ordinal()] = l[3];
+					if (!l[3].equals("-") && l[0].equals("STATE")){
+						buildInput(l, 5, b, false, grid[run]);
+					}
 				}else if (l[2].equals("SIM")){
 					grid[run][NAMES.INPUT_SIM.ordinal()] = l[3];
 				}
@@ -165,13 +194,32 @@ public class CaseLoggerParser {
 		return grid;
 	}
 	
-	private String buildInput(String lineArray[], int index, String line){
+	private void buildInput(String lineArray[], int index, String line, boolean isPast, String grid[]){
 		int offset = index;
-		
 		for (int i = 0; i < index; i++){
 			offset += lineArray[i].length();
 		}
-		return line.substring(offset);
+		String inputLine[] = line.substring(offset).split(",");
+		for (String s : inputLine){
+			String map[] = s.split(":");
+			if (map[0].trim().equals("NORTH-DIST")){
+				grid[(isPast)? NAMES.INPUT_PAST_NORTH_DIST.ordinal(): NAMES.INPUT_CUR_NORTH_DIST.ordinal()] = map[1];
+			}else if (map[0].trim().equals("NORTH-TYPE")){
+				grid[(isPast)? NAMES.INPUT_PAST_NORTH_TYPE.ordinal(): NAMES.INPUT_CUR_NORTH_TYPE.ordinal()] = map[1];
+			}else if (map[0].trim().equals("EAST-DIST")){
+				grid[(isPast)? NAMES.INPUT_PAST_EAST_DIST.ordinal(): NAMES.INPUT_CUR_EAST_DIST.ordinal()] = map[1];
+			}else if (map[0].trim().equals("EAST-TYPE")){
+				grid[(isPast)? NAMES.INPUT_PAST_EAST_TYPE.ordinal(): NAMES.INPUT_CUR_EAST_TYPE.ordinal()] = map[1];
+			}else if (map[0].trim().equals("SOUTH-DIST")){
+				grid[(isPast)? NAMES.INPUT_PAST_SOUTH_DIST.ordinal(): NAMES.INPUT_CUR_SOUTH_DIST.ordinal()] = map[1];
+			}else if (map[0].trim().equals("SOUTH-TYPE")){
+				grid[(isPast)? NAMES.INPUT_PAST_SOUTH_TYPE.ordinal(): NAMES.INPUT_CUR_SOUTH_TYPE.ordinal()] = map[1];
+			}else if (map[0].trim().equals("WEST-DIST")){
+				grid[(isPast)? NAMES.INPUT_PAST_WEST_DIST.ordinal(): NAMES.INPUT_CUR_WEST_DIST.ordinal()] = map[1];
+			}else if (map[0].trim().equals("WEST-TYPE")){
+				grid[(isPast)? NAMES.INPUT_PAST_WEST_TYPE.ordinal(): NAMES.INPUT_CUR_WEST_TYPE.ordinal()] = map[1];
+			}
+		}
 	}
 
 }
