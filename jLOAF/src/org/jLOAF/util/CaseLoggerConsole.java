@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -17,14 +18,15 @@ import org.jLOAF.util.logger.CaseLoggerParser;
 public class CaseLoggerConsole {
 	public static void main(String args[]){
 		try {
-			CaseLoggerConsole console = new CaseLoggerConsole("C:/Users/Caleb/git/jLOAF-Sandbox-Agent/LOG_Random_6.txt");
+			CaseLoggerConsole console = new CaseLoggerConsole("C:/Users/Caleb/git/jLOAF-Sandbox-Agent/LOG_Random_2.txt");
 			JFrame frame = new JFrame("");
 			frame.setSize(500, 500);
 			final JTable table = new JTable(console.getTableMode());
 	        table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 	        table.setFillsViewportHeight(true);
-	        table.setEnabled(false);
-			frame.add(new JScrollPane(table));
+	        //table.setEnabled(false);
+	        JScrollPane sp = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			frame.add(sp);
 			
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			console.saveFile("SAVE_CSV.csv");

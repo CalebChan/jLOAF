@@ -117,6 +117,12 @@ public class CaseLoggerParser {
 			}
 			block.add(s);
 		}
+		DefaultTableModel m = parseRunBlock(block);
+		@SuppressWarnings("unchecked")
+		Iterator<Vector<String>> i = m.getDataVector().iterator();
+		while(i.hasNext()){
+			model.addRow(i.next());
+		}
 		return model;
 	}
 	
