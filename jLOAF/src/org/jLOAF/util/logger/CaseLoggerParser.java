@@ -1,10 +1,8 @@
 package org.jLOAF.util.logger;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Vector;
-
-import javax.swing.table.DefaultTableModel;
 
 public class CaseLoggerParser {
 	
@@ -53,7 +51,7 @@ public class CaseLoggerParser {
 		LAST_NAME
 	};
 	
-	private static String []COLUMN;
+	public static String []COLUMN;
 	static{
 		COLUMN = new String[NAMES.LAST_NAME.ordinal()];
 		for (int i = 0; i < COLUMN.length; i++){
@@ -61,69 +59,55 @@ public class CaseLoggerParser {
 		}
 	}
 	
-	private DefaultTableModel parseRunBlock(ArrayList<String> lines){
+	public static int getTableSize(){
+		return COLUMN.length;
+	}
+	
+	private FileWriter writer;
+	
+	public CaseLoggerParser(FileWriter writer) throws IOException{
+		
+		this.writer = writer;
+		for (int j = 0; j < COLUMN.length - 1; j++){
+			this.writer.write(COLUMN[j] + ",");
+		}
+		this.writer.write(COLUMN[COLUMN.length - 1] + "\n");
+	}
+	
+	private void mergeArray(String array[][]) throws IOException{
+
+		for (int i = 0; i < array.length; i++){
+			for (int j = 0; j < array[0].length - 1; j++){
+				if (array[i][j] == null){
+					writer.write(",");
+				}else{
+					writer.write(array[i][j] + ",");
+				}
+			}
+			if (array[i][array[0].length - 1] == null){
+				writer.write("\n");
+			}else{
+				writer.write(array[i][array[0].length - 1] + "\n");
+			}
+		}
+	}
+	
+	public void parseRunBlock(ArrayList<String> lines) throws IOException{
 		ArrayList<String> blocks = new ArrayList<String>();
-		DefaultTableModel model = new DefaultTableModel(COLUMN, 1);
 		boolean isState = true;
 		for (String s : lines){
 			String l[] = s.split(" ");
 			if (isState && l[0].equals("A")){
-				DefaultTableModel m = new DefaultTableModel(parseBlock(blocks), COLUMN);
-				@SuppressWarnings("unchecked")
-				Iterator<Vector<String>> i = m.getDataVector().iterator();
-				while(i.hasNext()){
-					model.addRow(i.next());
-				}
-				blocks.clear();
-				blocks.add(s);
+				mergeArray(parseBlock(blocks));
 				isState = !isState;
 			}else if (!isState && l[0].equals("S")){
-				DefaultTableModel m = new DefaultTableModel(parseBlock(blocks), COLUMN);
-				@SuppressWarnings("unchecked")
-				Iterator<Vector<String>> i = m.getDataVector().iterator();
-				while(i.hasNext()){
-					model.addRow(i.next());
-				}
-				blocks.clear();
-				blocks.add(s);
+				mergeArray(parseBlock(blocks));
 				isState = !isState;
 			}else{
 				blocks.add(s);
 			}
 		}
-		DefaultTableModel m = new DefaultTableModel(parseBlock(blocks), COLUMN);
-		@SuppressWarnings("unchecked")
-		Iterator<Vector<String>> i = m.getDataVector().iterator();
-		while(i.hasNext()){
-			model.addRow(i.next());
-		}
-		return model;
-	}
-
-	public DefaultTableModel parseLogger(ArrayList<String> lines){
-		ArrayList<String> block = new ArrayList<String>();
-		DefaultTableModel model = new DefaultTableModel(COLUMN, 1);
-		for (String s : lines){
-			if (s.contains("S G O 0")){
-				if (block.size() != 0){
-					DefaultTableModel m = parseRunBlock(block);
-					@SuppressWarnings("unchecked")
-					Iterator<Vector<String>> i = m.getDataVector().iterator();
-					while(i.hasNext()){
-						model.addRow(i.next());
-					}
-					block.clear();
-				}
-			}
-			block.add(s);
-		}
-		DefaultTableModel m = parseRunBlock(block);
-		@SuppressWarnings("unchecked")
-		Iterator<Vector<String>> i = m.getDataVector().iterator();
-		while(i.hasNext()){
-			model.addRow(i.next());
-		}
-		return model;
+		mergeArray(parseBlock(blocks));
 	}
 	
 	private String[][] parseBlock(ArrayList<String> blocks){

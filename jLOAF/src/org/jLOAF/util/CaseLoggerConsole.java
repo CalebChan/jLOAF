@@ -6,9 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.swing.JFrame;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -18,7 +16,8 @@ import org.jLOAF.util.logger.CaseLoggerParser;
 public class CaseLoggerConsole {
 	public static void main(String args[]){
 		try {
-			CaseLoggerConsole console = new CaseLoggerConsole("C:/Users/Caleb/git/jLOAF-Sandbox-Agent/LOG_Random_2.txt");
+			String filename = "LOG_Smart_4";
+			CaseLoggerConsole console = new CaseLoggerConsole("C:/Users/Daywalker/git/jLOAF-Sandbox-Agent/" + filename + ".txt", filename + ".csv");
 			JFrame frame = new JFrame("");
 			frame.setSize(500, 500);
 			final JTable table = new JTable(console.getTableMode());
@@ -29,8 +28,8 @@ public class CaseLoggerConsole {
 			frame.add(sp);
 			
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			console.saveFile("SAVE_CSV.csv");
-			frame.setVisible(true);
+			//console.saveFile(filename + ".csv");
+			//frame.setVisible(true);
 			System.out.println("DONE");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -41,44 +40,48 @@ public class CaseLoggerConsole {
 	private BufferedReader br;
 	
 	private DefaultTableModel model;
+		
+	private FileWriter writer;
 	
-	private CaseLoggerConsole(String filename) throws IOException{
+	private CaseLoggerConsole(String filename, String saveFile) throws IOException{
 		br = new BufferedReader(new FileReader(filename));
+		BufferedReader bb = new BufferedReader(new FileReader(filename));
+		writer = new FileWriter(saveFile);
+		bb.close();
+		System.out.println("48000000");
 		readFile();
+		
+		
 	}
 	
 	public DefaultTableModel getTableMode(){
 		return model;
 	}
 	
-	public void saveFile(String filename) throws IOException{
-		FileWriter writer = new FileWriter(filename);
-		for (int j = 0; j < model.getColumnCount(); j++){
-			writer.write(model.getColumnName(j) + ",");
-		}
-		for (int i = 0; i < model.getRowCount(); i++){
-			for (int j = 0; j < model.getColumnCount(); j++){
-				if (model.getValueAt(i, j) == null){
-					writer.write(",");
-				}else{
-					writer.write(model.getValueAt(i, j).toString() + ",");
-				}
-				
-			}
-			writer.write("\n");
-		}
-		writer.close();
-	}
-	
 	private void readFile() throws IOException{
-		String line = br.readLine();
-		ArrayList<String> lines = new ArrayList<String>();
-		while(line != null){
-			lines.add(line);
-			line = br.readLine();
+		int blockNum = 1;
+		CaseLoggerParser parser = new CaseLoggerParser(writer);
+		ArrayList<String> block = new ArrayList<String>();
+		String s = br.readLine();
+		int line = 1;
+		while (s != null){
+			if (s.contains("S G O 0")){
+				if (block.size() != 0){
+					System.out.println("Block : " + blockNum);
+					blockNum++;
+					parser.parseRunBlock(block);
+					block.clear();
+				}
+			}
+			block.add(s);
+			s = br.readLine();
+			line++;
+			if (line % 1000 == 0){
+				System.out.println("Line : " + line);
+			}
 		}
+		parser.parseRunBlock(block);
 		
-		CaseLoggerParser parser = new CaseLoggerParser();
-		model = parser.parseLogger(lines);
+		writer.close();
 	}
 }
