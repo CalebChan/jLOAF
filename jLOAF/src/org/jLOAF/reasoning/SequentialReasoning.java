@@ -50,7 +50,7 @@ public class SequentialReasoning implements Reasoning  {
 			}
 		}
 		if (actions.size() == 1){
-			System.out.println("Consensus at : " + this.currentRun.getRunLength());
+			//System.out.println("Consensus at : " + this.currentRun.getRunLength());
 			return actions.get(0);
 		}
 		return retrival.stateRetrival(currentRun, candidates, 0);
