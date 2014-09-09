@@ -16,7 +16,7 @@ import org.jLOAF.util.logger.CaseLoggerParser;
 public class CaseLoggerConsole {
 	public static void main(String args[]){
 		try {
-			String filename = "LOG_Smart_4";
+			String filename = "LOG_SmartRandomAgent_1_k_4";
 			CaseLoggerConsole console = new CaseLoggerConsole("C:/Users/Daywalker/git/jLOAF-Sandbox-Agent/" + filename + ".txt", filename + ".csv");
 			JFrame frame = new JFrame("");
 			frame.setSize(500, 500);
@@ -48,10 +48,7 @@ public class CaseLoggerConsole {
 		BufferedReader bb = new BufferedReader(new FileReader(filename));
 		writer = new FileWriter(saveFile);
 		bb.close();
-		System.out.println("48000000");
 		readFile();
-		
-		
 	}
 	
 	public DefaultTableModel getTableMode(){
@@ -59,26 +56,18 @@ public class CaseLoggerConsole {
 	}
 	
 	private void readFile() throws IOException{
-		int blockNum = 1;
 		CaseLoggerParser parser = new CaseLoggerParser(writer);
 		ArrayList<String> block = new ArrayList<String>();
 		String s = br.readLine();
-		int line = 1;
 		while (s != null){
 			if (s.contains("S G O 0")){
 				if (block.size() != 0){
-					System.out.println("Block : " + blockNum);
-					blockNum++;
 					parser.parseRunBlock(block);
 					block.clear();
 				}
 			}
 			block.add(s);
 			s = br.readLine();
-			line++;
-			if (line % 1000 == 0){
-				System.out.println("Line : " + line);
-			}
 		}
 		parser.parseRunBlock(block);
 		

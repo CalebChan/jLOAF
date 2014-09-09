@@ -92,6 +92,8 @@ public class CaseLoggerParser {
 		}
 	}
 	
+	
+	
 	public void parseRunBlock(ArrayList<String> lines) throws IOException{
 		ArrayList<String> blocks = new ArrayList<String>();
 		boolean isState = true;
@@ -99,13 +101,14 @@ public class CaseLoggerParser {
 			String l[] = s.split(" ");
 			if (isState && l[0].equals("A")){
 				mergeArray(parseBlock(blocks));
+				blocks.clear();
 				isState = !isState;
 			}else if (!isState && l[0].equals("S")){
 				mergeArray(parseBlock(blocks));
+				blocks.clear();
 				isState = !isState;
-			}else{
-				blocks.add(s);
 			}
+			blocks.add(s);
 		}
 		mergeArray(parseBlock(blocks));
 	}
