@@ -10,6 +10,7 @@ import org.jLOAF.casebase.CaseRun;
 import org.jLOAF.inputs.Input;
 import org.jLOAF.retrieve.SequentialRetrieval;
 import org.jLOAF.retrieve.kNN;
+import org.jLOAF.retrieve.kNNRandom;
 
 public class SequentialReasoning implements Reasoning  {
 
@@ -22,10 +23,17 @@ public class SequentialReasoning implements Reasoning  {
 	private kNN knn;
 	
 	public SequentialReasoning(CaseBase cb, CaseRun currentRun, int k){
+		this(cb, currentRun, k, false);
+	}
+	
+	public SequentialReasoning(CaseBase cb, CaseRun currentRun, int k, boolean useRandomKNN){
 		retrival = new SequentialRetrieval(DEFAULT_THREHSOLD, DEFAULT_SOLUTION_THRESHOLD);
 		this.currentRun = currentRun;
-		
-		this.knn = new kNN(k, cb);
+		if (!useRandomKNN){
+			this.knn = new kNN(k, cb);
+		}else{
+			this.knn = new kNNRandom(k, cb);
+		}
 	}
 	
 	@Override

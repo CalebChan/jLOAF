@@ -8,8 +8,8 @@ import org.jLOAF.inputs.Input;
 
 public class kNN implements Retrieval {
 
-	private int k;
-	private CaseBase cb;
+	protected int k;
+	protected CaseBase cb;
 	
 	public kNN(int k, CaseBase cb){
 		this.cb = cb;
