@@ -20,6 +20,10 @@ public class Case implements Serializable{
 		this.previousCase = previousCase;
 	}
 	
+	public void setPreviousCase(Case previousCase){
+		this.previousCase = previousCase;
+	}
+	
 	public Case getPreviousCase(){
 		return this.previousCase;
 	}

@@ -38,6 +38,9 @@ public class LeaveOneOut {
 		ArrayList<CaseRun> runs = new ArrayList<CaseRun>();
 		CaseRun r = new CaseRun();
 		for (Case c : cb.getCases()){
+			if (r.getRunLength() == 0){
+				c.setPreviousCase(null);
+			}
 			r.addCaseToRun(c);
 			if (r.getRunLength() == runSize){
 				runs.add(r);
