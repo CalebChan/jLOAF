@@ -8,9 +8,16 @@ public class TestingTrainingPair {
 	private CaseBase training;
 	private CaseRun testing;
 	
-	public TestingTrainingPair(CaseBase training, CaseRun testing){
+	private int testNo;
+	
+	public TestingTrainingPair(CaseBase training, CaseRun testing, int testNo){
 		this.testing = testing;
 		this.training = training;
+		this.testNo = testNo;
+	}
+	
+	public int getTestNo(){
+		return this.testNo;
 	}
 
 	public CaseBase getTraining() {

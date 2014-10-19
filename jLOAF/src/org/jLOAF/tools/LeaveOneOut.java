@@ -25,7 +25,7 @@ public class LeaveOneOut {
 				}
 			}
 			
-			this.testTrainPair.add(new TestingTrainingPair(base, test));			
+			this.testTrainPair.add(new TestingTrainingPair(base, test, i));			
 		}	
 	}
 	
