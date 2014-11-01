@@ -32,6 +32,8 @@ import org.jLOAF.action.Action;
 import org.jLOAF.casebase.Case;
 import org.jLOAF.performance.actionestimation.ActionEstimation;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
+
 /** Used to gather statistics based on how the known AgentAction (from
  * the Case) relates to the AgentAction produced by the Agent.
  * 
@@ -417,4 +419,8 @@ public abstract class StatisticsWrapper implements PerformanceWrapper {
 		this.m_confusion.put(fromCaseName, confusionRow);
 	}
 
+	
+	public Map<String, Map<String, Integer>> getConfusionMatrix(){
+		return java.util.Collections.unmodifiableMap(this.m_confusion);
+	}
 }
