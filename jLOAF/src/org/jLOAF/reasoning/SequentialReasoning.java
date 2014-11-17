@@ -27,7 +27,11 @@ public class SequentialReasoning implements Reasoning  {
 	}
 	
 	public SequentialReasoning(CaseBase cb, CaseRun currentRun, int k, boolean useRandomKNN){
-		retrival = new SequentialRetrieval(DEFAULT_THREHSOLD, DEFAULT_SOLUTION_THRESHOLD);
+		this(cb, currentRun, k, useRandomKNN, DEFAULT_THREHSOLD, DEFAULT_SOLUTION_THRESHOLD);
+	}
+	
+	public SequentialReasoning(CaseBase cb, CaseRun currentRun, int k, boolean useRandomKNN, double problemThreshold, double solutionThreshold){
+		retrival = new SequentialRetrieval(problemThreshold, solutionThreshold);
 		this.currentRun = currentRun;
 		if (!useRandomKNN){
 			this.knn = new kNN(k, cb);

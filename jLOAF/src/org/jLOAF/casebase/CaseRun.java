@@ -11,7 +11,7 @@ public class CaseRun implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<Case> run;
+	protected List<Case> run;
 	
 	public CaseRun(){
 		this.run = new ArrayList<Case>();
@@ -43,5 +43,13 @@ public class CaseRun implements Serializable{
 	
 	public int getRunLength(){
 		return this.run.size();
+	}
+	
+	public String toString(){
+		String s = "";
+		for (Case c : this.run){
+			s += c.toString() + "\n";
+		}
+		return s;
 	}
 }
