@@ -2,13 +2,16 @@ package org.jLOAF.retrieve;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.jLOAF.action.Action;
 import org.jLOAF.casebase.CaseRun;
+import org.jLOAF.retrieve.sequence.weight.WeightFunction;
 
 public abstract class AbstractWeightedSequenceRetrieval {
 
 	protected double problemThreshold;
 	protected double solutionThreshold;
+	protected WeightFunction weightFunction;
 	
 	public AbstractWeightedSequenceRetrieval(double probThresh, double solThresh){
 		this.problemThreshold = probThresh;
