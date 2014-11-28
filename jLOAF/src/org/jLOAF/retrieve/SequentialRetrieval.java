@@ -8,7 +8,7 @@ import org.jLOAF.action.Action;
 import org.jLOAF.casebase.CaseRun;
 import org.jLOAF.inputs.Input;
 import org.jLOAF.util.CaseLogger;
-
+@Deprecated
 public class SequentialRetrieval {
 	
 	private double problemThreshold;
