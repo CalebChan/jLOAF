@@ -3,15 +3,18 @@ package org.jLOAF.retrieve.sequence.weight;
 
 public class TimeVaryingWeightFunction implements WeightFunction {
 
-	private double decayRate;
+	private double weights[];
 	
-	public TimeVaryingWeightFunction(double decayRate){
-		this.decayRate = decayRate;
+	public TimeVaryingWeightFunction(double weights[]){
+		this.weights = weights;
 	}
 	
 	@Override
 	public double getWeightValue(int time) {
-		return Math.exp(time * this.decayRate);
+		if (time >= weights.length){
+			return weights[weights.length - 1];
+		}
+		return weights[time];
 	}
 
 }
