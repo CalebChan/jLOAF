@@ -1,6 +1,5 @@
-package org.jLOAF.retrieve.sequence;
+package org.jLOAF.retrieve.sequence.weight;
 
-import org.jLOAF.retrieve.sequence.weight.WeightFunction;
 
 public class TimeVaryingWeightFunction implements WeightFunction {
 
