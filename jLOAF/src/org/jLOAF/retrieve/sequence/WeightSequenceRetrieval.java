@@ -4,13 +4,13 @@ import org.jLOAF.action.Action;
 import org.jLOAF.casebase.CaseRun;
 import org.jLOAF.inputs.Input;
 import org.jLOAF.retrieve.AbstractWeightedSequenceRetrieval;
-import org.jLOAF.retrieve.sequence.weight.FixedWeightFunction;
+import org.jLOAF.retrieve.sequence.weight.WeightFunction;
 
-public class FixedWeightSequenceRetrieval extends AbstractWeightedSequenceRetrieval {
+public class WeightSequenceRetrieval extends AbstractWeightedSequenceRetrieval {
 
-	public FixedWeightSequenceRetrieval(double probThresh, double solThresh, double weight) {
+	public WeightSequenceRetrieval(double probThresh, double solThresh, WeightFunction function) {
 		super(probThresh, solThresh);
-		this.weightFunction = new FixedWeightFunction(weight);
+		this.weightFunction = function;
 	}
 
 	@Override

@@ -18,8 +18,8 @@ public class SequentialReasoning implements Reasoning  {
 
 	private AbstractWeightedSequenceRetrieval retrival;
 	
-	private static final double DEFAULT_THREHSOLD = 0.5;
-	private static final double DEFAULT_SOLUTION_THRESHOLD = 0.0;
+	public static final double DEFAULT_THREHSOLD = 0.5;
+	public static final double DEFAULT_SOLUTION_THRESHOLD = 0.0;
 	private CaseRun currentRun;
 	
 	private kNN knn;
