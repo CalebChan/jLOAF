@@ -12,4 +12,8 @@ public class DecayWeightFunction implements WeightFunction{
 	public double getWeightValue(int time) {
 		return Math.exp(time * this.decayRate);
 	}
+	
+	public String toString(){
+		return "DecayWeightFunction-" + this.decayRate;
+	}
 }

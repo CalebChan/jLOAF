@@ -1,19 +1,19 @@
 package org.jLOAF.retrieve.sequence.weight;
 
-public class FixedWeightFunction implements WeightFunction {
+public class LinearWeightFunction implements WeightFunction {
 
 	private double weight;
 	
-	public FixedWeightFunction(double weight){
+	public LinearWeightFunction(double weight){
 		this.weight = weight;
 	}
 	
 	@Override
 	public double getWeightValue(int time) {
-		return this.weight;
+		return Math.max(0, 1 - this.weight * time);
 	}
 
 	public String toString(){
-		return "FixedWeightFunction-" + this.weight;
+		return "LinearWeightFunction-" + this.weight;
 	}
 }

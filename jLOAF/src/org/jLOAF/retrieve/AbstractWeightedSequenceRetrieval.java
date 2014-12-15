@@ -27,6 +27,10 @@ public abstract class AbstractWeightedSequenceRetrieval {
 	protected abstract double getStateSimilairty(CaseRun currentRun, CaseRun pastRun, int time);
 	protected abstract double getActionSimilarity(CaseRun currentRun, CaseRun pastRun, int time);
 	
+	public WeightFunction getWeightFunction(){
+		return this.weightFunction;
+	}
+	
 	public Action stateRetrival(CaseRun run, List<CaseRun> pastRuns, int time){
 		
 		logger.logMessage(Level.DEBUG, this.getClass(), "S G O", "" + time);
