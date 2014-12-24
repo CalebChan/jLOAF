@@ -21,6 +21,7 @@ public class JLOAFLogger extends Observable{
 	public enum Level{
 		DEBUG,
 		INFO,
+		EXPORT,
 	};
 	
 	public class JLOAFLoggerInfoBundle{
