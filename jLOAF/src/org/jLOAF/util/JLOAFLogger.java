@@ -6,6 +6,8 @@ public class JLOAFLogger extends Observable{
 	
 	private static JLOAFLogger instance;
 	
+	public static final String DEFAULT_DELIMITER = "$";
+	
 	private JLOAFLogger(){
 		
 	}
