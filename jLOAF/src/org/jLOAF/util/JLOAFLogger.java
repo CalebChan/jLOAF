@@ -40,7 +40,7 @@ public class JLOAFLogger extends Observable{
 		public Level getLevel() {
 			return level;
 		}
-		public Class<?> getC() {
+		public Class<?> getMessageClass() {
 			return c;
 		}
 		public String getTag() {

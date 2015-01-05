@@ -13,6 +13,8 @@ import org.jLOAF.retrieve.AbstractWeightedSequenceRetrieval;
 import org.jLOAF.retrieve.kNN;
 import org.jLOAF.retrieve.kNNRandom;
 import org.jLOAF.retrieve.sequence.DefaultWeightSequenceRetrieval;
+import org.jLOAF.util.JLOAFLogger;
+import org.jLOAF.util.JLOAFLogger.Level;
 
 public class SequentialReasoning implements Reasoning  {
 
@@ -23,6 +25,9 @@ public class SequentialReasoning implements Reasoning  {
 	private CaseRun currentRun;
 	
 	private kNN knn;
+	
+	private JLOAFLogger logger;
+	public static final String SEQUENCE_RESONING_INFO_TAG = "SR_TAG";
 	
 	public SequentialReasoning(CaseBase cb, CaseRun currentRun, int k){
 		this(cb, currentRun, k, false);
@@ -44,6 +49,7 @@ public class SequentialReasoning implements Reasoning  {
 		}else{
 			this.knn = new kNNRandom(k, cb);
 		}
+		logger = JLOAFLogger.getInstance();
 	}
 	
 	public void setCurrentRun(CaseRun currentRun){
@@ -76,11 +82,15 @@ public class SequentialReasoning implements Reasoning  {
 				actions.add(curAction);
 			}
 		}
+		logger.logMessage(Level.DEBUG, getClass(), SEQUENCE_RESONING_INFO_TAG, "Candidates:" + candidates.size());
 		if (actions.size() == 1){
 			//System.out.println("Consensus at : " + this.currentRun.getRunLength());
 			return actions.get(0);
 		}
-		return retrival.stateRetrival(currentRun, candidates, 0);
+		
+		Action a = retrival.stateRetrival(currentRun, candidates, 0);
+		logger.logMessage(Level.DEBUG, getClass(), SEQUENCE_RESONING_INFO_TAG, "Action:" + a.toString());
+		return a;
 	}
 
 }
