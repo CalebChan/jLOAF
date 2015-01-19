@@ -1,9 +1,11 @@
 package org.jLOAF.casebase;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
 import org.jLOAF.action.Action;
 import org.jLOAF.inputs.Input;
+import org.json.JSONObject;
 
 public class Case implements Serializable{
 
@@ -14,10 +16,21 @@ public class Case implements Serializable{
 	
 	private Case previousCase;
 	
+	private Case nextCase;
+	private CaseRun parentRun;
+	
 	public Case(Input input, Action action, Case previousCase){
 		this.in = input;
 		this.act = action;
 		this.previousCase = previousCase;
+	}
+	
+	public void setParentCaseRun(CaseRun run){
+		this.parentRun = run;
+	}
+	
+	public CaseRun getParentCaseRun(){
+		return this.parentRun;
 	}
 	
 	public void setPreviousCase(Case previousCase){
@@ -26,6 +39,14 @@ public class Case implements Serializable{
 	
 	public Case getPreviousCase(){
 		return this.previousCase;
+	}
+	
+	public void setNextCase(Case nextCase){
+		this.nextCase = nextCase;
+	}
+	
+	public Case getNextCase(){
+		return this.nextCase;
 	}
 	
 	public Input getInput(){
@@ -41,15 +62,16 @@ public class Case implements Serializable{
 	}
 	
 	public int caseIndex(){
-		int index = 1;
-		
-		Case c = this.previousCase;
-		while (c != null){
-			index++;
-			c = c.getPreviousCase();
-		}
-		
-		return index;
+//		int index = 1;
+//		
+//		Case c = this.previousCase;
+//		while (c != null){
+//			index++;
+//			c = c.getPreviousCase();
+//		}
+//		
+//		return index;
+		return this.getParentCaseRun().getTimeStep(this);
 	}
 	
 	@Override
@@ -60,5 +82,15 @@ public class Case implements Serializable{
 		s += "Action : " + this.act.toString();
 		
 		return s;
+	}
+	
+	public JSONObject exportRunToJSON(){
+		JSONObject o = new JSONObject();
+		o.put("Input", in);
+		o.put("Output", in);
+		
+		
+		
+		return (JSONObject) JSONObject.NULL;
 	}
 }

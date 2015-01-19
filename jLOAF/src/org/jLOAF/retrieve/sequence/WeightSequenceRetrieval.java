@@ -15,15 +15,15 @@ public class WeightSequenceRetrieval extends AbstractWeightedSequenceRetrieval {
 
 	@Override
 	protected double getStateSimilairty(CaseRun currentRun, CaseRun pastRun, int time) {
-		Input pastIn = pastRun.getCase(pastRun.getRunLength() - 1 - time).getInput();
-		Input runIn = currentRun.getCase(currentRun.getRunLength() - 1 - time).getInput();
+		Input pastIn = pastRun.getCase(time).getInput();
+		Input runIn = currentRun.getCase(time).getInput();
 		return pastIn.similarity(runIn) * this.weightFunction.getWeightValue(time);
 	}
 
 	@Override
 	protected double getActionSimilarity(CaseRun currentRun, CaseRun pastRun, int time) {
-		Action pastAction = pastRun.getCase(pastRun.getRunLength() - 1 - time).getAction();
-		Action runAction = currentRun.getCase(currentRun.getRunLength() - 1 - time).getAction();
+		Action pastAction = pastRun.getCase(time).getAction();
+		Action runAction = currentRun.getCase(time).getAction();
 		return similarityActions(pastAction, runAction) * this.weightFunction.getWeightValue(time);
 	}
 

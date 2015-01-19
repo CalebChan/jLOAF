@@ -77,7 +77,7 @@ public class SequentialReasoning implements Reasoning  {
 		}
 		List<Action> actions = new ArrayList<Action>();
 		for (CaseRun r : candidates){
-			Action curAction = r.getCase(r.getRunLength() - 1).getAction();
+			Action curAction = r.getCurrentCase().getAction();
 			if (!actions.contains(curAction)){
 				actions.add(curAction);
 			}
