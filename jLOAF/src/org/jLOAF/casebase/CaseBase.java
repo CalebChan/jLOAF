@@ -8,6 +8,11 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
+import java.util.TreeSet;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class CaseBase implements Serializable{
 
@@ -29,6 +34,29 @@ public class CaseBase implements Serializable{
 
 	public int getSize(){
 		return this.cb.size();
+	}
+	
+	private Set<CaseRun> convertCaseBaseToRuns(){
+		Set<CaseRun> run = new TreeSet<CaseRun>();
+		
+		for (Case c : cb){
+			run.add(c.getParentCaseRun());
+		}
+		return run;
+	}
+	
+	public JSONObject exportCaseBaseToJSON(){
+		JSONObject o = new JSONObject();
+		
+		o.put("Name", "Case Base");
+		JSONArray a = new JSONArray();
+		Set<CaseRun> r = convertCaseBaseToRuns();
+		for (CaseRun cr : r){
+			a.put(cr.exportRunToJSON());
+		}
+		o.put("Runs", a);
+		
+		return o;
 	}
 	
 	public static CaseBase load(String filename) {

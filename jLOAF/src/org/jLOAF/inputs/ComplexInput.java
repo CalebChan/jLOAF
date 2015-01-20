@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Set;
 
 import org.jLOAF.sim.SimilarityMetricStrategy;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class ComplexInput extends Input {
 
@@ -72,4 +74,17 @@ public class ComplexInput extends Input {
 		ComplexInput.s_simstrategy = s;
 	}
 	
+	@Override
+	public JSONObject exportInputDetailToJSON(){
+		JSONObject o = new JSONObject();
+		o.put("Name", name);
+		o.put("Type", "Complex");
+		
+		JSONArray a = new JSONArray();
+		for (String ss : this.collect.keySet()){
+			a.put(this.collect.get(ss).exportInputDetailToJSON());
+		}
+		o.put("Input", a);
+		return o;
+	}
 }

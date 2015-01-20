@@ -9,6 +9,7 @@ package org.jLOAF.inputs;
 import java.io.Serializable;
 
 import org.jLOAF.sim.SimilarityMetricStrategy;
+import org.json.JSONObject;
 
 public abstract class Input implements Serializable{
 
@@ -36,5 +37,13 @@ public abstract class Input implements Serializable{
 	@Override
 	public String toString(){
 		return this.name;
+	}
+	
+	public JSONObject exportInputDetailToJSON(){
+		JSONObject o = new JSONObject();
+		
+		o.put("Name", name);
+		
+		return o;
 	}
 }

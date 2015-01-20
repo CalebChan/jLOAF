@@ -2,6 +2,8 @@ package org.jLOAF.inputs;
 
 import java.io.Serializable;
 
+import org.json.JSONObject;
+
 public class Feature implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -28,5 +30,13 @@ public class Feature implements Serializable{
 	@Override
 	public String toString(){
 		return "" + this.val;
+	}
+	
+	public JSONObject exportFeatureToJSON(){
+		JSONObject o = new JSONObject();
+		
+		o.put("Feature", val);
+		
+		return o;
 	}
 }

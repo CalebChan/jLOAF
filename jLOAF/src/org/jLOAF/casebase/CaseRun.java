@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class CaseRun implements Serializable{
@@ -71,13 +72,18 @@ public class CaseRun implements Serializable{
 	public JSONObject exportRunToJSON(){
 		Case c = null;
 		Iterator<Case> i = this.run.descendingIterator();
+		JSONObject o = new JSONObject();
+		o.put("Name", this.getRunName());
+		o.put("Length", this.run.size());
+		
+		JSONArray a = new JSONArray();
+		
 		while(i.hasNext()){
 			c = i.next();
-			
-			
+			a.put(c.exportCaseToJSON());
 		}
 		
 		
-		return (JSONObject) JSONObject.NULL;
+		return o;
 	}
 }

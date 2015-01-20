@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class ComplexAction extends Action {
 
 	private static final long serialVersionUID = 1L;
@@ -52,5 +55,19 @@ public class ComplexAction extends Action {
 			s += this.collect.get(ss).toString() + "\n";
 		}
 		return s;
+	}
+	
+	@Override
+	public JSONObject exportActionDetailToJSON(){
+		JSONObject o = new JSONObject();
+		o.put("Name", name);
+		o.put("Type", "Complex");
+		
+		JSONArray a = new JSONArray();
+		for (String ss : this.collect.keySet()){
+			a.put(this.collect.get(ss).exportActionDetailToJSON());
+		}
+		o.put("Action", a);
+		return o;
 	}
 }

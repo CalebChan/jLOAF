@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jLOAF.inputs.Feature;
+import org.json.JSONObject;
 
 public class AtomicAction extends Action {
 
@@ -66,5 +67,15 @@ public class AtomicAction extends Action {
 			s += f.toString() + "\n";
 		}
 		return s;
+	}
+	
+	@Override
+	public JSONObject exportActionDetailToJSON(){
+		JSONObject o = new JSONObject();
+		o.put("Name", name);
+		o.put("Type", "Atomic");
+		o.put("Feature", feat);
+		
+		return o;
 	}
 }

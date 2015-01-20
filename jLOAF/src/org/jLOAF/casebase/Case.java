@@ -1,7 +1,6 @@
 package org.jLOAF.casebase;
 
 import java.io.Serializable;
-import java.util.Iterator;
 
 import org.jLOAF.action.Action;
 import org.jLOAF.inputs.Input;
@@ -84,13 +83,12 @@ public class Case implements Serializable{
 		return s;
 	}
 	
-	public JSONObject exportRunToJSON(){
+	public JSONObject exportCaseToJSON(){
 		JSONObject o = new JSONObject();
-		o.put("Input", in);
-		o.put("Output", in);
-		
-		
-		
-		return (JSONObject) JSONObject.NULL;
+		o.put("Input", in.exportInputDetailToJSON());
+		o.put("Output", act.exportActionDetailToJSON());
+		o.put("Index", this.caseIndex());
+		o.put("Parent Run", this.getParentCaseRun().getRunName());
+		return o;
 	}
 }
