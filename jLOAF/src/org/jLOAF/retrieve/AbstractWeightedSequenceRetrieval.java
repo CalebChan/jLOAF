@@ -57,6 +57,11 @@ public abstract class AbstractWeightedSequenceRetrieval {
 				logger.logMessage(Level.DEBUG, this.getClass(), "S I S", "-");
 			}
 			
+			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Time", time);
+			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "RType", "State");
+			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Candidate", past.getCase(time).exportCaseToJSON());
+			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Sim", sim);
+			
 			if (sim > bestSim){
 				logger.logMessage(Level.DEBUG, this.getClass(), "S C SO", bestSim + " SN " + sim);
 				logger.logMessage(Level.DEBUG, this.getClass(), "S C RO","" +  pastRuns.lastIndexOf(bestRun) + " RN " + pastRuns.lastIndexOf(past));
@@ -127,6 +132,11 @@ public abstract class AbstractWeightedSequenceRetrieval {
 			}else{
 				logger.logMessage(Level.DEBUG, this.getClass(), "A I S", "-");
 			}
+			
+			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Time", time);
+			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "RType", "Action");
+			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Candidate", past.getCase(time).exportCaseToJSON());
+			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Sim", sim);
 			
 			if (sim > bestSim){
 				

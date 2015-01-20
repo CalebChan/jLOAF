@@ -8,8 +8,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,7 +37,7 @@ public class CaseBase implements Serializable{
 	}
 	
 	private Set<CaseRun> convertCaseBaseToRuns(){
-		Set<CaseRun> run = new TreeSet<CaseRun>();
+		Set<CaseRun> run = new HashSet<CaseRun>();
 		
 		for (Case c : cb){
 			run.add(c.getParentCaseRun());

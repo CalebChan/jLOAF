@@ -87,8 +87,9 @@ public class SequentialReasoning implements Reasoning  {
 			//System.out.println("Consensus at : " + this.currentRun.getRunLength());
 			return actions.get(0);
 		}
-		
+		logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Start Retrieval");
 		Action a = retrival.stateRetrival(currentRun, candidates, 0);
+		logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "End Retrieval", a.toString());
 		logger.logMessage(Level.DEBUG, getClass(), SEQUENCE_RESONING_INFO_TAG, "Action:" + a.toString());
 		return a;
 	}
