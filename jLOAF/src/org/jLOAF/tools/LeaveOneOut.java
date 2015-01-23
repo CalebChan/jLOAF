@@ -36,7 +36,7 @@ public class LeaveOneOut {
 	public static LeaveOneOut loadTrainAndTest(String filename, int runSize, int numOfTest){
 		CaseBase cb = CaseBaseIO.loadCaseBase(filename);
 		ArrayList<CaseRun> runs = new ArrayList<CaseRun>();
-		CaseRun r = new CaseRun();
+		CaseRun r = new CaseRun("" + runs.size());
 		for (Case c : cb.getCases()){
 			if (r.getRunLength() == 0){
 				c.setPreviousCase(null);
@@ -44,7 +44,7 @@ public class LeaveOneOut {
 			r.addCaseToRun(c);
 			if (r.getRunLength() == runSize){
 				runs.add(r);
-				r = new CaseRun();
+				r = new CaseRun("" + runs.size());
 			}
 		}
 		return new LeaveOneOut(runs, numOfTest);

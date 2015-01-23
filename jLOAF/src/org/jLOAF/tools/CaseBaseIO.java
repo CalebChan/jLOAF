@@ -68,6 +68,8 @@ public class CaseBaseIO {
 			}
 			return (CaseBase)o;
 		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Filename : " + filename);
 			//if there was a file problem we return null
 			return null;
 		}
