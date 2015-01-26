@@ -36,7 +36,7 @@ public class CaseBase implements Serializable{
 		return this.cb.size();
 	}
 	
-	private Set<CaseRun> convertCaseBaseToRuns(){
+	public Set<CaseRun> convertCaseBaseToRuns(){
 		Set<CaseRun> run = new HashSet<CaseRun>();
 		
 		for (Case c : cb){

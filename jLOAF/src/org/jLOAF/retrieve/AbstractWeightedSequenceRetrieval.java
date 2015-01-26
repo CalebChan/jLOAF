@@ -59,7 +59,7 @@ public abstract class AbstractWeightedSequenceRetrieval {
 			
 			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Time", time);
 			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "RType", "S");
-			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Run Name", past.getCase(time).getParentCaseRun().getRunName());
+			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Run Name", past.getRunName());
 			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Sim", sim);
 			
 			if (sim > bestSim){
@@ -135,7 +135,7 @@ public abstract class AbstractWeightedSequenceRetrieval {
 			
 			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Time", time);
 			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "RType", "A");
-			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Run Name", past.getCase(time).getParentCaseRun().getRunName());
+			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Run Name", past.getRunName());
 			logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Sim", sim);
 			
 			if (sim > bestSim){

@@ -67,7 +67,7 @@ public class SequentialReasoning implements Reasoning  {
 		List<Case> closestCase = knn.retrieve(i);
 		for (Case c : closestCase){
 			Case tmp = c;
-			CaseRun run  = new CaseRun(c.getParentCaseRun().getRunName());
+			CaseRun run  = new CaseRun("" + (candidates.size() + 1));
 			while(tmp != null){
 				run.addCaseToRun(tmp);
 				tmp = tmp.getPreviousCase();
