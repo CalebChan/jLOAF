@@ -75,7 +75,9 @@ public class Case implements Serializable{
 	
 	@Override
 	public String toString(){
-		String s = "";
+		String s = "Case Run name : " + this.getParentCaseRun().getRunName() + "\n";
+		
+		s+= "Case Index : " + this.caseIndex() + "\n";
 		
 		s += "Input : " + this.in.toString();
 		s += "Action : " + this.act.toString();

@@ -69,10 +69,10 @@ public class SequentialReasoning implements Reasoning  {
 			Case tmp = c;
 			CaseRun run  = new CaseRun("" + (candidates.size() + 1));
 			while(tmp != null){
-				run.addCaseToRun(tmp);
+				run.appendCaseToRun(tmp);
 				tmp = tmp.getPreviousCase();
 			}
-			run.reverseRun();
+//			run.reverseRun();
 			candidates.add(run);
 		}
 		List<Action> actions = new ArrayList<Action>();
