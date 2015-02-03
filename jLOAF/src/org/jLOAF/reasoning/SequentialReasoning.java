@@ -72,7 +72,7 @@ public class SequentialReasoning implements Reasoning  {
 				run.appendCaseToRun(tmp);
 				tmp = tmp.getPreviousCase();
 			}
-//			run.reverseRun();
+			run.reverseRun();
 			candidates.add(run);
 		}
 		List<Action> actions = new ArrayList<Action>();

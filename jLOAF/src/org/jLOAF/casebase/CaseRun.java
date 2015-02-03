@@ -1,6 +1,7 @@
 package org.jLOAF.casebase;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -43,21 +44,28 @@ public class CaseRun implements Serializable{
 		return this.run.peek();
 	}
 	
+	public Case removeCurrentCase(int time){
+		Case c = this.run.remove(time);
+		c.setParentCaseRun(null);
+		return c;
+	}
+	
 	public void amendCurrentCase(Case newCase){
-		this.run.pop().setParentCaseRun(null);
+		Case c = this.run.pop();
+		c.setParentCaseRun(null);
 		this.addCaseToRun(newCase);
 	}
 	
 	public void reverseRun(){
-//		Collections.reverse(run);
+		Collections.reverse(run);
 	}
 	
 	public int getTimeStep(Case c){
-		return this.run.indexOf(c);
+		return this.getRunLength() - 1 - this.run.indexOf(c);
 	}
 	
 	public Case getCase(int time){
-		return this.run.get(time);
+		return this.run.get(this.getRunLength() - 1 - time);
 //		return this.run.get(Math.max(this.run.size() - 1 - time, 0));
 	}
 	

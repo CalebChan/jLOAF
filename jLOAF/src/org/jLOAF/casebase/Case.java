@@ -70,16 +70,24 @@ public class Case implements Serializable{
 //		}
 //		
 //		return index;
+		if (this.getParentCaseRun() == null){
+			return -1;
+		}
+		
 		return this.getParentCaseRun().getTimeStep(this);
 	}
 	
 	@Override
 	public String toString(){
-		String s = "Case Run name : " + this.getParentCaseRun().getRunName() + "\n";
+		String runName = "NONE";
+		if (this.getParentCaseRun() != null){
+			runName = this.getParentCaseRun().getRunName();
+		}
+		String s = "Case Run name : " + runName + "\n";
 		
 		s+= "Case Index : " + this.caseIndex() + "\n";
 		
-		s += "Input : " + this.in.toString();
+		s += "Input : " + this.in.toString() + "\n";
 		s += "Action : " + this.act.toString();
 		
 		return s;

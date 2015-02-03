@@ -61,11 +61,8 @@ public class AtomicAction extends Action {
 	
 	@Override
 	public String toString(){
-		String s = "Atomic Action : " + this.name + "\n";
-		s += "Feature :\n";
-		for (Feature f : this.features){
-			s += f.toString() + "\n";
-		}
+		String s = "Atomic Action : " + this.name + " ";
+		s += "Feature : " + feat.toString();
 		return s;
 	}
 	
