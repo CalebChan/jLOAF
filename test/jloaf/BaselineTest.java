@@ -1,6 +1,6 @@
 package jloaf;
+import jloaf.util.AbstractCaseParser;
 import jloaf.util.BaselineCaseParser;
-import jloaf.util.StringToCaseConverter;
 
 import org.jLOAF.casebase.CaseBase;
 import org.jLOAF.casebase.CaseRun;
@@ -32,16 +32,6 @@ public class BaselineTest extends AbstractTestFramework {
 	public SequentialReasoning buildReasoning(CaseBase cb, CaseRun problemRun){
 		return new SequentialReasoning(cb, problemRun, DEFAULT_K);
 	}
-	
-	@Override
-	public CaseBase buildCaseBase(){
-		return StringToCaseConverter.convertStringToCaseBase(cbString, new BaselineCaseParser());
-	}
-
-	@Override
-	public CaseRun buildCaseRun(){
-		return StringToCaseConverter.convertStringToCaseRun(problemRunString, new BaselineCaseParser());
-	}
 
 	@Override
 	public SimilarityMetricStrategy getAtomicInputSimMetric(){
@@ -51,5 +41,20 @@ public class BaselineTest extends AbstractTestFramework {
 	@Override
 	public SimilarityMetricStrategy getComplexInputSimMetric(){
 		return new Mean();
+	}
+
+	@Override
+	public String[] getProblemString() {
+		return problemRunString;
+	}
+
+	@Override
+	public String[] getCaseBaseString() {
+		return cbString;
+	}
+
+	@Override
+	public AbstractCaseParser getCaseParser() {
+		return new BaselineCaseParser();
 	}
 }

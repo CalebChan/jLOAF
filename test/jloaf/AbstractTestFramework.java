@@ -1,4 +1,7 @@
 package jloaf;
+import jloaf.util.AbstractCaseParser;
+import jloaf.util.StringToCaseConverter;
+
 import org.jLOAF.action.Action;
 import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
@@ -15,7 +18,14 @@ public abstract class AbstractTestFramework{
 	private CaseRun problemRun;
 	private SequentialReasoning r;
 	
+	private boolean toFail;
+	
 	public AbstractTestFramework(){
+		this(false);
+	}
+	
+	public AbstractTestFramework(boolean toFail){
+		this.toFail = toFail;
 		CaseBase cb = buildCaseBase();;
 		problemRun = buildCaseRun();
 		
@@ -27,13 +37,22 @@ public abstract class AbstractTestFramework{
 	
 	public abstract SequentialReasoning buildReasoning(CaseBase cb, CaseRun problemRun);
 
-	public abstract CaseBase buildCaseBase();
+	public CaseBase buildCaseBase(){
+		return StringToCaseConverter.convertStringToCaseBase(getCaseBaseString(), getCaseParser());
+	}
 
-	public abstract CaseRun buildCaseRun();
+	public CaseRun buildCaseRun(){
+		return StringToCaseConverter.convertStringToCaseRun(getProblemString(), getCaseParser());
+	}
 
 	public abstract SimilarityMetricStrategy getAtomicInputSimMetric();
 
 	public abstract SimilarityMetricStrategy getComplexInputSimMetric();
+	
+	public abstract String[] getProblemString();
+	public abstract String[] getCaseBaseString();
+	public abstract AbstractCaseParser getCaseParser();
+	
 
 	@Test
 	public void test() {
@@ -41,8 +60,12 @@ public abstract class AbstractTestFramework{
 		
 		Action a = r.selectAction(testCase.getInput());
 		
-		Assert.assertEquals(testCase.getAction(), a);
-		System.out.println("Expected : " + testCase.getAction().toString() + " Expected  : " + a.toString());
+		if (!toFail){
+			Assert.assertEquals(testCase.getAction(), a);
+		}else{
+			Assert.assertNotEquals(testCase.getAction(), a);
+		}
+		System.out.println("Expected : " + testCase.getAction().toString() + ", Actual  : " + a.toString() + ", To Fail : " + toFail);
 	}
 
 }

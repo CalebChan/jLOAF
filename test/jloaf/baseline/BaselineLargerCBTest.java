@@ -2,11 +2,6 @@ package jloaf.baseline;
 
 
 import jloaf.BaselineTest;
-import jloaf.util.BaselineCaseParser;
-import jloaf.util.StringToCaseConverter;
-
-import org.jLOAF.casebase.CaseBase;
-import org.jLOAF.casebase.CaseRun;
 
 public class BaselineLargerCBTest extends BaselineTest{
 	private static String problemRunString[] = {
@@ -25,12 +20,12 @@ public class BaselineLargerCBTest extends BaselineTest{
 	};
 	
 	@Override
-	public CaseBase buildCaseBase(){
-		return StringToCaseConverter.convertStringToCaseBase(cbString, new BaselineCaseParser());
+	public String[] getProblemString() {
+		return problemRunString;
 	}
 
 	@Override
-	public CaseRun buildCaseRun(){
-		return StringToCaseConverter.convertStringToCaseRun(problemRunString, new BaselineCaseParser());
+	public String[] getCaseBaseString() {
+		return cbString;
 	}
 }
