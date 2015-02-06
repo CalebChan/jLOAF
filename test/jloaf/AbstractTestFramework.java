@@ -1,3 +1,4 @@
+package jloaf;
 import org.jLOAF.action.Action;
 import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
@@ -36,12 +37,12 @@ public abstract class AbstractTestFramework{
 
 	@Test
 	public void test() {
-		Case testCase = problemRun.removeCurrentCase(problemRun.getRunLength() - 1);
+		Case testCase = problemRun.removeCurrentCase(0);
 		
 		Action a = r.selectAction(testCase.getInput());
 		
 		Assert.assertEquals(testCase.getAction(), a);
-//		System.out.println("Correct Case : " + testCase.toString());
+		System.out.println("Expected : " + testCase.getAction().toString() + " Expected  : " + a.toString());
 	}
 
 }

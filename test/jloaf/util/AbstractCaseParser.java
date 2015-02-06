@@ -1,4 +1,4 @@
-package util;
+package jloaf.util;
 
 import org.jLOAF.casebase.Case;
 

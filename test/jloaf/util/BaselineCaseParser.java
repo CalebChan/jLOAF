@@ -1,4 +1,4 @@
-package util;
+package jloaf.util;
 
 import java.util.StringTokenizer;
 

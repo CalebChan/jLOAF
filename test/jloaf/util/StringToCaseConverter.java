@@ -1,4 +1,4 @@
-package util;
+package jloaf.util;
 
 import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
@@ -32,7 +32,6 @@ public class StringToCaseConverter {
 			}
 			r.addCaseToRun(newCase);
 		}
-		r.reverseRun();
 		return r;
 	}
 }
