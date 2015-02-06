@@ -31,6 +31,28 @@ public abstract class AbstractWeightedSequenceRetrieval {
 		return this.weightFunction;
 	}
 	
+	private CaseRun getBestRun(List<CaseRun> candidateRun, CaseRun run, int time, boolean isState){
+		CaseRun best = null;
+		double bestSim = -1;
+		for (CaseRun r : candidateRun){
+			if (time >= r.getRunLength() || time >= run.getRunLength()){
+				continue;
+			}
+			double s = -1;
+			if (isState){
+				s = r.getCasePastOffset(time).getInput().similarity(run.getCasePastOffset(time).getInput());
+			}else{
+				s = similarityActions(r.getCasePastOffset(time).getAction(), run.getCasePastOffset(time).getAction());
+			}
+			if (s > bestSim){
+				bestSim = s;
+				best = r;
+			}
+		}
+		
+		return best;
+	}
+	
 	public Action stateRetrival(CaseRun run, List<CaseRun> pastRuns, int time){
 		
 //		logger.logMessage(Level.DEBUG, this.getClass(), "S G O", "" + time);
@@ -39,7 +61,8 @@ public abstract class AbstractWeightedSequenceRetrieval {
 		ArrayList<CaseRun> NN = new ArrayList<CaseRun>();
 		ArrayList<Action> NNAction = new ArrayList<Action>();
 		double bestSim = -1;
-		CaseRun bestRun = pastRuns.get(0);
+//		CaseRun bestRun = pastRuns.get(0);
+		CaseRun bestRun = getBestRun(pastRuns, run, time, true);
 		
 //		logger.logMessage(Level.DEBUG, this.getClass(), "S G A", bestRun.getCurrentCase().getAction().getName());
 //		logger.logMessage(Level.DEBUG, this.getClass(), "S G I", bestRun.getCurrentCase().getInput().getName());
@@ -56,8 +79,8 @@ public abstract class AbstractWeightedSequenceRetrieval {
 				logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "RType", "S");
 				logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Run Name", past.getRunName());
 				
-				logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Case No", past.getCase(time).caseIndex());
-				logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Parent Run Name", past.getCase(time).getParentCaseRun().getRunName());
+				logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Case No", past.getCasePastOffset(time).caseIndex());
+				logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Parent Run Name", past.getCasePastOffset(time).getParentCaseRun().getRunName());
 				
 				logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Sim", sim);
 				
@@ -96,7 +119,9 @@ public abstract class AbstractWeightedSequenceRetrieval {
 			
 //			logger.logMessage(Level.DEBUG, this.getClass(), "S G C", "F");
 //			logger.logMessage(Level.DEBUG, this.getClass(), "S G FA", bestRun.getCurrentCase().getAction().getName());
-			
+			if (bestRun == null){
+				return null;
+			}
 			return bestRun.getCurrentCase().getAction();
 		}else if (NNAction.size() == 1){
 			
@@ -105,8 +130,11 @@ public abstract class AbstractWeightedSequenceRetrieval {
 			
 			return NNAction.get(0);
 		}
-		
-		return actionRetrival(run, NN, time + 1);
+		Action a = actionRetrival(run, NN, time + 1);
+		if (a != null){
+			return a;
+		}
+		return bestRun.getCurrentCase().getAction();
 	}
 
 	protected double similarityActions(Action a1, Action a2){
@@ -124,7 +152,8 @@ public abstract class AbstractWeightedSequenceRetrieval {
 		ArrayList<CaseRun> NN = new ArrayList<CaseRun>();
 		ArrayList<Action> NNAction = new ArrayList<Action>();
 		double bestSim = -1;
-		CaseRun bestRun = pastRuns.get(0);
+//		CaseRun bestRun = pastRuns.get(0);
+		CaseRun bestRun = getBestRun(pastRuns, run, time, false);
 		
 		for (CaseRun past : pastRuns){
 			double sim = -1;
@@ -138,8 +167,8 @@ public abstract class AbstractWeightedSequenceRetrieval {
 				logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "RType", "A");
 				logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Run Name", past.getRunName());
 				
-				logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Case No", past.getCase(time).caseIndex());
-				logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Parent Run Name", past.getCase(time).getParentCaseRun().getRunName());
+				logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Case No", past.getCasePastOffset(time).caseIndex());
+				logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Parent Run Name", past.getCasePastOffset(time).getParentCaseRun().getRunName());
 				
 				logger.logMessage(Level.EXPORT, getClass(), JLOAFLogger.JSON_TAG, "Sim", sim);
 				
@@ -178,7 +207,9 @@ public abstract class AbstractWeightedSequenceRetrieval {
 			
 //			logger.logMessage(Level.DEBUG, this.getClass(), "A G C", "F");
 //			logger.logMessage(Level.DEBUG, this.getClass(), "A G FA", "" + bestRun.getCurrentCase().getAction().getName());
-			
+			if (bestRun == null){
+				return null;
+			}
 			return bestRun.getCurrentCase().getAction();
 		}else if (NNAction.size() == 1){
 			
@@ -187,7 +218,10 @@ public abstract class AbstractWeightedSequenceRetrieval {
 			
 			return NNAction.get(0);
 		}
-		
-		return stateRetrival(run, NN, time);
+		Action a = stateRetrival(run, NN, time);
+		if (a != null){
+			return a;
+		}
+		return bestRun.getCurrentCase().getAction();
 	}
 }

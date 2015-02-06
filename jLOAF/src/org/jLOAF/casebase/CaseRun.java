@@ -44,6 +44,11 @@ public class CaseRun implements Serializable{
 		return this.run.peek();
 	}
 	
+	/**
+	 * This method will remove the case offset from the current case.
+	 * @param time
+	 * @return
+	 */
 	public Case removeCurrentCase(int time){
 		Case c = this.run.remove(time);
 		c.setParentCaseRun(null);
@@ -64,6 +69,22 @@ public class CaseRun implements Serializable{
 		return this.getRunLength() - 1 - this.run.indexOf(c);
 	}
 	
+	/**
+	 * This method will get the case offset from the current case. 0 will be the current case, 1 will be the case previous to the current case
+	 * @param time
+	 * @return
+	 */
+	public Case getCasePastOffset(int time){
+		return this.run.get(time);
+	}
+	
+	/**
+	 * This method will get the case at the current time in the list. This means that the case at time 0 is the start of the run
+	 * and length() - 1 is the end of the run.
+	 * @param time
+	 * @return
+	 * @deprecated
+	 */
 	public Case getCase(int time){
 		return this.run.get(this.getRunLength() - 1 - time);
 //		return this.run.get(Math.max(this.run.size() - 1 - time, 0));

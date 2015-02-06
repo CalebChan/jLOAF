@@ -21,7 +21,7 @@ public class LeaveOneOut {
 			CaseBase base = new CaseBase();
 			for (CaseRun cc : train){
 				for (int j = 0; j < cc.getRunLength(); j++){
-					base.add(cc.getCase(j));
+					base.add(cc.getCasePastOffset(j));
 				}
 			}
 			

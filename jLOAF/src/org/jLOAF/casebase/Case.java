@@ -88,7 +88,11 @@ public class Case implements Serializable{
 		s+= "Case Index : " + this.caseIndex() + "\n";
 		
 		s += "Input : " + this.in.toString() + "\n";
-		s += "Action : " + this.act.toString();
+		if (this.act != null){
+			s += "Action : " + this.act.toString();
+		}else{
+			s += "Action : ?";
+		}
 		
 		return s;
 	}
