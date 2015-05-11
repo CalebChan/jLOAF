@@ -9,7 +9,7 @@ import org.jLOAF.casebase.CaseRun;
 import org.jLOAF.inputs.AtomicInput;
 import org.jLOAF.inputs.ComplexInput;
 import org.jLOAF.reasoning.SequentialReasoning;
-import org.jLOAF.sim.SimilarityMetricStrategy;
+import org.jLOAF.sim.SimilarityInputMetricStrategy;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -45,9 +45,9 @@ public abstract class AbstractTestFramework{
 		return StringToCaseConverter.convertStringToCaseRun(getProblemString(), getCaseParser());
 	}
 
-	public abstract SimilarityMetricStrategy getAtomicInputSimMetric();
+	public abstract SimilarityInputMetricStrategy getAtomicInputSimMetric();
 
-	public abstract SimilarityMetricStrategy getComplexInputSimMetric();
+	public abstract SimilarityInputMetricStrategy getComplexInputSimMetric();
 	
 	public abstract String[] getProblemString();
 	public abstract String[] getCaseBaseString();

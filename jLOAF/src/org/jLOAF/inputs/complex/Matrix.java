@@ -4,13 +4,13 @@ import org.jLOAF.inputs.ComplexInput;
 import org.jLOAF.inputs.Feature;
 import org.jLOAF.inputs.Input;
 import org.jLOAF.inputs.atomic.MatrixCell;
-import org.jLOAF.sim.SimilarityMetricStrategy;
+import org.jLOAF.sim.SimilarityInputMetricStrategy;
 
 public class Matrix extends ComplexInput {
 
 	private static final long serialVersionUID = 1L;
 
-	private static SimilarityMetricStrategy simMet;
+	private static SimilarityInputMetricStrategy simMet;
 	
 	private int rows = 0;
 	private int cols = 0;
@@ -52,7 +52,7 @@ public class Matrix extends ComplexInput {
 		}
 	}
 
-	public static void setClassSimilarityMetric(SimilarityMetricStrategy s){
+	public static void setClassSimilarityMetric(SimilarityInputMetricStrategy s){
 		Matrix.simMet = s;
 	}
 }

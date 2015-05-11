@@ -4,9 +4,9 @@ import java.util.Set;
 
 import org.jLOAF.inputs.ComplexInput;
 import org.jLOAF.inputs.Input;
-import org.jLOAF.sim.SimilarityMetricStrategy;
+import org.jLOAF.sim.SimilarityInputMetricStrategy;
 
-public class Mean implements SimilarityMetricStrategy {
+public class InputMean implements SimilarityInputMetricStrategy {
 
 	@Override
 	public double similarity(Input i1, Input i2) {

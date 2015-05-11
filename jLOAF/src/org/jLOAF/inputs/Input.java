@@ -8,7 +8,7 @@ package org.jLOAF.inputs;
 
 import java.io.Serializable;
 
-import org.jLOAF.sim.SimilarityMetricStrategy;
+import org.jLOAF.sim.SimilarityInputMetricStrategy;
 import org.json.JSONObject;
 
 public abstract class Input implements Serializable{
@@ -17,7 +17,7 @@ public abstract class Input implements Serializable{
 	
 	protected String name;
 	
-	protected SimilarityMetricStrategy simStrategy;
+	protected SimilarityInputMetricStrategy simStrategy;
 	
 	public Input(String name){
 		this.name = name;
@@ -30,7 +30,7 @@ public abstract class Input implements Serializable{
 	public abstract double similarity(Input i);
 	
 	
-	public void setSimilarityMetric(SimilarityMetricStrategy s) {
+	public void setSimilarityMetric(SimilarityInputMetricStrategy s) {
 		this.simStrategy = s;
 	}
 	

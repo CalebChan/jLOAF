@@ -2,7 +2,7 @@ package org.jLOAF.action;
 
 import java.io.Serializable;
 
-import org.jLOAF.sim.SimilarityMetricStrategy;
+import org.jLOAF.sim.SimilarityActionMetricStrategy;
 import org.json.JSONObject;
 
 public abstract class Action implements Serializable{
@@ -11,7 +11,7 @@ public abstract class Action implements Serializable{
 	
 	protected String name;
 	
-	protected SimilarityMetricStrategy simStrategy;
+	protected SimilarityActionMetricStrategy simStrategy;
 	
 	public Action(String name){
 		this.name = name;
@@ -23,7 +23,7 @@ public abstract class Action implements Serializable{
 	
 	public abstract double similarity(Action i);
 	
-	public void setSimilarityMetric(SimilarityMetricStrategy s) {
+	public void setSimilarityMetric(SimilarityActionMetricStrategy s) {
 		this.simStrategy = s;
 	}
 	

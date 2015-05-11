@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jLOAF.inputs.Feature;
+import org.jLOAF.sim.SimilarityActionMetricStrategy;
 import org.json.JSONObject;
 
 public class AtomicAction extends Action {
 
 	private static final long serialVersionUID = 1L;
 
+	private static SimilarityActionMetricStrategy s_simstrategy;
+	
 	protected Feature feat;
 	
 	List<Feature> features;
@@ -32,6 +35,7 @@ public class AtomicAction extends Action {
 		return this.feat;
 	}
 	
+	@Deprecated
 	public Feature getFeature(int idx){
 		return getFeature();
 	}
@@ -44,13 +48,6 @@ public class AtomicAction extends Action {
 		AtomicAction a = (AtomicAction)o;
 		//return this.name.equals(a.name) && this.features.equals(features);
 		return this.name.equals(a.name) && this.feat.equals(a.feat);
-	}
-	
-	@Deprecated
-	public List<Feature> getFeatures(){
-		ArrayList<Feature> f = new ArrayList<Feature>();
-		f.add(feat);
-		return f;
 	}
 	
 	@Override
@@ -69,10 +66,37 @@ public class AtomicAction extends Action {
 		
 		return o;
 	}
+	
+	private static double similarity(Action atomicInput, Action i) {
+		return AtomicAction.s_simstrategy.similarity(atomicInput, i);
+	}
+
+	public static boolean isClassStrategySet(){
+		if(AtomicAction.s_simstrategy == null){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	public static void setClassStrategy(SimilarityActionMetricStrategy s){
+		AtomicAction.s_simstrategy = s;
+	}
+	
 
 	@Override
 	public double similarity(Action i) {
-		// TODO Auto-generated method stub
-		return 0;
+		//See if the user has defined similarity for each specific input, for all inputs
+		//  of a specific type, of defered to superclass
+		if(this.simStrategy != null){
+			return simStrategy.similarity(this, i);
+		}else if(AtomicAction.isClassStrategySet()){
+			return AtomicAction.similarity(this, i);
+		}else{
+			//normally we would defer to superclass, but super
+			// is abstract
+			System.err.println("Problem. In AtomicInput no similarity metric set!");
+			return 0;
+		}
 	}
 }

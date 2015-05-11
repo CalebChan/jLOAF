@@ -3,12 +3,12 @@ package org.jLOAF.inputs.atomic;
 import org.jLOAF.inputs.AtomicInput;
 import org.jLOAF.inputs.Feature;
 import org.jLOAF.inputs.Input;
-import org.jLOAF.sim.SimilarityMetricStrategy;
+import org.jLOAF.sim.SimilarityInputMetricStrategy;
 
 public class MatrixCell extends AtomicInput {
 
 	private static final long serialVersionUID = 1L;
-	private static SimilarityMetricStrategy simMet;
+	private static SimilarityInputMetricStrategy simMet;
 	
 	public MatrixCell(String name, Feature f) {
 		super(name, f);
@@ -39,7 +39,7 @@ public class MatrixCell extends AtomicInput {
 		}
 	}
 
-	public static void setClassSimilarityMetric(SimilarityMetricStrategy s){
+	public static void setClassSimilarityMetric(SimilarityInputMetricStrategy s){
 		MatrixCell.simMet = s;
 	}
 }

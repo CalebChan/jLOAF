@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.jLOAF.sim.SimilarityActionMetricStrategy;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,6 +13,8 @@ public class ComplexAction extends Action {
 	private static final long serialVersionUID = 1L;
 	
 	private Map<String,Action> collect;
+	
+	private static SimilarityActionMetricStrategy s_simstrategy;
 	
 	public ComplexAction(String name) {
 		super(name);
@@ -73,7 +76,33 @@ public class ComplexAction extends Action {
 
 	@Override
 	public double similarity(Action i) {
-		// TODO Auto-generated method stub
-		return 0;
+		//See if the user has defined similarity for each specific input, for all inputs
+		//  of a specific type, of defered to superclass
+		if(this.simStrategy != null){
+			return simStrategy.similarity(this, i);
+		}else if(ComplexAction.isClassStrategySet()){
+			return ComplexAction.similarity(this, i);
+		}else{
+			//normally we would defer to superclass, but super
+			// is abstract
+			System.err.println("Problem. In ComplexInput no similarity metric set!");
+			return 0;
+		}
+	}
+	
+	private static double similarity(Action complexInput, Action i) {
+		return ComplexAction.s_simstrategy.similarity(complexInput, i);
+	}
+
+	public static boolean isClassStrategySet(){
+		if(ComplexAction.s_simstrategy == null){
+			return false;
+		}else{
+			return true;
+		}
+	}
+
+	public static void setClassStrategy(SimilarityActionMetricStrategy s){
+		ComplexAction.s_simstrategy = s;
 	}
 }

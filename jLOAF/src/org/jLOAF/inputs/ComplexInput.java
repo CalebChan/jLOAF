@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
 
-import org.jLOAF.sim.SimilarityMetricStrategy;
+import org.jLOAF.sim.SimilarityInputMetricStrategy;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,7 +14,7 @@ public class ComplexInput extends Input {
 
 	private Map<String,Input> collect;
 	
-	private static SimilarityMetricStrategy s_simstrategy;
+	private static SimilarityInputMetricStrategy s_simstrategy;
 	
 	public ComplexInput(String name) {
 		super(name);
@@ -70,7 +70,7 @@ public class ComplexInput extends Input {
 		}
 	}
 
-	public static void setClassStrategy(SimilarityMetricStrategy s){
+	public static void setClassStrategy(SimilarityInputMetricStrategy s){
 		ComplexInput.s_simstrategy = s;
 	}
 	

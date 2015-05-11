@@ -4,14 +4,14 @@
  */
 package org.jLOAF.inputs;
 
-import org.jLOAF.sim.SimilarityMetricStrategy;
+import org.jLOAF.sim.SimilarityInputMetricStrategy;
 import org.json.JSONObject;
 
 public class AtomicInput extends Input {
 
 	private static final long serialVersionUID = 1L;
 
-	private static SimilarityMetricStrategy s_simstrategy;
+	private static SimilarityInputMetricStrategy s_simstrategy;
 	
 	protected Feature feat;
 	
@@ -61,7 +61,7 @@ public class AtomicInput extends Input {
 		}
 	}
 	
-	public static void setClassStrategy(SimilarityMetricStrategy s){
+	public static void setClassStrategy(SimilarityInputMetricStrategy s){
 		AtomicInput.s_simstrategy = s;
 	}
 	

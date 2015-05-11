@@ -5,9 +5,9 @@ import jloaf.util.BaselineCaseParser;
 import org.jLOAF.casebase.CaseBase;
 import org.jLOAF.casebase.CaseRun;
 import org.jLOAF.reasoning.SequentialReasoning;
-import org.jLOAF.sim.SimilarityMetricStrategy;
-import org.jLOAF.sim.atomic.Equality;
-import org.jLOAF.sim.complex.Mean;
+import org.jLOAF.sim.SimilarityInputMetricStrategy;
+import org.jLOAF.sim.atomic.InputEquality;
+import org.jLOAF.sim.complex.InputMean;
 
 
 
@@ -34,13 +34,13 @@ public class BaselineTest extends AbstractTestFramework {
 	}
 
 	@Override
-	public SimilarityMetricStrategy getAtomicInputSimMetric(){
-		return new Equality();
+	public SimilarityInputMetricStrategy getAtomicInputSimMetric(){
+		return new InputEquality();
 	}
 
 	@Override
-	public SimilarityMetricStrategy getComplexInputSimMetric(){
-		return new Mean();
+	public SimilarityInputMetricStrategy getComplexInputSimMetric(){
+		return new InputMean();
 	}
 
 	@Override
