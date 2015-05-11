@@ -9,7 +9,7 @@ import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
 import org.jLOAF.casebase.CaseRun;
 import org.jLOAF.inputs.Input;
-import org.jLOAF.retrieve.AbstractWeightedSequenceRetrieval;
+import org.jLOAF.retrieve.SequenceRetrieval;
 import org.jLOAF.retrieve.kNN;
 import org.jLOAF.retrieve.kNNRandom;
 import org.jLOAF.retrieve.sequence.DefaultWeightSequenceRetrieval;
@@ -18,7 +18,7 @@ import org.jLOAF.util.JLOAFLogger.Level;
 
 public class SequentialReasoning implements Reasoning  {
 
-	private AbstractWeightedSequenceRetrieval retrival;
+	private SequenceRetrieval retrival;
 	
 	public static final double DEFAULT_THREHSOLD = 0.5;
 	public static final double DEFAULT_SOLUTION_THRESHOLD = 0.0;
@@ -41,7 +41,7 @@ public class SequentialReasoning implements Reasoning  {
 		this(cb, currentRun, k, useRandomKNN, new DefaultWeightSequenceRetrieval(problemThreshold, solutionThreshold));
 	}
 	
-	public SequentialReasoning(CaseBase cb, CaseRun currentRun, int k, boolean useRandomKNN, AbstractWeightedSequenceRetrieval retrievalMethod){
+	public SequentialReasoning(CaseBase cb, CaseRun currentRun, int k, boolean useRandomKNN, SequenceRetrieval retrievalMethod){
 		retrival = retrievalMethod;
 		this.currentRun = currentRun;
 		if (!useRandomKNN){

@@ -3,9 +3,9 @@ package org.jLOAF.retrieve.sequence;
 import org.jLOAF.action.Action;
 import org.jLOAF.casebase.CaseRun;
 import org.jLOAF.inputs.Input;
-import org.jLOAF.retrieve.AbstractWeightedSequenceRetrieval;
+import org.jLOAF.retrieve.SequenceRetrieval;
 
-public class DefaultWeightSequenceRetrieval extends AbstractWeightedSequenceRetrieval {
+public class DefaultWeightSequenceRetrieval extends SequenceRetrieval {
 
 	public DefaultWeightSequenceRetrieval(double probThresh, double solThresh) {
 		super(probThresh, solThresh);

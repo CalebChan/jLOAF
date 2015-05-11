@@ -25,7 +25,6 @@ public class AtomicAction extends Action {
 	}
 	
 	public void addFeature(Feature f){
-		//this.features.add(f);
 		this.feat = f;
 	}
 	
@@ -34,11 +33,6 @@ public class AtomicAction extends Action {
 	}
 	
 	public Feature getFeature(int idx){
-//		if(idx > features.size() -1){
-//			return null;
-//		}else{
-//			return features.get(idx);
-//		}
 		return getFeature();
 	}
 	
@@ -74,5 +68,11 @@ public class AtomicAction extends Action {
 		o.put("Feature", feat);
 		
 		return o;
+	}
+
+	@Override
+	public double similarity(Action i) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

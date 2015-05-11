@@ -70,4 +70,10 @@ public class ComplexAction extends Action {
 		o.put("Action", a);
 		return o;
 	}
+
+	@Override
+	public double similarity(Action i) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
