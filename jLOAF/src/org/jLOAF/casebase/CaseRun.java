@@ -8,6 +8,11 @@ import java.util.LinkedList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * This class will hold a run.
+ * @author calebchan
+ *
+ */
 public class CaseRun implements Serializable{
 
 	/**
@@ -31,11 +36,20 @@ public class CaseRun implements Serializable{
 		return this.runName;
 	}
 	
+	/**
+	 * This method will add a case to the run and change the case's parent run to this run. Cases should be added from start of the run to end of run.
+	 * @param c The case to be added
+	 */
 	public void addCaseToRun(Case c){
+		// Highest index should be current case
 		this.run.push(c);
 		c.setParentCaseRun(this);
 	}
 	
+	/**
+	 * This method will add a case to the run, but will not modify the parent run of the case
+	 * @param c The case to be added
+	 */
 	public void appendCaseToRun(Case c){
 		this.run.push(c);
 	}
@@ -61,6 +75,9 @@ public class CaseRun implements Serializable{
 		this.addCaseToRun(newCase);
 	}
 	
+	/**
+	 * If cases are added in from current to start, use this method to reverse the run order
+	 */
 	public void reverseRun(){
 		Collections.reverse(run);
 	}
@@ -75,19 +92,7 @@ public class CaseRun implements Serializable{
 	 * @return
 	 */
 	public Case getCasePastOffset(int time){
-		return this.run.get(time);
-	}
-	
-	/**
-	 * This method will get the case at the current time in the list. This means that the case at time 0 is the start of the run
-	 * and length() - 1 is the end of the run.
-	 * @param time
-	 * @return
-	 * @deprecated
-	 */
-	public Case getCase(int time){
 		return this.run.get(this.getRunLength() - 1 - time);
-//		return this.run.get(Math.max(this.run.size() - 1 - time, 0));
 	}
 	
 	public int getRunLength(){

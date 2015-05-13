@@ -37,7 +37,11 @@ public class SequentialReasoning implements Reasoning  {
 	}
 	
 	public SequentialReasoning(CaseBase cb, CaseRun currentRun, int k, boolean useRandomKNN, double problemThreshold, double solutionThreshold){		
-		retrival = new SequenceRetrieval(problemThreshold, solutionThreshold);
+		this(cb, currentRun, k, useRandomKNN, new SequenceRetrieval(problemThreshold, solutionThreshold));
+	}
+	
+	public SequentialReasoning(CaseBase cb, CaseRun currentRun, int k, boolean useRandomKNN, SequenceRetrieval retrival){
+		this.retrival = retrival;
 		this.currentRun = currentRun;
 		if (!useRandomKNN){
 			this.knn = new kNN(k, cb);
@@ -46,6 +50,7 @@ public class SequentialReasoning implements Reasoning  {
 		}
 		logger = JLOAFLogger.getInstance();
 	}
+	
 	public void setCurrentRun(CaseRun currentRun){
 		this.currentRun = currentRun;
 	}
