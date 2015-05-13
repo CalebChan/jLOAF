@@ -31,7 +31,7 @@ public class SequenceRetrieval {
 	protected double getActionSimilarity(CaseRun currentRun, CaseRun pastRun, int time){
 		Action pastAction = pastRun.getCasePastOffset(time).getAction();
 		Action runAction = currentRun.getCasePastOffset(time).getAction();
-		return similarityActions(pastAction, runAction);
+		return pastAction.similarity(runAction);
 	}
 	
 	private CaseRun getBestRun(List<CaseRun> candidateRun, CaseRun run, int time, boolean isState){
@@ -45,7 +45,7 @@ public class SequenceRetrieval {
 			if (isState){
 				s = r.getCasePastOffset(time).getInput().similarity(run.getCasePastOffset(time).getInput());
 			}else{
-				s = similarityActions(r.getCasePastOffset(time).getAction(), run.getCasePastOffset(time).getAction());
+				s = r.getCasePastOffset(time).getAction().similarity(run.getCasePastOffset(time).getAction());
 			}
 			if (s > bestSim){
 				bestSim = s;
@@ -103,13 +103,6 @@ public class SequenceRetrieval {
 			return a;
 		}
 		return bestRun.getCurrentCase().getAction();
-	}
-
-	protected double similarityActions(Action a1, Action a2){
-		if (a1.equals(a2)){
-			return 1.0;
-		}
-		return 0.0;
 	}
 	
 	public Action actionRetrival(CaseRun run, List<CaseRun> pastRuns, int time){
