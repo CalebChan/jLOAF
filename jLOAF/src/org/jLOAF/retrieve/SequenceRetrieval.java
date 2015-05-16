@@ -45,7 +45,10 @@ public class SequenceRetrieval {
 			if (isState){
 				s = r.getCasePastOffset(time).getInput().similarity(run.getCasePastOffset(time).getInput());
 			}else{
-				s = r.getCasePastOffset(time).getAction().similarity(run.getCasePastOffset(time).getAction());
+				// Current problem case does not have an action
+				if (time != 0){
+					s = r.getCasePastOffset(time).getAction().similarity(run.getCasePastOffset(time).getAction());
+				}
 			}
 			if (s > bestSim){
 				bestSim = s;

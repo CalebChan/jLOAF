@@ -10,7 +10,9 @@ public class ActionEquality implements SimilarityActionMetricStrategy{
 	public double similarity(Action a1, Action a2) {
 		
 		if (!(a1 instanceof AtomicAction) || !(a2 instanceof AtomicAction)){
-			throw new IllegalArgumentException("Equality.similarity(...): One of the arguments was not an AtomicInput.");
+			String errorStr = "Equality.similarity(...): One of the arguments was not an AtomicInput.";
+			errorStr += "Type A1 : " + ((a1 == null) ? "NULL" : a1.getClass().getName()) + ", Type A2 : " + ((a2 == null) ? "NULL" : a2.getClass().getName());
+			throw new IllegalArgumentException(errorStr);
 		}
 		
 		double val1 = ((AtomicAction)a1).getFeature().getValue();

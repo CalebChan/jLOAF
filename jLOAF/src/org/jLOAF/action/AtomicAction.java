@@ -95,7 +95,7 @@ public class AtomicAction extends Action {
 		}else{
 			//normally we would defer to superclass, but super
 			// is abstract
-			System.err.println("Problem. In AtomicInput no similarity metric set!");
+			System.err.println("Problem. In AtomicAction no similarity metric set!");
 			return 0;
 		}
 	}

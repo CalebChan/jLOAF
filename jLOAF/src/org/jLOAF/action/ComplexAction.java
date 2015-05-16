@@ -85,7 +85,7 @@ public class ComplexAction extends Action {
 		}else{
 			//normally we would defer to superclass, but super
 			// is abstract
-			System.err.println("Problem. In ComplexInput no similarity metric set!");
+			System.err.println("Problem. In ComplexAction no similarity metric set!");
 			return 0;
 		}
 	}
