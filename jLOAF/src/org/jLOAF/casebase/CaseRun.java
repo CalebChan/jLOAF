@@ -83,7 +83,7 @@ public class CaseRun implements Serializable{
 	}
 	
 	public int getTimeStep(Case c){
-		return this.getRunLength() - 1 - this.run.indexOf(c);
+		return this.run.indexOf(c);
 	}
 	
 	/**
@@ -92,7 +92,7 @@ public class CaseRun implements Serializable{
 	 * @return
 	 */
 	public Case getCasePastOffset(int time){
-		return this.run.get(this.getRunLength() - 1 - time);
+		return this.run.get(time);
 	}
 	
 	public int getRunLength(){
