@@ -3,7 +3,6 @@ package org.jLOAF.reasoning;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jLOAF.Reasoning;
 import org.jLOAF.action.Action;
 import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
@@ -12,19 +11,17 @@ import org.jLOAF.inputs.Input;
 import org.jLOAF.retrieve.KNNRetrieval;
 import org.jLOAF.retrieve.kNN;
 
-public class KNNBacktracking implements Reasoning {
+public class KNNBacktracking extends BacktrackingReasoning {
 
 	private kNN knn;
-	
-	private CaseRun currentRun;
-	
+		
 	private KNNRetrieval retrival;
 	
-	public KNNBacktracking(CaseBase cb, CaseRun currentRun, int k, int candidateK) {
+	public KNNBacktracking(CaseBase cb, CaseRun currentRun, int k) {
 		this.knn = new kNN(k, cb);
 		this.currentRun = currentRun;
 		
-		this.retrival = new KNNRetrieval(candidateK);
+		this.retrival = new KNNRetrieval();
 	}
 	
 	@Override

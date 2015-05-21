@@ -7,12 +7,11 @@ import java.util.List;
 import org.jLOAF.casebase.CaseRun;
 
 public class kNNUtil {
-	
-	public kNNUtil(){
-		
-	}
 
 	public List<CaseRun> kNNCaseRun(List<CaseRun> pool, CaseRun target, boolean isState, int time, int k){
+		if (k < 1){
+			k = 1;
+		}
 		ArrayList<SimilarityPair> pair = new ArrayList<SimilarityPair>();
 		for (CaseRun r : pool){
 			if (time < r.getRunLength()){
@@ -30,16 +29,20 @@ public class kNNUtil {
 		return newRuns;
 	}
 	
-	public double calculateSimilarity(CaseRun run, CaseRun target, boolean isState, int time){
+	private double calculateSimilarity(CaseRun run, CaseRun target, boolean isState, int time){
 		double sim = 0;
 		for (int i = time; i >= 0; i--){
 			if (isState && i == time){
 				sim += run.getCasePastOffset(i).getInput().similarity(target.getCasePastOffset(i).getInput());
-			}
-			
-			if (i != 0){
+			}else if (!isState && i == time){
 				sim += run.getCasePastOffset(i).getAction().similarity(target.getCasePastOffset(i).getAction());
+			}else{
+				sim += run.getCasePastOffset(i).getInput().similarity(target.getCasePastOffset(i).getInput());
+				if (i != 0){
+					sim += run.getCasePastOffset(i).getAction().similarity(target.getCasePastOffset(i).getAction());
+				}
 			}
+
 		}
 		return sim;
 	}

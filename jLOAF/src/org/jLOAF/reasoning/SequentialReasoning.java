@@ -3,7 +3,6 @@ package org.jLOAF.reasoning;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jLOAF.Reasoning;
 import org.jLOAF.action.Action;
 import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
@@ -15,13 +14,12 @@ import org.jLOAF.retrieve.kNNRandom;
 import org.jLOAF.util.JLOAFLogger;
 import org.jLOAF.util.JLOAFLogger.Level;
 
-public class SequentialReasoning implements Reasoning  {
+public class SequentialReasoning extends BacktrackingReasoning  {
 
 	private SequenceRetrieval retrival;
 	
 	public static final double DEFAULT_THREHSOLD = 0.5;
 	public static final double DEFAULT_SOLUTION_THRESHOLD = 0.0;
-	private CaseRun currentRun;
 	
 	private kNN knn;
 	
@@ -49,10 +47,6 @@ public class SequentialReasoning implements Reasoning  {
 			this.knn = new kNNRandom(k, cb);
 		}
 		logger = JLOAFLogger.getInstance();
-	}
-	
-	public void setCurrentRun(CaseRun currentRun){
-		this.currentRun = currentRun;
 	}
 	
 	@Override

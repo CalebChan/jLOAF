@@ -4,9 +4,13 @@ import jloaf.util.BaselineCaseParser;
 
 import org.jLOAF.casebase.CaseBase;
 import org.jLOAF.casebase.CaseRun;
+import org.jLOAF.reasoning.BacktrackingReasoning;
 import org.jLOAF.reasoning.SequentialReasoning;
+import org.jLOAF.sim.SimilarityActionMetricStrategy;
 import org.jLOAF.sim.SimilarityInputMetricStrategy;
+import org.jLOAF.sim.atomic.ActionEquality;
 import org.jLOAF.sim.atomic.InputEquality;
+import org.jLOAF.sim.complex.ActionMean;
 import org.jLOAF.sim.complex.InputMean;
 
 
@@ -28,8 +32,16 @@ public class BaselineTest extends AbstractTestFramework {
 	
 	private static final int DEFAULT_K = 2;
 	
+	protected BaselineTest(boolean b) {
+		super(b);
+	}
+	
+	public BaselineTest() {
+		this(false);
+	}
+
 	@Override
-	public SequentialReasoning buildReasoning(CaseBase cb, CaseRun problemRun){
+	public BacktrackingReasoning buildReasoning(CaseBase cb, CaseRun problemRun){
 		return new SequentialReasoning(cb, problemRun, DEFAULT_K);
 	}
 
@@ -56,5 +68,15 @@ public class BaselineTest extends AbstractTestFramework {
 	@Override
 	public AbstractCaseParser getCaseParser() {
 		return new BaselineCaseParser();
+	}
+
+	@Override
+	public SimilarityActionMetricStrategy getAtomicActionSimMetric() {
+		return new ActionEquality();
+	}
+
+	@Override
+	public SimilarityActionMetricStrategy getComplexActionSimMetric() {
+		return new ActionMean();
 	}
 }

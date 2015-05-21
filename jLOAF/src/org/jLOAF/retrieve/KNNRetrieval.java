@@ -8,12 +8,9 @@ import org.jLOAF.casebase.CaseRun;
 
 public class KNNRetrieval{
 	
-	private int k;
-	
 	private kNNUtil util;
 	 
-	public KNNRetrieval(int k){
-		this.k = k;
+	public KNNRetrieval(){
 		util = new kNNUtil();
 	}
 
@@ -44,12 +41,12 @@ public class KNNRetrieval{
 		CaseRun bestRun = getBestRun(pastRuns, run, time, true);
 		List<CaseRun> candidateRuns = pastRuns;
 		for (int i = 0; i < run.getRunLength(); i++){
-			candidateRuns = util.kNNCaseRun(candidateRuns, run, true, time, k);
+			candidateRuns = util.kNNCaseRun(candidateRuns, run, true, time, candidateRuns.size() - 1);
 			if (hasConsensus(candidateRuns)){
 				return candidateRuns.get(0).getCurrentCase().getAction();
 			}
 			time++;
-			candidateRuns = util.kNNCaseRun(candidateRuns, run, false, time, k);
+			candidateRuns = util.kNNCaseRun(candidateRuns, run, false, time, candidateRuns.size() - 1);
 			if (hasConsensus(candidateRuns)){
 				return candidateRuns.get(0).getCurrentCase().getAction();
 			}
