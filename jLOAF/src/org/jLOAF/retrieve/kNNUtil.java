@@ -34,19 +34,19 @@ public class kNNUtil {
 		time = Math.min(time, target.getRunLength() - 1);
 		time = Math.min(time, run.getRunLength() - 1);
 		for (int i = time; i >= 0; i--){
-			if (isState && i == time){
-				sim += run.getCasePastOffset(i).getInput().similarity(target.getCasePastOffset(i).getInput());
-			}else if (!isState && i == time){
-//				sim += run.getCasePastOffset(i).getAction().similarity(target.getCasePastOffset(i).getAction());
-			}else{
-				sim += run.getCasePastOffset(i).getInput().similarity(target.getCasePastOffset(i).getInput());
-				if (i != 0){
+			if (i != 0){
+				if (!isState && i == time){
+					sim += run.getCasePastOffset(i).getAction().similarity(target.getCasePastOffset(i).getAction());
+				}else{
+					sim += run.getCasePastOffset(i).getInput().similarity(target.getCasePastOffset(i).getInput());
 					sim += run.getCasePastOffset(i).getAction().similarity(target.getCasePastOffset(i).getAction());
 				}
+			}else{
+				sim += run.getCasePastOffset(i).getInput().similarity(target.getCasePastOffset(i).getInput());
 			}
 
 		}
-		return sim;
+		return sim / (1.0 * (time + 1));
 	}
 
 	
