@@ -84,7 +84,7 @@ public class SequenceRetrieval {
 				bestSim = sim;
 				bestRun = past;
 			}
-			System.out.println("State: Sim : " + sim);
+//			System.out.println("State: Sim : " + sim);
 			if (sim > this.problemThreshold){
 				NN.add(past);
 				if (!NNAction.contains(past.getCurrentCase().getAction())){
@@ -136,7 +136,7 @@ public class SequenceRetrieval {
 				bestSim = sim;
 				bestRun = past;
 			}
-			System.out.println("Action: Sim : " + sim);
+//			System.out.println("Action: Sim : " + sim);
 			if (sim > this.solutionThreshold){
 				NN.add(past);
 				if (!NNAction.contains(past.getCurrentCase().getAction())){

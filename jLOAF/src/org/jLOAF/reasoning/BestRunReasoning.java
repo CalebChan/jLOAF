@@ -8,20 +8,19 @@ import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
 import org.jLOAF.casebase.CaseRun;
 import org.jLOAF.inputs.Input;
-import org.jLOAF.retrieve.KNNRetrieval;
 import org.jLOAF.retrieve.kNN;
+import org.jLOAF.retrieve.kNNUtil;
 
-public class KNNBacktracking extends BacktrackingReasoning {
+public class BestRunReasoning extends BacktrackingReasoning{
 
 	private kNN knn;
-		
-	private KNNRetrieval retrival;
 	
-	public KNNBacktracking(CaseBase cb, CaseRun currentRun, int k) {
+	private kNNUtil util;
+	
+	public BestRunReasoning(CaseBase cb, int k){
 		this.knn = new kNN(k, cb);
-		this.currentRun = currentRun;
 		
-		this.retrival = new KNNRetrieval();
+		util = new kNNUtil();
 	}
 	
 	@Override
@@ -54,8 +53,17 @@ public class KNNBacktracking extends BacktrackingReasoning {
 			//System.out.println("Consensus at : " + this.currentRun.getRunLength());
 			return actions.get(0);
 		}
-		Action a = retrival.retrieve(currentRun, candidates, 0);
+		Action a = getBestRun(currentRun, candidates, 0);
 		return a;
 	}
+	
+	private Action getBestRun(CaseRun currentRun, List<CaseRun> candidates, int time){
+		List<CaseRun> finalRun = util.kNNCaseRun(candidates, currentRun, true, 0, 1);
+		if (finalRun.size() != 1){
+			throw new ArithmeticException("Final Size is not 1");
+		}
+		return finalRun.get(0).getCurrentCase().getAction();
+	}
+
 
 }

@@ -31,11 +31,13 @@ public class kNNUtil {
 	
 	private double calculateSimilarity(CaseRun run, CaseRun target, boolean isState, int time){
 		double sim = 0;
+		time = Math.min(time, target.getRunLength() - 1);
+		time = Math.min(time, run.getRunLength() - 1);
 		for (int i = time; i >= 0; i--){
 			if (isState && i == time){
 				sim += run.getCasePastOffset(i).getInput().similarity(target.getCasePastOffset(i).getInput());
 			}else if (!isState && i == time){
-				sim += run.getCasePastOffset(i).getAction().similarity(target.getCasePastOffset(i).getAction());
+//				sim += run.getCasePastOffset(i).getAction().similarity(target.getCasePastOffset(i).getAction());
 			}else{
 				sim += run.getCasePastOffset(i).getInput().similarity(target.getCasePastOffset(i).getInput());
 				if (i != 0){
