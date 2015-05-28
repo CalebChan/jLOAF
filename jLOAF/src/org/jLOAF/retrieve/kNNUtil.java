@@ -5,8 +5,15 @@ import java.util.Collections;
 import java.util.List;
 
 import org.jLOAF.casebase.CaseRun;
+import org.jLOAF.retrieve.sequence.weight.WeightFunction;
 
 public class kNNUtil {
+	
+	private static WeightFunction function;
+	
+	public static void setWeightFunction(WeightFunction function){
+		kNNUtil.function = function;
+	}
 
 	public List<CaseRun> kNNCaseRun(List<CaseRun> pool, CaseRun target, boolean isState, int time, int k){
 		if (k < 1){
@@ -36,13 +43,13 @@ public class kNNUtil {
 		for (int i = time; i >= 0; i--){
 			if (i != 0){
 				if (!isState && i == time){
-					sim += run.getCasePastOffset(i).getAction().similarity(target.getCasePastOffset(i).getAction());
+					sim += run.getCasePastOffset(i).getAction().similarity(target.getCasePastOffset(i).getAction()) * function.getWeightValue(i);
 				}else{
-					sim += run.getCasePastOffset(i).getInput().similarity(target.getCasePastOffset(i).getInput());
-					sim += run.getCasePastOffset(i).getAction().similarity(target.getCasePastOffset(i).getAction());
+					sim += run.getCasePastOffset(i).getInput().similarity(target.getCasePastOffset(i).getInput()) * function.getWeightValue(i);
+					sim += run.getCasePastOffset(i).getAction().similarity(target.getCasePastOffset(i).getAction()) * function.getWeightValue(i);
 				}
 			}else{
-				sim += run.getCasePastOffset(i).getInput().similarity(target.getCasePastOffset(i).getInput());
+				sim += run.getCasePastOffset(i).getInput().similarity(target.getCasePastOffset(i).getInput()) * function.getWeightValue(i);
 			}
 
 		}

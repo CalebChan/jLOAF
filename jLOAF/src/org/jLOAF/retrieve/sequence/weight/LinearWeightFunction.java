@@ -12,7 +12,7 @@ public class LinearWeightFunction implements WeightFunction {
 	public double getWeightValue(int time) {
 		return Math.max(0, 1 - this.weight * time);
 	}
-
+	@Override
 	public String toString(){
 		return "LinearWeightFunction-" + this.weight;
 	}
