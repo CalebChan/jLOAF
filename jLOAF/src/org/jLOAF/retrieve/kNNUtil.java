@@ -18,6 +18,8 @@ public class kNNUtil {
 	public List<CaseRun> kNNCaseRun(List<CaseRun> pool, CaseRun target, boolean isState, int time, int k){
 		if (k < 1){
 			k = 1;
+		}else if (k >= pool.size()){
+			k  = pool.size() - 1;
 		}
 		ArrayList<SimilarityPair> pair = new ArrayList<SimilarityPair>();
 		for (CaseRun r : pool){
@@ -31,7 +33,7 @@ public class kNNUtil {
 		
 		ArrayList<CaseRun> newRuns = new ArrayList<CaseRun>();
 		for (int i = 0; i < k && i < pair.size(); i++){
-			newRuns.add(pair.get(i).getCaseRun());
+			newRuns.add(pair.get(pair.size() - 1 - i).getCaseRun());
 		}
 		return newRuns;
 	}
@@ -80,6 +82,11 @@ public class kNNUtil {
 				return 0;
 			}
 		}
-		
+		@Override
+		public String toString(){
+			String s = "Sim : " + this.similarity + "\n";
+			s += this.run.toString();
+			return s;
+		}
 	}
 }

@@ -30,7 +30,7 @@ public class BaselineTest extends AbstractTestFramework {
 		"0.4 4",
 	};
 	
-	private static final int DEFAULT_K = 2;
+	protected static final int DEFAULT_K = 2;
 	
 	protected BaselineTest(boolean b) {
 		super(b);

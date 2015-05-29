@@ -1,6 +1,7 @@
 package org.jLOAF.reasoning;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.jLOAF.action.Action;
@@ -10,6 +11,7 @@ import org.jLOAF.casebase.CaseRun;
 import org.jLOAF.inputs.Input;
 import org.jLOAF.retrieve.KNNRetrieval;
 import org.jLOAF.retrieve.kNN;
+import org.jLOAF.retrieve.kNNRandom;
 
 public class KNNBacktracking extends BacktrackingReasoning {
 
@@ -17,11 +19,22 @@ public class KNNBacktracking extends BacktrackingReasoning {
 		
 	private KNNRetrieval retrival;
 	
+	private boolean shuffleCandidates;
+	
 	public KNNBacktracking(CaseBase cb, CaseRun currentRun, int k) {
-		this.knn = new kNN(k, cb);
+		this(cb, currentRun, k, false, false);
+	}
+	
+	public KNNBacktracking(CaseBase cb, CaseRun currentRun, int k, boolean randomK, boolean shuffleCandidates){
+		if (randomK){
+			this.knn = new kNNRandom(k, cb);
+		}else {
+			this.knn = new kNN(k, cb);
+		}
 		this.currentRun = currentRun;
 		
 		this.retrival = new KNNRetrieval();
+		this.shuffleCandidates = shuffleCandidates;
 	}
 	
 	@Override
@@ -51,9 +64,13 @@ public class KNNBacktracking extends BacktrackingReasoning {
 		}
 		
 		if (actions.size() == 1){
-			//System.out.println("Consensus at : " + this.currentRun.getRunLength());
 			return actions.get(0);
 		}
+		
+		if (shuffleCandidates){
+			Collections.shuffle(candidates);
+		}
+		
 		Action a = retrival.retrieve(currentRun, candidates, 0);
 		return a;
 	}

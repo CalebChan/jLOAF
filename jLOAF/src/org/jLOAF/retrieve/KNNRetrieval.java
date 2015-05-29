@@ -43,15 +43,17 @@ public class KNNRetrieval{
 		for (int i = 0; i < run.getRunLength(); i++){
 			candidateRuns = util.kNNCaseRun(candidateRuns, run, true, time, candidateRuns.size() - 1);
 			if (hasConsensus(candidateRuns)){
+				System.out.println("Consensus RUN : " + candidateRuns.size());
 				return candidateRuns.get(0).getCurrentCase().getAction();
 			}
 			time++;
 			candidateRuns = util.kNNCaseRun(candidateRuns, run, false, time, candidateRuns.size() - 1);
 			if (hasConsensus(candidateRuns)){
+				System.out.println("Consensus RUN : " + candidateRuns.size());
 				return candidateRuns.get(0).getCurrentCase().getAction();
 			}
 		}
-		
+		System.out.println("Best RUN");
 		return bestRun.getCurrentCase().getAction();
 	}
 	
