@@ -9,6 +9,7 @@ import org.jLOAF.casebase.CaseBase;
 import org.jLOAF.casebase.CaseRun;
 import org.jLOAF.inputs.Input;
 import org.jLOAF.retrieve.kNN;
+import org.jLOAF.retrieve.kNNRandom;
 import org.jLOAF.retrieve.kNNUtil;
 
 public class BestRunReasoning extends BacktrackingReasoning{
@@ -19,6 +20,16 @@ public class BestRunReasoning extends BacktrackingReasoning{
 	
 	public BestRunReasoning(CaseBase cb, int k){
 		this.knn = new kNN(k, cb);
+		
+		util = new kNNUtil();
+	}
+	
+	public BestRunReasoning(CaseBase cb, int k, boolean randomK){
+		if(randomK){
+			this.knn = new kNNRandom(k, cb);
+		}else{
+			this.knn = new kNN(k, cb);
+		}
 		
 		util = new kNNUtil();
 	}
@@ -49,18 +60,21 @@ public class BestRunReasoning extends BacktrackingReasoning{
 			}
 		}
 		
-		if (actions.size() == 1){
-			//System.out.println("Consensus at : " + this.currentRun.getRunLength());
+		/*if (actions.size() == 1){
+			System.out.println("Consensus at : " + this.currentRun.getRunLength());
 			return actions.get(0);
-		}
-		Action a = getBestRun(currentRun, candidates, 0);
+		}*/
+		Action a = getBestRun(currentRun, candidates);
 		return a;
 	}
 	
-	private Action getBestRun(CaseRun currentRun, List<CaseRun> candidates, int time){
-		List<CaseRun> finalRun = util.kNNCaseRun(candidates, currentRun, true, 0, 1);
+	private Action getBestRun(CaseRun currentRun, List<CaseRun> candidates){
+		
+		int time = currentRun.getRunLength() - 1;
+		
+		List<CaseRun> finalRun = util.kNNCaseRun(candidates, currentRun, true, time, 1);
 		if (finalRun.size() != 1){
-			throw new ArithmeticException("Final Size is not 1");
+			throw new ArithmeticException("Final Size is not 1 : " + finalRun.size());
 		}
 		return finalRun.get(0).getCurrentCase().getAction();
 	}

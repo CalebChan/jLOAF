@@ -70,7 +70,6 @@ public class KNNBacktracking extends BacktrackingReasoning {
 		if (shuffleCandidates){
 			Collections.shuffle(candidates);
 		}
-		
 		Action a = retrival.retrieve(currentRun, candidates, 0);
 		return a;
 	}

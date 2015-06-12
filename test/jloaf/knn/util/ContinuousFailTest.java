@@ -77,7 +77,7 @@ public class ContinuousFailTest extends BaselineTest{
 	@Override
 	public BacktrackingReasoning buildReasoning(CaseBase cb, CaseRun problemRun){
 		kNNUtil.setWeightFunction(new LinearWeightFunction(0.2));
-		return new KNNBacktracking(cb, problemRun, 4);
+		return new KNNBacktracking(cb, problemRun, 4, false, true);
 	}
 	
 }

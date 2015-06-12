@@ -8,6 +8,8 @@ import org.jLOAF.casebase.CaseRun;
 
 public class KNNRetrieval{
 	
+	public static final double DEFAULT_THRESHOLD = -0.25;
+	
 	private kNNUtil util;
 	 
 	public KNNRetrieval(){
@@ -41,19 +43,19 @@ public class KNNRetrieval{
 		CaseRun bestRun = getBestRun(pastRuns, run, time, true);
 		List<CaseRun> candidateRuns = pastRuns;
 		for (int i = 0; i < run.getRunLength(); i++){
-			candidateRuns = util.kNNCaseRun(candidateRuns, run, true, time, candidateRuns.size() - 1);
+			candidateRuns = util.kNNCaseRun(candidateRuns, run, true, time, candidateRuns.size() - 1, DEFAULT_THRESHOLD);
 			if (hasConsensus(candidateRuns)){
-				System.out.println("Consensus RUN : " + candidateRuns.size());
+//				System.out.println("Con RUN");
 				return candidateRuns.get(0).getCurrentCase().getAction();
 			}
 			time++;
-			candidateRuns = util.kNNCaseRun(candidateRuns, run, false, time, candidateRuns.size() - 1);
+			candidateRuns = util.kNNCaseRun(candidateRuns, run, false, time, candidateRuns.size() - 1, DEFAULT_THRESHOLD);
 			if (hasConsensus(candidateRuns)){
-				System.out.println("Consensus RUN : " + candidateRuns.size());
+//				System.out.println("Con RUN");
 				return candidateRuns.get(0).getCurrentCase().getAction();
 			}
 		}
-		System.out.println("Best RUN");
+//		System.out.println("Best RUN");
 		return bestRun.getCurrentCase().getAction();
 	}
 	

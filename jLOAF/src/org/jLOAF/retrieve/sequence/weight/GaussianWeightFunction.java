@@ -12,9 +12,9 @@ public class GaussianWeightFunction implements WeightFunction{
 	
 	@Override
 	public double getWeightValue(int time) {
-		double total = 1 / (this.std * Math.sqrt(2 * Math.PI));
-		double e = Math.exp(- Math.pow(time - this.mean, 2) / (2 * Math.pow(this.std, 2)));
-		return total * e;
+		double total = Math.sqrt(this.std * 2 * Math.PI);
+		double e = Math.exp(-Math.pow(time - this.mean, 2) / (2 * this.std));
+		return e / (1.0 * total);
 	}
 	
 	@Override
