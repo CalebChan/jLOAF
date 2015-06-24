@@ -1,5 +1,6 @@
 package org.jLOAF.util;
 
+import java.awt.BorderLayout;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +18,11 @@ import org.jLOAF.inputs.AtomicInput;
 import org.jLOAF.inputs.ComplexInput;
 import org.jLOAF.reasoning.BestRunReasoning;
 import org.jLOAF.retrieve.kNNUtil;
+import org.jLOAF.retrieve.sequence.weight.DecayWeightFunction;
 import org.jLOAF.retrieve.sequence.weight.FixedWeightFunction;
+import org.jLOAF.retrieve.sequence.weight.GaussianWeightFunction;
+import org.jLOAF.retrieve.sequence.weight.LinearWeightFunction;
+//import org.jLOAF.retrieve.sequence.weight.TimeVaryingWeightFunction;
 import org.jLOAF.retrieve.sequence.weight.WeightFunction;
 import org.jLOAF.sim.atomic.ActionEquality;
 import org.jLOAF.sim.atomic.InputEquality;
@@ -47,6 +52,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.util.Scanner;
+
 public class CandidateRunTotalView extends Application implements Observer{
 
 	private LineChart<Number, Number> lineChart;
@@ -70,6 +77,15 @@ public class CandidateRunTotalView extends Application implements Observer{
 		STATE
 	};
 	
+	String[] traceFiles={"FixedSequenceAgent.trace","SmartRandomAgent.trace", 
+			"SmartRandomExplorerAgent.trace", "SmartStraightLineAgent.trace",
+			"ZigzagAgent.trace"};
+	
+	String[] weightFunctions = {"DecayWeightFunction.java","FixedWeightFunction.java",
+								"GaussianWeightFunction.java", "LinearWeightFunction.java",};
+// TimeVaryingWeightFunction not included as constructor has not been initialized
+	
+	
 	public CandidateRunTotalView(){
 		this.allData = new ArrayList<Series<Number, Number>>();
 	}
@@ -80,7 +96,8 @@ public class CandidateRunTotalView extends Application implements Observer{
 		final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis(-DATA_SIZE * 2 + 1, 2, 1);
         lineChart = new LineChart<Number,Number>(xAxis,yAxis);
-        BorderPane pane = new BorderPane(lineChart);
+        BorderPane pane = new BorderPane();
+        pane.setCenter(lineChart);
         Scene scene  = new Scene(pane,800,600); 
         stage.setScene(scene);
         stage.show();
@@ -92,7 +109,48 @@ public class CandidateRunTotalView extends Application implements Observer{
 		AtomicAction.setClassStrategy(new ActionEquality());
 		ComplexAction.setClassStrategy(new ActionMean());
 		
-		WeightFunction f = new FixedWeightFunction(1);
+		Scanner a = new Scanner(System.in);
+		
+		int inputWeight = -1;
+		int parameter = 0;
+		int parameter2 = 0;
+		
+		while(inputWeight < 0 || inputWeight > 3){
+			System.out.println("Select a Weight Function (Enter Integer Only)");
+			for(int i = 0; i < weightFunctions.length; i++){
+				System.out.println(i + " - " + weightFunctions[i]);
+			}
+				inputWeight = Integer.parseInt(a.nextLine());
+		}
+		System.out.println("Enter the parameter value");
+		parameter = Integer.parseInt(a.nextLine());
+		
+		if(inputWeight == 2){
+			System.out.println("Enter the second parameter value");
+			parameter2 = Integer.parseInt(a.nextLine());
+		}
+		
+		
+		WeightFunction f = new FixedWeightFunction(1);	// default value
+		switch (inputWeight) {
+        	case 0:
+        		f = new DecayWeightFunction(parameter);
+                break;
+        	case 1:
+        		f = new FixedWeightFunction(parameter);
+        		break;
+        	case 2:
+        		f = new GaussianWeightFunction(parameter, parameter2);
+        		break;
+        	case 3:
+        		f = new LinearWeightFunction(parameter);
+        		break;
+//        	case 4:
+//        		f = new TimeVaryingWeightFunction(parameter);
+//        		break;
+		}
+		
+		//WeightFunction f = new FixedWeightFunction(1);
 		//WeightFunction f = new GaussianWeightFunction(1, 1);
 		kNNUtil.setWeightFunction(f);
 		
@@ -113,8 +171,26 @@ public class CandidateRunTotalView extends Application implements Observer{
 		}
 		weights.setName("Weight");
         
-        String fileLocal = "C:/Users/calebchan/Desktop/Stuff/workspace/Test Data/Batch Test 3/TB/Expert/Run 1/FixedSequenceAgent.trace";
+		
+		int inputTrace = -1;
+		while(inputTrace < 0 || inputTrace > 4){
+			System.out.println("Select a Trace Folder (Enter Integer Only)");
+		for(int i = 0; i < traceFiles.length; i++){
+			System.out.println(i + " - " + traceFiles[i]);
+		}
+			inputTrace = Integer.parseInt(a.nextLine());
+		}
+		
+		//String fileLocal = "C:/Users/calebchan/Desktop/Stuff/workspace/Test Data/Batch Test 3/TB/Expert/Run 1/FixedSequenceAgent.trace";
         //String fileLocal = "C:/Users/calebchan/Desktop/Stuff/workspace/Test Data/Batch Test 3/TB/Expert/Run 1/SmartRandomExplorerAgent.trace";
+		
+//		String fileLocal = "/home/labadmin/Documents/Run 1/" + traceFiles[inputTrace];
+		// for work computer
+		
+		String fileLocal = "C:/Users/calebchan/Desktop/Stuff/workspace/Test Data/Batch Test 3/TB/Expert/Run 1/" + traceFiles[inputTrace];
+		// for Caleb's home computer
+		
+        
         LfOTraceParser parser = new LfOTraceParser(fileLocal);
         
         if (!parser.parseFile()){
