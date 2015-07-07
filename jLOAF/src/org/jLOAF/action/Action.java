@@ -21,6 +21,10 @@ public abstract class Action implements Serializable{
 		return this.name;
 	}
 	
+	public String getSimpleString(){
+		return this.name;
+	}
+	
 	public abstract double similarity(Action i);
 	
 	public void setSimilarityMetric(SimilarityActionMetricStrategy s) {

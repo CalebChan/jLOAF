@@ -58,6 +58,11 @@ public class AtomicAction extends Action {
 	}
 	
 	@Override
+	public String getSimpleString(){
+		return feat.toString();
+	}
+	
+	@Override
 	public JSONObject exportActionDetailToJSON(){
 		JSONObject o = new JSONObject();
 		o.put("Name", name);

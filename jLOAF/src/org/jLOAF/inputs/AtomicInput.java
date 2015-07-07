@@ -32,6 +32,11 @@ public class AtomicInput extends Input {
 		return s;
 	}
 	
+	@Override
+	public String getSimpleString(){
+		return feat.toString();
+	}
+	
 
 	@Override
 	public double similarity(Input i) {

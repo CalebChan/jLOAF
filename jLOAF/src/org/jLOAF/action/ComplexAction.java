@@ -61,6 +61,15 @@ public class ComplexAction extends Action {
 	}
 	
 	@Override
+	public String getSimpleString(){
+		String s = "";
+		for (String ss : this.collect.keySet()){
+			s += this.collect.get(ss).getSimpleString() + " ";
+		}
+		return s;
+	}
+	
+	@Override
 	public JSONObject exportActionDetailToJSON(){
 		JSONObject o = new JSONObject();
 		o.put("Name", name);

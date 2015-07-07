@@ -39,6 +39,10 @@ public abstract class Input implements Serializable{
 		return this.name;
 	}
 	
+	public String getSimpleString(){
+		return this.name;
+	}
+	
 	public JSONObject exportInputDetailToJSON(){
 		JSONObject o = new JSONObject();
 		

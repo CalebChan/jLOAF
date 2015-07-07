@@ -29,7 +29,7 @@ public abstract class AbstractTestFramework{
 	
 	public AbstractTestFramework(boolean toFail){
 		this.toFail = toFail;
-		CaseBase cb = buildCaseBase();;
+		CaseBase cb = buildCaseBase();
 		problemRun = buildCaseRun();
 		
 		AtomicInput.setClassStrategy(getAtomicInputSimMetric());
