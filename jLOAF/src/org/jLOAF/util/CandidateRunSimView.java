@@ -94,8 +94,8 @@ public class CandidateRunSimView extends Application implements Observer{
 		Scanner a = new Scanner(System.in);
 		
 		int inputWeight = -1;
-		int parameter = 0;
-		int parameter2 = 0;
+		double parameter = 0;
+		double parameter2 = 0;
 		
 		while(inputWeight < 0 || inputWeight > 3){
 			System.out.println("Select a Weight Function (Enter Integer Only)");
@@ -105,11 +105,11 @@ public class CandidateRunSimView extends Application implements Observer{
 				inputWeight = Integer.parseInt(a.nextLine());
 		}
 		System.out.println("Enter the parameter value");
-		parameter = Integer.parseInt(a.nextLine());
+		parameter = Double.parseDouble(a.nextLine());
 		
 		if(inputWeight == 2){
 			System.out.println("Enter the second parameter value");
-			parameter2 = Integer.parseInt(a.nextLine());
+			parameter2 = Double.parseDouble(a.nextLine());
 		}
 		
 		
@@ -159,11 +159,13 @@ public class CandidateRunSimView extends Application implements Observer{
 //      String fileLocal = "C:/Users/calebchan/Desktop/Stuff/workspace/Test Data/Batch Test 3/TB/Expert/Run 1/SmartRandomAgent.trace";
 		// old initilization for local file before console input
 		
+//		String fileLocal = "/home/labadmin/Documents/Run 1/SmartRandomAgent.trace";
+		// for work computer testing
 		
-//		String fileLocal = "/home/labadmin/Documents/Run 1/" + traceFiles[inputTrace];
+		String fileLocal = "/home/labadmin/Documents/Run 1/" + traceFiles[inputTrace];
 		// for work computer
 		
-		String fileLocal = "C:/Users/calebchan/Desktop/Stuff/workspace/Test Data/Batch Test 3/TB/Expert/Run 1/" + traceFiles[inputTrace];
+//		String fileLocal = "C:/Users/calebchan/Desktop/Stuff/workspace/Test Data/Batch Test 3/TB/Expert/Run 1/" + traceFiles[inputTrace];
 		// for Caleb's home computer
 		LfOTraceParser parser = new LfOTraceParser(fileLocal);
         
