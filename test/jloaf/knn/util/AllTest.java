@@ -1,16 +1,14 @@
-package jloaf;
+package jloaf.knn.util;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-
 @RunWith(Suite.class)
 @SuiteClasses({
-	BaselineTest.class,
-	
-	jloaf.baseline.AllTest.class,
-	jloaf.knn.util.AllTest.class,
-	jloaf.tb.AllTest.class,
+	ContinuousFailTest.class,
+	ContinuousPassTest.class,
+	kNNUtilTest.class
 })
 public class AllTest {
 

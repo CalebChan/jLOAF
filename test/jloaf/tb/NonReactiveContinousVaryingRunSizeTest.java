@@ -1,9 +1,5 @@
 package jloaf.tb;
 
-import org.jLOAF.casebase.CaseBase;
-import org.jLOAF.casebase.CaseRun;
-import org.jLOAF.reasoning.BacktrackingReasoning;
-import org.jLOAF.reasoning.SequentialReasoning;
 import org.jLOAF.sim.SimilarityActionMetricStrategy;
 import org.jLOAF.sim.SimilarityInputMetricStrategy;
 import org.jLOAF.sim.atomic.ActionDistance;
@@ -11,27 +7,21 @@ import org.jLOAF.sim.atomic.InputDistance;
 
 import jloaf.BaselineTest;
 
-public class ReactiveContinuousVariableKFail extends BaselineTest{
-
-	public ReactiveContinuousVariableKFail(){
-		// kNN orders the runs by most similiar to least, thus this code does not work right now.
-		//super(true);
-	}
+public class NonReactiveContinousVaryingRunSizeTest extends BaselineTest{
 	
 	private static String problemRunString[] = {
-		"0.1 1.01",
-		"0.2 2.01",
+		"0.1 1",
+		"0.2 3",
 	};
 	
 	private static String cbString[] = {
-		"0.1 1.01",
-		"0.201 2",
+		"0.0 0",
+		"0.1 1",
+		"0.25 7",
 		"",
-		"0.1 1.01",
-		"0.2 2.01",
-		"",
-		"0.1 1.01",
-		"0.2 2.01",		
+		"0.0 0",
+		"0.1 1",
+		"0.21 3",
 	};
 	
 	@Override
@@ -42,10 +32,6 @@ public class ReactiveContinuousVariableKFail extends BaselineTest{
 	@Override
 	public String[] getCaseBaseString() {
 		return cbString;
-	}
-	@Override
-	public BacktrackingReasoning buildReasoning(CaseBase cb, CaseRun problemRun){
-		return new SequentialReasoning(cb, problemRun, 3);
 	}
 	
 	@Override
