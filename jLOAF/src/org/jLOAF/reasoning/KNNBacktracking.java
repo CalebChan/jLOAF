@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.jLOAF.action.Action;
-import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
 import org.jLOAF.casebase.CaseRun;
 import org.jLOAF.inputs.Input;
@@ -15,8 +14,6 @@ import org.jLOAF.retrieve.kNNRandom;
 
 public class KNNBacktracking extends BacktrackingReasoning {
 
-	private kNN knn;
-		
 	private KNNRetrieval retrival;
 	
 	private boolean shuffleCandidates;
@@ -26,11 +23,7 @@ public class KNNBacktracking extends BacktrackingReasoning {
 	}
 	
 	public KNNBacktracking(CaseBase cb, CaseRun currentRun, int k, boolean randomK, boolean shuffleCandidates){
-		if (randomK){
-			this.knn = new kNNRandom(k, cb);
-		}else {
-			this.knn = new kNN(k, cb);
-		}
+		super((randomK) ? new kNNRandom(k, cb): new kNN(k, cb));
 		this.currentRun = currentRun;
 		
 		this.retrival = new KNNRetrieval();
@@ -39,22 +32,10 @@ public class KNNBacktracking extends BacktrackingReasoning {
 	
 	@Override
 	public Action selectAction(Input i) {
-		if (this.currentRun == null){
-			throw new RuntimeException("Current Run is not set");
-		}
+
 		
-		ArrayList<CaseRun> candidates = new ArrayList<CaseRun>();
-		List<Case> closestCase = knn.retrieve(i);
-		for (Case c : closestCase){
-			Case tmp = c;
-			CaseRun run  = new CaseRun("" + (candidates.size() + 1));
-			while(tmp != null){
-				run.appendCaseToRun(tmp);
-				tmp = tmp.getPreviousCase();
-			}
-			run.reverseRun();
-			candidates.add(run);
-		}
+		ArrayList<CaseRun> candidates = generateCandidateRuns(i);
+
 		List<Action> actions = new ArrayList<Action>();
 		for (CaseRun r : candidates){
 			Action curAction = r.getCurrentCase().getAction();

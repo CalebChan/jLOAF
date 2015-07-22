@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jLOAF.action.Action;
-import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
 import org.jLOAF.casebase.CaseRun;
 import org.jLOAF.inputs.Input;
@@ -14,44 +13,24 @@ import org.jLOAF.retrieve.kNNUtil;
 
 public class BestRunReasoning extends BacktrackingReasoning{
 
-	private kNN knn;
-	
 	private kNNUtil util;
 	
 	public BestRunReasoning(CaseBase cb, int k){
-		this.knn = new kNN(k, cb);
+		super(new kNN(k, cb));
 		
 		util = new kNNUtil();
 	}
 	
 	public BestRunReasoning(CaseBase cb, int k, boolean randomK){
-		if(randomK){
-			this.knn = new kNNRandom(k, cb);
-		}else{
-			this.knn = new kNN(k, cb);
-		}
+		super((randomK) ? new kNNRandom(k, cb): new kNN(k, cb));
 		
 		util = new kNNUtil();
 	}
 	
 	@Override
 	public Action selectAction(Input i) {
-		if (this.currentRun == null){
-			throw new RuntimeException("Current Run is not set");
-		}
+		ArrayList<CaseRun> candidates = generateCandidateRuns(i);
 		
-		ArrayList<CaseRun> candidates = new ArrayList<CaseRun>();
-		List<Case> closestCase = knn.retrieve(i);
-		for (Case c : closestCase){
-			Case tmp = c;
-			CaseRun run  = new CaseRun("" + (candidates.size() + 1));
-			while(tmp != null){
-				run.appendCaseToRun(tmp);
-				tmp = tmp.getPreviousCase();
-			}
-			run.reverseRun();
-			candidates.add(run);
-		}
 		List<Action> actions = new ArrayList<Action>();
 		for (CaseRun r : candidates){
 			Action curAction = r.getCurrentCase().getAction();

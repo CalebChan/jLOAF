@@ -31,17 +31,19 @@ public class RunAgent extends Agent{
 	/**
 	 * This method will take an input and return an action based on the reasoning method. Using the given
 	 * input it will build a case and add it to the current run. The new case will be composed from the given
-	 * input and the action that was returned from the reasoning method.
+	 * input and the action that was returned from the reasoning method. This method will add the new case to the
+	 * case base
 	 * 
 	 * @param input The input received from the environment
 	 * @return The Action returned from the reasoning method
 	 */
 	@Override
 	public Action senseEnvironment(Input input){
-		Case curCase = new Case(input, null, this.currentRun.getCurrentCase());
+		Case curCase = new Case(input, null);
 		this.currentRun.addCaseToRun(curCase);
 		Action a = this.r.selectAction(input);
 		curCase.setAction(a);
+		super.learn(curCase);
 		return a;
 	}
 	
@@ -50,8 +52,8 @@ public class RunAgent extends Agent{
 		if (newCase == null){
 			throw new IllegalArgumentException("Case to learn is NULL");
 		}
-		Case c = new Case(newCase.getInput(), newCase.getAction(), this.currentRun.getCurrentCase().getPreviousCase());
-		this.currentRun.amendCurrentCase(c);
+		Case c = new Case(newCase.getInput(), newCase.getAction());
+		this.currentRun.amendCurrentCase(c, false);
 		super.learn(c);
 	}
 }

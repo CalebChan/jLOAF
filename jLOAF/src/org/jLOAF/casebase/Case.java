@@ -24,6 +24,18 @@ public class Case implements Serializable{
 		this.previousCase = previousCase;
 	}
 	
+	public Case(Input input, Action action){
+		this(input, action, null);
+	}
+	
+	/**
+	 * A copy constructor. Only Copies the actions and inputs not the previous case
+	 * @param oldCase The case to be copied
+	 */
+	public Case(Case oldCase){
+		
+	}
+	
 	public void setParentCaseRun(CaseRun run){
 		this.parentRun = run;
 	}

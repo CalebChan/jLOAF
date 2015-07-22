@@ -41,6 +41,7 @@ public class CaseRun implements Serializable{
 	 * @param c The case to be added
 	 */
 	public void addCaseToRun(Case c){
+		c.setPreviousCase(this.getCurrentCase());
 		// Highest index should be current case
 		this.run.push(c);
 		c.setParentCaseRun(this);
@@ -51,6 +52,7 @@ public class CaseRun implements Serializable{
 	 * @param c The case to be added
 	 */
 	public void appendCaseToRun(Case c){
+		// Highest index should be current case
 		this.run.push(c);
 	}
 	
@@ -70,8 +72,21 @@ public class CaseRun implements Serializable{
 	}
 	
 	public void amendCurrentCase(Case newCase){
+		amendCurrentCase(newCase, true);
+	}
+	
+	/**
+	 * This method will replace the current case with the new case, but will not remove the parent of the case that is removed if flag not true.
+	 * The purpose of this method is to alter the case in the run without effecting the dependency in the case base
+	 * @param newCase The case to be added
+	 * @param removeParent A flag for if the parent should be removed
+	 */
+	public void amendCurrentCase(Case newCase, boolean removeParent){
 		Case c = this.run.pop();
-		c.setParentCaseRun(null);
+		if (removeParent){
+			c.setParentCaseRun(null);
+		}
+		newCase.setPreviousCase(this.getCurrentCase());
 		this.addCaseToRun(newCase);
 	}
 	
