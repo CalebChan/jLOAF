@@ -5,6 +5,11 @@ public class GaussianWeightFunction implements WeightFunction{
 	private double mean;
 	private double std;
 	
+	/**
+	 * 
+	 * @param mean The mean
+	 * @param std The variance
+	 */
 	public GaussianWeightFunction(double mean, double std) {
 		this.mean = mean;
 		this.std = std;
