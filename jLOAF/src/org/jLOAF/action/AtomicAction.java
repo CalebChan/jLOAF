@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.jLOAF.inputs.Feature;
 import org.jLOAF.sim.SimilarityActionMetricStrategy;
-import org.json.JSONObject;
 
 public class AtomicAction extends Action {
 
@@ -60,16 +59,6 @@ public class AtomicAction extends Action {
 	@Override
 	public String getSimpleString(){
 		return feat.toString();
-	}
-	
-	@Override
-	public JSONObject exportActionDetailToJSON(){
-		JSONObject o = new JSONObject();
-		o.put("Name", name);
-		o.put("Type", "Atomic");
-		o.put("Feature", feat);
-		
-		return o;
 	}
 	
 	private static double similarity(Action atomicInput, Action i) {

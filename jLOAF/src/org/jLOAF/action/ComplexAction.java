@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jLOAF.sim.SimilarityActionMetricStrategy;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class ComplexAction extends Action {
 
@@ -67,20 +65,6 @@ public class ComplexAction extends Action {
 			s += this.collect.get(ss).getSimpleString() + " ";
 		}
 		return s;
-	}
-	
-	@Override
-	public JSONObject exportActionDetailToJSON(){
-		JSONObject o = new JSONObject();
-		o.put("Name", name);
-		o.put("Type", "Complex");
-		
-		JSONArray a = new JSONArray();
-		for (String ss : this.collect.keySet()){
-			a.put(this.collect.get(ss).exportActionDetailToJSON());
-		}
-		o.put("Action", a);
-		return o;
 	}
 
 	@Override

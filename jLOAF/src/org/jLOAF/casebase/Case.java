@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.jLOAF.action.Action;
 import org.jLOAF.inputs.Input;
-import org.json.JSONObject;
 
 public class Case implements Serializable{
 
@@ -107,14 +106,5 @@ public class Case implements Serializable{
 		}
 		
 		return s;
-	}
-	
-	public JSONObject exportCaseToJSON(){
-		JSONObject o = new JSONObject();
-		o.put("Input", in.exportInputDetailToJSON());
-		o.put("Output", act.exportActionDetailToJSON());
-		o.put("Index", this.caseIndex());
-		o.put("Parent Run", this.getParentCaseRun().getRunName());
-		return o;
 	}
 }

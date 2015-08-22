@@ -11,9 +11,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 public class CaseBase implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -44,21 +41,7 @@ public class CaseBase implements Serializable{
 		}
 		return run;
 	}
-	
-	public JSONObject exportCaseBaseToJSON(){
-		JSONObject o = new JSONObject();
-		
-		o.put("Name", "Case Base");
-		JSONArray a = new JSONArray();
-		Set<CaseRun> r = convertCaseBaseToRuns();
-		for (CaseRun cr : r){
-			a.put(cr.exportRunToJSON());
-		}
-		o.put("Runs", a);
-		
-		return o;
-	}
-	
+
 	public static CaseBase load(String filename) {
 		//test the parameters
 		if(filename == null){

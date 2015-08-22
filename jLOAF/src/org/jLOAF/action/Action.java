@@ -3,7 +3,6 @@ package org.jLOAF.action;
 import java.io.Serializable;
 
 import org.jLOAF.sim.SimilarityActionMetricStrategy;
-import org.json.JSONObject;
 
 public abstract class Action implements Serializable{
 
@@ -29,14 +28,6 @@ public abstract class Action implements Serializable{
 	
 	public void setSimilarityMetric(SimilarityActionMetricStrategy s) {
 		this.simStrategy = s;
-	}
-	
-	public JSONObject exportActionDetailToJSON(){
-		JSONObject o = new JSONObject();
-		
-		o.put("Name", name);
-		
-		return o;
 	}
 
 }

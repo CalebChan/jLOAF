@@ -2,11 +2,8 @@ package org.jLOAF.casebase;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * This class will hold a run.
@@ -121,22 +118,5 @@ public class CaseRun implements Serializable{
 		}
 		return s;
 	}
-	
-	public JSONObject exportRunToJSON(){
-		Case c = null;
-		Iterator<Case> i = this.run.descendingIterator();
-		JSONObject o = new JSONObject();
-		o.put("Name", this.getRunName());
-		o.put("Length", this.run.size());
-		
-		JSONArray a = new JSONArray();
-		
-		while(i.hasNext()){
-			c = i.next();
-			a.put(c.exportCaseToJSON());
-		}
-		
-		
-		return o;
-	}
+
 }

@@ -5,7 +5,6 @@
 package org.jLOAF.inputs;
 
 import org.jLOAF.sim.SimilarityInputMetricStrategy;
-import org.json.JSONObject;
 
 public class AtomicInput extends Input {
 
@@ -68,15 +67,6 @@ public class AtomicInput extends Input {
 	
 	public static void setClassStrategy(SimilarityInputMetricStrategy s){
 		AtomicInput.s_simstrategy = s;
-	}
-	
-	public JSONObject exportInputDetailToJSON(){
-		JSONObject o = new JSONObject();
-		o.put("Name", name);
-		o.put("Type", "Atomic");
-		o.put("Feature", feat);
-		
-		return o;
 	}
 
 }
