@@ -43,17 +43,17 @@ public class RunAgent extends Agent{
 		this.currentRun.addCaseToRun(curCase);
 		Action a = this.r.selectAction(input);
 		curCase.setAction(a);
-		super.learn(curCase);
+//		super.learn(curCase);
 		return a;
 	}
 	
 	@Override
 	public void learn(Case newCase){
-		if (newCase == null){
-			throw new IllegalArgumentException("Case to learn is NULL");
-		}
-		Case c = new Case(newCase.getInput(), newCase.getAction());
-		this.currentRun.amendCurrentCase(c, false);
-		super.learn(c);
+//		if (newCase == null){
+//			throw new IllegalArgumentException("Case to learn is NULL");
+//		}
+//		Case c = new Case(newCase.getInput(), newCase.getAction());
+//		this.currentRun.amendCurrentCase(c, false);
+//		super.learn(c);
 	}
 }
