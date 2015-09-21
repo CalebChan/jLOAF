@@ -15,6 +15,12 @@ public class ActionDistance implements SimilarityActionMetricStrategy{
 			throw new IllegalArgumentException(errorStr);
 		}
 		
+		AtomicAction aa1 = (AtomicAction)a1;
+		AtomicAction aa2 = (AtomicAction)a2;
+		if (!aa1.getName().equals(aa2.getName())){
+			return 0.0;
+		}
+		
 		double val1 = ((AtomicAction)a1).getFeature().getValue();
 		double val2 = ((AtomicAction)a2).getFeature().getValue();
 		

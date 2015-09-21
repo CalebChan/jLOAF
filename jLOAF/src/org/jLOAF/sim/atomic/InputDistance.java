@@ -10,6 +10,13 @@ public class InputDistance implements SimilarityInputMetricStrategy{
 		if(!(i1 instanceof AtomicInput) || !(i2 instanceof AtomicInput)){
 			throw new IllegalArgumentException("Equality.similarity(...): One of the arguments was not an AtomicInput.");
 		}
+		
+		AtomicInput ai1 = ((AtomicInput)i1);
+		AtomicInput ai2 = ((AtomicInput)i2);
+				
+		if (!ai1.getName().equals(ai2.getName())){
+			return 0.0;
+		}
 
 		double val1 = ((AtomicInput)i1).getFeature().getValue();
 		double val2 = ((AtomicInput)i2).getFeature().getValue();

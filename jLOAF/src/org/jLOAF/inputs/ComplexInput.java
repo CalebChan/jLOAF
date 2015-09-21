@@ -50,6 +50,16 @@ public class ComplexInput extends Input {
 	}
 	
 	@Override
+	public boolean equals(Object o){
+		if (!(o instanceof ComplexInput)){
+			return false;
+		}
+		ComplexInput ai = (ComplexInput)o;
+		return this.similarity(ai) == 1;
+	}
+
+	
+	@Override
 	public double similarity(Input i) {
 		//See if the user has defined similarity for each specific input, for all inputs
 		//  of a specific type, of defered to superclass

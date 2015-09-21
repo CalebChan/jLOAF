@@ -36,6 +36,14 @@ public class AtomicInput extends Input {
 		return feat.toString();
 	}
 	
+	@Override
+	public boolean equals(Object o){
+		if (!(o instanceof AtomicInput)){
+			return false;
+		}
+		AtomicInput ai = (AtomicInput)o;
+		return this.similarity(ai) == 1;
+	}
 
 	@Override
 	public double similarity(Input i) {

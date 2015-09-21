@@ -23,8 +23,15 @@ public class InputEquality implements SimilarityInputMetricStrategy {
 			throw new IllegalArgumentException("Equality.similarity(...): One of the arguments was not an AtomicInput.");
 		}
 
-		double val1 = ((AtomicInput)i1).getFeature().getValue();
-		double val2 = ((AtomicInput)i2).getFeature().getValue();
+		AtomicInput ai1 = ((AtomicInput)i1);
+		AtomicInput ai2 = ((AtomicInput)i2);
+				
+		if (!ai1.getName().equals(ai2.getName())){
+			return 0.0;
+		}
+		
+		double val1 = ai1.getFeature().getValue();
+		double val2 = ai2.getFeature().getValue();
 		
 		if(val1 == val2){
 			return 1.0;
