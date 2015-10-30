@@ -4,7 +4,6 @@ import org.jLOAF.casebase.CaseBase;
 import org.jLOAF.casebase.ComplexCase;
 import org.jLOAF.reasoning.BacktrackingReasoning;
 import org.jLOAF.reasoning.SequentialReasoning;
-import org.jLOAF.retrieve.SequenceRetrieval;
 import org.jLOAF.sim.SimilarityActionMetricStrategy;
 import org.jLOAF.sim.SimilarityInputMetricStrategy;
 import org.jLOAF.sim.atomic.ActionDistance;
@@ -46,7 +45,7 @@ public class ReactiveContinuousVariableKFail extends BaselineTest{
 	}
 	@Override
 	public BacktrackingReasoning buildReasoning(CaseBase cb, ComplexCase problemRun){
-		return new SequentialReasoning(cb, DEFAULT_THRESHOLD, problemRun, new SequenceRetrieval());
+		return new SequentialReasoning(cb, DEFAULT_THRESHOLD, problemRun);
 	}
 	
 	@Override

@@ -69,4 +69,23 @@ public abstract class BacktrackingReasoning  implements Reasoning{
 		Action a = c.getAction();
 		return a;
 	}
+
+	@Override
+	public Action selectAction(Input i) {
+		ArrayList<ComplexCase> candidates = generateCandidateRuns(i);
+		
+		List<Action> actions = new ArrayList<Action>();
+		for (ComplexCase r : candidates){
+			Action curAction = r.getCurrentCase().getAction();
+			if (!actions.contains(curAction)){
+				actions.add(curAction);
+			}
+		}
+		if (actions.size() == 1){
+			return actions.get(0);
+		}
+		
+		Action a = getBestRun(candidates, currentRun);
+		return a;
+	}
 }

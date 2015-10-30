@@ -6,6 +6,7 @@ import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
 import org.jLOAF.inputs.Input;
 
+@Deprecated
 public class kNN implements Retrieval {
 
 	protected int k;
