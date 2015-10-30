@@ -1,6 +1,7 @@
 package org.jLOAF.agent;
 
 import org.jLOAF.Agent;
+import org.jLOAF.MotorControl;
 import org.jLOAF.Perception;
 import org.jLOAF.Reasoning;
 import org.jLOAF.action.Action;
@@ -14,11 +15,11 @@ public class RunAgent extends Agent{
 	protected ComplexCase currentRun;
 
 	public RunAgent(Reasoning reasoning, CaseBase casebase){
-		this(reasoning, null, casebase);
+		this(reasoning, null, null, casebase);
 	}
 	
-	public RunAgent(Reasoning reasoning, Perception perception, CaseBase casebase){
-		super(reasoning, perception, casebase);
+	public RunAgent(Reasoning reasoning, MotorControl motorcontrol, Perception perception, CaseBase casebase){
+		super(reasoning, motorcontrol, perception, casebase);
 		
 		this.currentRun = new ComplexCase(null, null);
 	}
