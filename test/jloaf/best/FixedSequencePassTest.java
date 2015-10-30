@@ -1,12 +1,11 @@
 package jloaf.best;
 
 import org.jLOAF.casebase.CaseBase;
-import org.jLOAF.casebase.CaseRun;
+import org.jLOAF.casebase.ComplexCase;
 import org.jLOAF.inputs.AtomicInput;
 import org.jLOAF.inputs.Input;
 import org.jLOAF.reasoning.BacktrackingReasoning;
 import org.jLOAF.reasoning.BestRunReasoning;
-import org.jLOAF.retrieve.kNNUtil;
 import org.jLOAF.retrieve.sequence.weight.LinearWeightFunction;
 import org.jLOAF.sim.SimilarityInputMetricStrategy;
 
@@ -56,9 +55,8 @@ public class FixedSequencePassTest extends RunSimilarityTest{
 	};
 	
 	@Override
-	public BacktrackingReasoning buildReasoning(CaseBase cb, CaseRun problemRun){
-		kNNUtil.setWeightFunction(new LinearWeightFunction(0.1));
-		BacktrackingReasoning r = new BestRunReasoning(cb, 24, true);
+	public BacktrackingReasoning buildReasoning(CaseBase cb, ComplexCase problemRun){
+		BacktrackingReasoning r = new BestRunReasoning(cb, DEFAULT_THRESHOLD, new LinearWeightFunction(0.1));
 		r.setCurrentRun(problemRun);
 		return r;
 	}

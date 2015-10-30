@@ -6,9 +6,9 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	ContinuousFailTest.class,
-	ContinuousPassTest.class,
-	kNNUtilTest.class
+//	ContinuousFailTest.class,
+//	ContinuousPassTest.class,
+//	kNNUtilTest.class
 })
 public class AllTest {
 

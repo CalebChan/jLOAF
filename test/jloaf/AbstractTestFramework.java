@@ -7,7 +7,7 @@ import org.jLOAF.action.AtomicAction;
 import org.jLOAF.action.ComplexAction;
 import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
-import org.jLOAF.casebase.CaseRun;
+import org.jLOAF.casebase.ComplexCase;
 import org.jLOAF.inputs.AtomicInput;
 import org.jLOAF.inputs.ComplexInput;
 import org.jLOAF.reasoning.BacktrackingReasoning;
@@ -18,7 +18,7 @@ import org.junit.Test;
 
 public abstract class AbstractTestFramework{
 
-	private CaseRun problemRun;
+	private ComplexCase problemRun;
 	private BacktrackingReasoning r;
 	
 	private boolean toFail;
@@ -41,13 +41,13 @@ public abstract class AbstractTestFramework{
 		r = buildReasoning(cb, problemRun);
 	}
 	
-	public abstract BacktrackingReasoning buildReasoning(CaseBase cb, CaseRun problemRun);
+	public abstract BacktrackingReasoning buildReasoning(CaseBase cb, ComplexCase problemRun);
 
 	public CaseBase buildCaseBase(){
 		return StringToCaseConverter.convertStringToCaseBase(getCaseBaseString(), getCaseParser());
 	}
 
-	public CaseRun buildCaseRun(){
+	public ComplexCase buildCaseRun(){
 		return StringToCaseConverter.convertStringToCaseRun(getProblemString(), getCaseParser());
 	}
 

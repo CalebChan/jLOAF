@@ -3,9 +3,10 @@ import jloaf.util.AbstractCaseParser;
 import jloaf.util.BaselineCaseParser;
 
 import org.jLOAF.casebase.CaseBase;
-import org.jLOAF.casebase.CaseRun;
+import org.jLOAF.casebase.ComplexCase;
 import org.jLOAF.reasoning.BacktrackingReasoning;
 import org.jLOAF.reasoning.SequentialReasoning;
+import org.jLOAF.retrieve.SequenceRetrieval;
 import org.jLOAF.sim.SimilarityActionMetricStrategy;
 import org.jLOAF.sim.SimilarityInputMetricStrategy;
 import org.jLOAF.sim.atomic.ActionEquality;
@@ -31,6 +32,7 @@ public class BaselineTest extends AbstractTestFramework {
 	};
 	
 	protected static final int DEFAULT_K = 2;
+	protected static final double DEFAULT_THRESHOLD = 0.75;
 	
 	protected BaselineTest(boolean b) {
 		super(b);
@@ -41,8 +43,8 @@ public class BaselineTest extends AbstractTestFramework {
 	}
 
 	@Override
-	public BacktrackingReasoning buildReasoning(CaseBase cb, CaseRun problemRun){
-		return new SequentialReasoning(cb, problemRun, DEFAULT_K);
+	public BacktrackingReasoning buildReasoning(CaseBase cb, ComplexCase problemRun){
+		return new SequentialReasoning(cb, DEFAULT_THRESHOLD, problemRun, new SequenceRetrieval());
 	}
 
 	@Override

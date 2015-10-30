@@ -59,6 +59,13 @@ public class ComplexCase extends Case {
 		}
 	}
 	
+	/**
+	 * Create a default constructor. To use the object must call pushCurrentCase to fill the case
+	 */
+	public ComplexCase(){
+		this(null, null);
+	}
+	
 	public ComplexCase(AtomicCase c){
 		this(c.in, c.act);
 	}

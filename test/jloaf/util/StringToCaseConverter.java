@@ -2,35 +2,29 @@ package jloaf.util;
 
 import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
-import org.jLOAF.casebase.CaseRun;
+import org.jLOAF.casebase.ComplexCase;
 
 public class StringToCaseConverter {
 	public static final CaseBase convertStringToCaseBase(String text[], AbstractCaseParser cp){
 		CaseBase c = new CaseBase();
-		CaseRun r = new CaseRun();
+		ComplexCase r = new ComplexCase(null, null);
 		for (String s : text){
-			if (s.isEmpty() && r.getRunLength() != 0){
-				r = new CaseRun();
+			if (s.isEmpty() && r.getComplexCaseSize() != 0){
+				c.add(r);
+				r = new ComplexCase(null, null);
 			}else{
 				Case newCase = cp.parseLine(s);
-				if (r.getRunLength() > 0){
-					newCase.setPreviousCase(r.getCurrentCase());
-				}
-				r.addCaseToRun(newCase);
-				c.add(newCase);
+				r.pushCurrentCase(newCase.getInput(), newCase.getAction());
 			}			
 		}
 		return c;
 	}
 	
-	public static final CaseRun convertStringToCaseRun(String text[], AbstractCaseParser cp){
-		CaseRun r = new CaseRun();
+	public static final ComplexCase convertStringToCaseRun(String text[], AbstractCaseParser cp){
+		ComplexCase r = new ComplexCase();
 		for (String s : text){
 			Case newCase = cp.parseLine(s);
-			if (r.getRunLength() > 0){
-				newCase.setPreviousCase(r.getCurrentCase());
-			}
-			r.addCaseToRun(newCase);
+			r.pushCurrentCase(newCase.getInput(), newCase.getAction());
 		}
 		return r;
 	}

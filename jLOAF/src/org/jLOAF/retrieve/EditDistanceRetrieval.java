@@ -18,14 +18,15 @@ public class EditDistanceRetrieval extends SimilarityComplexCaseMetricStrategy{
 	private double addWeight;
 	private double delWeight;
 	
-	public EditDistanceRetrieval(){
-		this(DEFAULT_WEIGHT, DEFAULT_WEIGHT, DEFAULT_WEIGHT);
+	public EditDistanceRetrieval(double threshold){
+		this(DEFAULT_WEIGHT, DEFAULT_WEIGHT, DEFAULT_WEIGHT, threshold);
 	}
 	
-	public EditDistanceRetrieval(double subWeight, double addWeight, double delWeight){
+	public EditDistanceRetrieval(double subWeight, double addWeight, double delWeight, double threshold){
 		this.subWeight = subWeight;
 		this.addWeight = addWeight;
 		this.delWeight = delWeight;
+		this.threshold = threshold;
 	}
 	
 	@Override

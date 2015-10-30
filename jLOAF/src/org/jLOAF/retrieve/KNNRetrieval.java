@@ -1,71 +1,24 @@
 package org.jLOAF.retrieve;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.jLOAF.casebase.ComplexCase;
+import org.jLOAF.sim.cases.SimilarityComplexCaseMetricStrategy;
 
-import org.jLOAF.action.Action;
-import org.jLOAF.casebase.CaseRun;
-
-public class KNNRetrieval{
+@Deprecated
+public class KNNRetrieval extends SimilarityComplexCaseMetricStrategy{
 	
 	public static final double DEFAULT_THRESHOLD = -0.25;
+
 	
-	private kNNUtil util;
-	 
-	public KNNRetrieval(){
-		util = new kNNUtil();
+	@SuppressWarnings("unused")
+	private double threshold;
+	
+	public KNNRetrieval(double threshold){
+		this.threshold = threshold;
 	}
 
-	private CaseRun getBestRun(List<CaseRun> candidateRun, CaseRun run, int time, boolean isState){
-		CaseRun best = null;
-		double bestSim = -1;
-		for (CaseRun r : candidateRun){
-			if (time >= r.getRunLength() || time >= run.getRunLength()){
-				continue;
-			}
-			double s = -1;
-			if (isState){
-				s = r.getCasePastOffset(time).getInput().similarity(run.getCasePastOffset(time).getInput());
-			}else{
-				s = r.getCasePastOffset(time).getAction().similarity(run.getCasePastOffset(time).getAction());
-			}
-			if (s > bestSim){
-				bestSim = s;
-				best = r;
-			}
-		}
-		
-		return best;
-	}
-	
-	public Action retrieve(CaseRun run, List<CaseRun> pastRuns, int time){
-		
-		CaseRun bestRun = getBestRun(pastRuns, run, time, true);
-		List<CaseRun> candidateRuns = pastRuns;
-		for (int i = 0; i < run.getRunLength(); i++){
-			candidateRuns = util.kNNCaseRun(candidateRuns, run, true, time, candidateRuns.size() - 1, DEFAULT_THRESHOLD);
-			if (hasConsensus(candidateRuns)){
-//				System.out.println("Con RUN");
-				return candidateRuns.get(0).getCurrentCase().getAction();
-			}
-			time++;
-			candidateRuns = util.kNNCaseRun(candidateRuns, run, false, time, candidateRuns.size() - 1, DEFAULT_THRESHOLD);
-			if (hasConsensus(candidateRuns)){
-//				System.out.println("Con RUN");
-				return candidateRuns.get(0).getCurrentCase().getAction();
-			}
-		}
-//		System.out.println("Best RUN");
-		return bestRun.getCurrentCase().getAction();
-	}
-	
-	private boolean hasConsensus(List<CaseRun> runs){
-		List<Action> actions = new ArrayList<Action>();
-		for (CaseRun r : runs){
-			if (!actions.contains(r.getCurrentCase().getAction())){
-				actions.add(r.getCurrentCase().getAction());
-			}
-		}
-		return actions.size() == 1;
+	@Override
+	public double complexCaseSimilarity(ComplexCase c1, ComplexCase c2) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
