@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.jLOAF.Reasoning;
 import org.jLOAF.action.Action;
+import org.jLOAF.casebase.AtomicCase;
 import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
 import org.jLOAF.casebase.ComplexCase;
 import org.jLOAF.inputs.Input;
 import org.jLOAF.sim.SimilarityCaseMetricStrategy;
+import org.jLOAF.sim.cases.SimilarityAtomicCaseMetricStrategy;
 
 public abstract class BacktrackingReasoning  implements Reasoning{
 	
@@ -23,6 +25,7 @@ public abstract class BacktrackingReasoning  implements Reasoning{
 		this.cb = cb;
 		this.threshold = threshold;
 		this.strategy = null;
+		AtomicCase.setClassGlobalStrategy(new SimilarityAtomicCaseMetricStrategy());
 	}
 	
 	public void setCurrentRun(Case currentRun){

@@ -34,8 +34,12 @@ public class BestRunRetrieval extends SimilarityComplexCaseMetricStrategy{
 		double totalSim = a1.get(0).getInput().similarity(a2.get(0).getInput()) * function.getWeightValue(0);
 		
 		for(int i = 1; i < length; i++){
-			totalSim += a1.get(0).getAction().similarity(a2.get(0).getAction()) * function.getWeightValue(i);
-			totalSim += a1.get(0).getInput().similarity(a2.get(0).getInput()) * function.getWeightValue(i);
+			try{
+			totalSim += a1.get(i).getAction().similarity(a2.get(i).getAction()) * function.getWeightValue(i);
+			totalSim += a1.get(i).getInput().similarity(a2.get(i).getInput()) * function.getWeightValue(i);
+			}catch(Exception e){
+				System.out.println("ERROR");
+			}
 		}
 		
 		return totalSim / (length * 2.0 - 1);

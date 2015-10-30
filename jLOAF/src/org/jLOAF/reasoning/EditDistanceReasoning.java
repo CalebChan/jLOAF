@@ -30,7 +30,7 @@ public class EditDistanceReasoning extends BacktrackingReasoning{
 		if (actions.size() == 1){
 			return actions.get(0);
 		}
-		return null;
+		return getBestRun(candidates, this.currentRun);
 	}
 
 }

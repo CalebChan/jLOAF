@@ -36,10 +36,10 @@ public class EditDistanceRetrieval extends SimilarityComplexCaseMetricStrategy{
 		problemRun.addAll(c1.getPastCases());
 		
 		List<Case> candidateRun = new ArrayList<Case>();
-		candidateRun.add(c1.getCurrentCase());
-		candidateRun.addAll(c1.getPastCases());
+		candidateRun.add(c2.getCurrentCase());
+		candidateRun.addAll(c2.getPastCases());
 		
-		int pLength = problemRun.size() * 2;
+		int pLength = problemRun.size();
 		int cLength = candidateRun.size() * 2;
 		double d[][] = new double[pLength][cLength];
 		for (int i = 0; i < pLength; i++){
@@ -53,31 +53,29 @@ public class EditDistanceRetrieval extends SimilarityComplexCaseMetricStrategy{
 			Case pCase = problemRun.get(i);
 			for (int j = 0; j < candidateRun.size(); j++){
 				Case cCase = candidateRun.get(j);
-				if (i != 0 && j != 0){
-					double sim = pCase.getAction().similarity(cCase.getAction());
-					if (sim > threshold){
-						d[i * 2][j * 2] = d[i * 2 - 1][j * 2 - 1];
-					}else{
-						double min = Math.min(d[i * 2 - 1][j * 2 - 1] + subWeight, d[i * 2 - 1][j * 2] + delWeight);
-						min = Math.min(d[i * 2][j * 2 - 1] + addWeight, min);
-						d[i * 2][j * 2] = min;
-					}
-				}else{
+				if (i == 0 || j == 0){
 					double sim = pCase.getInput().similarity(cCase.getInput());
 					if (sim > threshold){
-						if (sim > threshold){
-							d[i * 2 + 1][j * 2 + 1] = d[i * 2][j * 2];
-						}else{
-							double min = Math.min(d[i * 2][j * 2] + subWeight, d[i * 2][j * 2 + 1] + delWeight);
-							min = Math.min(d[i * 2 + 1][j * 2] + addWeight, min);
-							d[i * 2 + 1][j * 2 + 1] = min;
-						}
+						d[i + 1][j + 1] = d[i][j];
+					}else{
+						double min = Math.min(d[i][j] + subWeight, d[i][j + 1] + delWeight);
+						min = Math.min(d[i + 1][j] + addWeight, min);
+						d[i + 1][j + 1] = min;
+					}
+				}else{
+					double sim = pCase.similarity(cCase);
+					if (sim > threshold){
+						d[i + 1][j + 1] = d[i][j];
+					}else{
+						double min = Math.min(d[i][j] + subWeight, d[i][j + 1] + delWeight);
+						min = Math.min(d[i + 1][j] + addWeight, min);
+						d[i + 1][j + 1] = min;
 					}
 				}
 			}
 		}
-		
-		return d[pLength][cLength];
+
+		return 1.0 / d[pLength - 1][cLength - 1];
 	}
 	
 }
