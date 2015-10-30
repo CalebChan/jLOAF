@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.jLOAF.action.Action;
 import org.jLOAF.casebase.CaseBase;
-import org.jLOAF.casebase.CaseRun;
 import org.jLOAF.inputs.Input;
 import org.jLOAF.retrieve.kNN;
 import org.jLOAF.retrieve.kNNRandom;
@@ -13,12 +12,8 @@ import org.jLOAF.retrieve.kNNUtil;
 
 public class BestRunReasoning extends BacktrackingReasoning{
 
-	private kNNUtil util;
-	
-	public BestRunReasoning(CaseBase cb, int k){
-		super(new kNN(k, cb));
-		
-		util = new kNNUtil();
+	public BestRunReasoning(CaseBase cb, double threshold){
+		super(cb, threshold);
 	}
 	
 	public BestRunReasoning(CaseBase cb, int k, boolean randomK){

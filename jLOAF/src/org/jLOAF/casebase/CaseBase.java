@@ -8,8 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class CaseBase implements Serializable{
 
@@ -17,29 +16,39 @@ public class CaseBase implements Serializable{
 	
 	private Collection<Case> cb;
 	
+	private List<ComplexCase> runs;
+	
 	public CaseBase(){
 		this.cb = new ArrayList<Case>();
+		this.runs = new ArrayList<ComplexCase>();
 	}
 	
 	public Collection<Case> getCases(){
 		return this.cb;
 	}
 	
+	public List<ComplexCase> getRuns(){
+		return this.runs;
+	}
+	
+	/**
+	 * When complex cases are added they are added from current to past
+	 * @param c
+	 */
 	public void add(Case c){
-		this.cb.add(c);
+		if (c instanceof AtomicCase){
+			this.cb.add(c);
+			this.runs.add(new ComplexCase((AtomicCase) c));
+		}else{
+			ComplexCase cc = (ComplexCase)c;
+			this.cb.add(cc.getCurrentCase());
+			this.cb.addAll(cc.getPastCases());
+			this.runs.add(cc);
+		}
 	}
 
 	public int getSize(){
 		return this.cb.size();
-	}
-	
-	public Set<CaseRun> convertCaseBaseToRuns(){
-		Set<CaseRun> run = new HashSet<CaseRun>();
-		
-		for (Case c : cb){
-			run.add(c.getParentCaseRun());
-		}
-		return run;
 	}
 
 	public static CaseBase load(String filename) {

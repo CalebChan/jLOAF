@@ -1,16 +1,16 @@
 package org.jLOAF.tools;
 
 import org.jLOAF.casebase.CaseBase;
-import org.jLOAF.casebase.CaseRun;
+import org.jLOAF.casebase.ComplexCase;
 
 public class TestingTrainingPair {
 
 	private CaseBase training;
-	private CaseRun testing;
+	private ComplexCase testing;
 	
 	private int testNo;
 	
-	public TestingTrainingPair(CaseBase training, CaseRun testing, int testNo){
+	public TestingTrainingPair(CaseBase training, ComplexCase testing, int testNo){
 		this.testing = testing;
 		this.training = training;
 		this.testNo = testNo;
@@ -24,7 +24,7 @@ public class TestingTrainingPair {
 		return training;
 	}
 
-	public CaseRun getTesting() {
+	public ComplexCase getTesting() {
 		return testing;
 	}
 

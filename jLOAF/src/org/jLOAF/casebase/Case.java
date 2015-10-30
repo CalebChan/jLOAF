@@ -5,58 +5,20 @@ import java.io.Serializable;
 import org.jLOAF.action.Action;
 import org.jLOAF.inputs.Input;
 
-public class Case implements Serializable{
-
+public abstract class Case implements Serializable{
+	
 	private static final long serialVersionUID = 1L;
 	
-	private Input in;
-	private Action act;
-	
-	private Case previousCase;
-	
-	private Case nextCase;
-	private CaseRun parentRun;
+	protected Input in;
+	protected Action act;
 	
 	public Case(Input input, Action action, Case previousCase){
 		this.in = input;
 		this.act = action;
-		this.previousCase = previousCase;
 	}
 	
 	public Case(Input input, Action action){
 		this(input, action, null);
-	}
-	
-	/**
-	 * A copy constructor. Only Copies the actions and inputs not the previous case
-	 * @param oldCase The case to be copied
-	 */
-	public Case(Case oldCase){
-		
-	}
-	
-	public void setParentCaseRun(CaseRun run){
-		this.parentRun = run;
-	}
-	
-	public CaseRun getParentCaseRun(){
-		return this.parentRun;
-	}
-	
-	public void setPreviousCase(Case previousCase){
-		this.previousCase = previousCase;
-	}
-	
-	public Case getPreviousCase(){
-		return this.previousCase;
-	}
-	
-	public void setNextCase(Case nextCase){
-		this.nextCase = nextCase;
-	}
-	
-	public Case getNextCase(){
-		return this.nextCase;
 	}
 	
 	public Input getInput(){
@@ -71,33 +33,12 @@ public class Case implements Serializable{
 		this.act = a;
 	}
 	
-	public int caseIndex(){
-//		int index = 1;
-//		
-//		Case c = this.previousCase;
-//		while (c != null){
-//			index++;
-//			c = c.getPreviousCase();
-//		}
-//		
-//		return index;
-		if (this.getParentCaseRun() == null){
-			return -1;
-		}
-		
-		return this.getParentCaseRun().getTimeStep(this);
-	}
+	public abstract double similarity(Case i);
 	
 	@Override
 	public String toString(){
 		String runName = "NONE";
-		if (this.getParentCaseRun() != null){
-			runName = this.getParentCaseRun().getRunName();
-		}
 		String s = "Case Run name : " + runName + "\n";
-		
-		s+= "Case Index : " + this.caseIndex() + "\n";
-		
 		s += "Input : " + this.in.toString() + "\n";
 		if (this.act != null){
 			s += "Action : " + this.act.toString();

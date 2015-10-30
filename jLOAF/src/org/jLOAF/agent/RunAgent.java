@@ -1,30 +1,29 @@
 package org.jLOAF.agent;
 
 import org.jLOAF.Agent;
-import org.jLOAF.MotorControl;
 import org.jLOAF.Perception;
 import org.jLOAF.Reasoning;
 import org.jLOAF.action.Action;
 import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
-import org.jLOAF.casebase.CaseRun;
+import org.jLOAF.casebase.ComplexCase;
 import org.jLOAF.inputs.Input;
 
 public class RunAgent extends Agent{
+	
+	protected ComplexCase currentRun;
 
-	protected CaseRun currentRun;
-	
 	public RunAgent(Reasoning reasoning, CaseBase casebase){
-		this(reasoning, null, null, casebase);
+		this(reasoning, null, casebase);
 	}
 	
-	public RunAgent(Reasoning reasoning, MotorControl motorcontrol, Perception perception, CaseBase casebase){
-		super(reasoning, motorcontrol, perception, casebase);
+	public RunAgent(Reasoning reasoning, Perception perception, CaseBase casebase){
+		super(reasoning, perception, casebase);
 		
-		this.currentRun = new CaseRun("Current Run");
+		this.currentRun = new ComplexCase(null, null);
 	}
 	
-	public CaseRun getCurrentRun(){
+	public ComplexCase getCurrentRun(){
 		return this.currentRun;
 	}
 	
@@ -39,11 +38,9 @@ public class RunAgent extends Agent{
 	 */
 	@Override
 	public Action senseEnvironment(Input input){
-		Case curCase = new Case(input, null);
-		this.currentRun.addCaseToRun(curCase);
+		this.currentRun.pushCurrentCase(input, null);
 		Action a = this.r.selectAction(input);
-		curCase.setAction(a);
-//		super.learn(curCase);
+		this.currentRun.setAction(a);
 		return a;
 	}
 	

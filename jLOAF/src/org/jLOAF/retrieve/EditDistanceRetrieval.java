@@ -1,12 +1,13 @@
 package org.jLOAF.retrieve;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.jLOAF.action.Action;
 import org.jLOAF.casebase.Case;
-import org.jLOAF.casebase.CaseRun;
+import org.jLOAF.casebase.ComplexCase;
+import org.jLOAF.sim.cases.SimilarityComplexCaseMetricStrategy;
 
-public class EditDistanceRetrieval {
+public class EditDistanceRetrieval extends SimilarityComplexCaseMetricStrategy{
 
 	public static final double DEFAUL_EDIT_THRESHOLD = 0.5;
 	public static final double DEFAULT_WEIGHT = 1.0;
@@ -27,22 +28,18 @@ public class EditDistanceRetrieval {
 		this.delWeight = delWeight;
 	}
 	
-	public Action retrieve(CaseRun problemRun, ArrayList<CaseRun> candidateRun, int time){
-		CaseRun bestRun = null;
-		double bestDistance = Double.MAX_VALUE;
-		for (CaseRun c : candidateRun){
-			double tmpDist = calculateEditDistance(problemRun, c);
-			if (tmpDist < bestDistance){
-				bestDistance = tmpDist;
-				bestRun = c;
-			}
-		}
-		return bestRun.getCurrentCase().getAction();
-	}
-	
-	private double calculateEditDistance(CaseRun problemRun, CaseRun candidateRun){
-		int pLength = problemRun.getRunLength() * 2;
-		int cLength = candidateRun.getRunLength() * 2;
+	@Override
+	public double complexCaseSimilarity(ComplexCase c1, ComplexCase c2) {
+		List<Case> problemRun = new ArrayList<Case>();
+		problemRun.add(c1.getCurrentCase());
+		problemRun.addAll(c1.getPastCases());
+		
+		List<Case> candidateRun = new ArrayList<Case>();
+		candidateRun.add(c1.getCurrentCase());
+		candidateRun.addAll(c1.getPastCases());
+		
+		int pLength = problemRun.size() * 2;
+		int cLength = candidateRun.size() * 2;
 		double d[][] = new double[pLength][cLength];
 		for (int i = 0; i < pLength; i++){
 			d[i][0] = i;
@@ -51,10 +48,10 @@ public class EditDistanceRetrieval {
 			d[0][i] = i;
 		}
 		
-		for (int i = 0; i < problemRun.getRunLength(); i++){
-			Case pCase = problemRun.getCasePastOffset(i);
-			for (int j = 0; j < candidateRun.getRunLength(); j++){
-				Case cCase = candidateRun.getCasePastOffset(j);
+		for (int i = 0; i < problemRun.size(); i++){
+			Case pCase = problemRun.get(i);
+			for (int j = 0; j < candidateRun.size(); j++){
+				Case cCase = candidateRun.get(j);
 				if (i != 0 && j != 0){
 					double sim = pCase.getAction().similarity(cCase.getAction());
 					if (sim > threshold){
@@ -81,4 +78,5 @@ public class EditDistanceRetrieval {
 		
 		return d[pLength][cLength];
 	}
+	
 }

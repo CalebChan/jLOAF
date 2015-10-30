@@ -5,24 +5,22 @@ import java.util.List;
 
 import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
-import org.jLOAF.casebase.CaseRun;
+import org.jLOAF.casebase.ComplexCase;
 
 public class LeaveOneOut {
 	
 	private List<TestingTrainingPair> testTrainPair;
 	
-	private LeaveOneOut(List<CaseRun> runs, int numOfTest){
+	private LeaveOneOut(List<ComplexCase> runs, int numOfTest){
 		this.testTrainPair = new ArrayList<TestingTrainingPair>();
 		for (int i = 0; i < Math.min(runs.size(), numOfTest); i++){
-			ArrayList<CaseRun> train = new ArrayList<CaseRun>(runs);
-			CaseRun test = null;
+			ArrayList<ComplexCase> train = new ArrayList<ComplexCase>(runs);
+			ComplexCase test = null;
 			test = train.remove(i);
 			
 			CaseBase base = new CaseBase();
-			for (CaseRun cc : train){
-				for (int j = 0; j < cc.getRunLength(); j++){
-					base.add(cc.getCasePastOffset(j));
-				}
+			for (ComplexCase cc : train){
+				base.add(cc);
 			}
 			
 			this.testTrainPair.add(new TestingTrainingPair(base, test, i));			
@@ -35,13 +33,18 @@ public class LeaveOneOut {
 	
 	public static LeaveOneOut loadTrainAndTest(String filename, int runSize, int numOfTest){
 		CaseBase cb = CaseBaseIO.loadCaseBase(filename);
-		ArrayList<CaseRun> runs = new ArrayList<CaseRun>();
-		CaseRun r = new CaseRun("" + runs.size());
+		ArrayList<ComplexCase> runs = new ArrayList<ComplexCase>();
+		
+		ComplexCase r = null;
 		for (Case c : cb.getCases()){
-			r.addCaseToRun(new Case(c.getInput(), c.getAction(), r.getCurrentCase()));
-			if (r.getRunLength() == runSize){
+			if (r == null){
+				r = new ComplexCase(c.getInput(), c.getAction());	
+			}else{
+				r.addCaseToBackPast(c);
+			}
+			if (r.getComplexCaseSize() >= runSize){
 				runs.add(r);
-				r = new CaseRun("" + runs.size());
+				r = null;
 			}
 		}
 		return new LeaveOneOut(runs, numOfTest);

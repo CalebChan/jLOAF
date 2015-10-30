@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.jLOAF.action.AtomicAction;
+import org.jLOAF.casebase.AtomicCase;
 import org.jLOAF.casebase.Case;
 import org.jLOAF.casebase.CaseBase;
 import org.jLOAF.inputs.AtomicInput;
@@ -55,7 +56,7 @@ public class LfOTraceParser {
 		AtomicAction a = new AtomicAction(action.name());
 		a.addFeature(new Feature(actionIndex));
 		
-		return new Case(ci, a, c); 
+		return new AtomicCase(ci, a); 
 	}
 	
 	protected String filename;

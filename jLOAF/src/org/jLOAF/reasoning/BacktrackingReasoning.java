@@ -1,43 +1,35 @@
 package org.jLOAF.reasoning;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import org.jLOAF.Reasoning;
 import org.jLOAF.casebase.Case;
-import org.jLOAF.casebase.CaseRun;
+import org.jLOAF.casebase.CaseBase;
+import org.jLOAF.casebase.ComplexCase;
 import org.jLOAF.inputs.Input;
-import org.jLOAF.retrieve.kNN;
 
 public abstract class BacktrackingReasoning  implements Reasoning{
 	
-	protected CaseRun currentRun;
-	protected kNN knn;
+	protected Case currentRun;
+	private CaseBase cb;
+	private double threshold;
 	
-	public BacktrackingReasoning(kNN knn){
-		this.knn = knn;
+	public BacktrackingReasoning(CaseBase cb, double threshold){
+		this.cb = cb;
+		this.threshold = threshold;
 	}
 	
-	public void setCurrentRun(CaseRun currentRun){
+	public void setCurrentRun(Case currentRun){
 		this.currentRun = currentRun;
 	}
 	
-	public ArrayList<CaseRun> generateCandidateRuns(Input i){
+	public ArrayList<ComplexCase> generateCandidateRuns(Input i){
 		if (this.currentRun == null){
 			throw new RuntimeException("Current Run is not set");
 		}
 		
-		ArrayList<CaseRun> candidates = new ArrayList<CaseRun>();
-		List<Case> closestCase = knn.retrieve(i);
-		for (Case c : closestCase){
-			Case tmp = c;
-			CaseRun run  = new CaseRun("" + (candidates.size() + 1));
-			while(tmp != null){
-				run.appendCaseToRun(tmp);
-				tmp = tmp.getPreviousCase();
-			}
-			run.reverseRun();
-			candidates.add(run);
+		ArrayList<ComplexCase> candidates = new ArrayList<ComplexCase>();
+		for (ComplexCase c : this.cb.getRuns()){
+			candidates.addAll(c.getSubRuns(i, threshold));
 		}
 		return candidates;
 	}
