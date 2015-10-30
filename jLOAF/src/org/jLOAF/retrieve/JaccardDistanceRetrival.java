@@ -26,16 +26,24 @@ public class JaccardDistanceRetrival extends SimilarityComplexCaseMetricStrategy
 		candidateRun.add(c2.getCurrentCase());
 		candidateRun.addAll(c2.getPastCases());
 		
-		int union = 0;
-		for (Case pCase : problemRun){
-			for (Case cCase : candidateRun){
+		List<Case> smallRun = (problemRun.size() > candidateRun.size()) ? candidateRun : problemRun;
+		List<Case> largeRun = (problemRun.size() <= candidateRun.size()) ? candidateRun : problemRun;
+		
+		ArrayList<Case> unionCase = new ArrayList<Case>();
+		for (Case pCase : smallRun){
+			for (Case cCase : largeRun){
 				if (pCase.similarity(cCase) > this.threshold){
-					union++;
+					if (!unionCase.contains(pCase)){
+						unionCase.add(pCase);
+					}
 				}
 			}
 		}
-		
-		return union * 1.0 / ((problemRun.size() + candidateRun.size() - union ) * 1.0);
+		double value = unionCase.size() * 1.0 / ((problemRun.size() + candidateRun.size() - unionCase.size()) * 1.0);
+		if (value > 1.0){
+			throw new RuntimeException("Value over 1.0 : " + value);
+		}
+		return value;
 	}
 
 }
