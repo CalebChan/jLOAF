@@ -1,5 +1,7 @@
 package org.jLOAF;
 
-public abstract class MotorControl {
+import org.jLOAF.action.Action;
 
+public abstract class MotorControl {
+	public abstract String control(Action a);
 }
