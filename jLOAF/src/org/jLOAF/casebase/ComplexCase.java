@@ -104,8 +104,8 @@ public class ComplexCase extends Case {
 	
 	public List<ComplexCase> getSubRuns(Input input, double threshold){
 		List<ComplexCase> runs = new ArrayList<ComplexCase>();
-		
-		if (this.in.similarity(input) > threshold){
+		double sim = this.in.similarity(input);
+		if (sim > threshold){
 			runs.add(this);
 		}
 		List<Case> past = getPastCases();

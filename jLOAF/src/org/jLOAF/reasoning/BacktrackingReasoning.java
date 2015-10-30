@@ -15,6 +15,8 @@ import org.jLOAF.sim.cases.SimilarityAtomicCaseMetricStrategy;
 
 public abstract class BacktrackingReasoning  implements Reasoning{
 	
+	private static final double DEFAULT_THRESHOLD_FALLBACK = 0.75;
+	
 	protected Case currentRun;
 	private CaseBase cb;
 	private double threshold;
@@ -41,6 +43,12 @@ public abstract class BacktrackingReasoning  implements Reasoning{
 		for (ComplexCase c : this.cb.getRuns()){
 			candidates.addAll(c.getSubRuns(i, threshold));
 		}
+		if (candidates.isEmpty()){
+			for (ComplexCase c : this.cb.getRuns()){
+				candidates.addAll(c.getSubRuns(i, DEFAULT_THRESHOLD_FALLBACK));
+			}
+		}
+//		System.out.println("Candidate cases : " + candidates.size());
 		return candidates;
 	}
 	
@@ -58,6 +66,7 @@ public abstract class BacktrackingReasoning  implements Reasoning{
 				c = cc;
 			}
 		}
-		return c.getAction();
+		Action a = c.getAction();
+		return a;
 	}
 }

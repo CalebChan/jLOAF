@@ -39,8 +39,8 @@ public class EditDistanceRetrieval extends SimilarityComplexCaseMetricStrategy{
 		candidateRun.add(c2.getCurrentCase());
 		candidateRun.addAll(c2.getPastCases());
 		
-		int pLength = problemRun.size();
-		int cLength = candidateRun.size() * 2;
+		int pLength = problemRun.size() + 1;
+		int cLength = candidateRun.size() + 1;
 		double d[][] = new double[pLength][cLength];
 		for (int i = 0; i < pLength; i++){
 			d[i][0] = i;
