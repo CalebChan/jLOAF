@@ -41,13 +41,16 @@ public class SequentialReasoning extends BacktrackingReasoning  {
 		int bestSim = -1;
 		for (ComplexCase cc : candidateRuns){
 			int sim = (int) problemRun.similarity(cc);
-			if (simMap.containsKey(sim)){
+			if (!simMap.containsKey(sim)){
 				simMap.put(sim, new ArrayList<ComplexCase>());
 			}
 			simMap.get(sim).add(cc);
 			if (sim > bestSim){
 				bestSim = sim;
 			}
+		}
+		if (simMap.get(bestSim) == null){
+			System.out.println("ERROR");
 		}
 		if (simMap.get(bestSim).size() == 1){
 			return simMap.get(bestSim).get(0).getAction();

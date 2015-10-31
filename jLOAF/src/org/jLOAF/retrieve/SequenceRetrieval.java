@@ -40,6 +40,9 @@ public class SequenceRetrieval extends SimilarityComplexCaseMetricStrategy{
 		}
 		
 		for (int i = 1; i < a1.size(); i++){
+			if(i >= a2.size()){
+				return backtracking;
+			}
 			if (a1.get(i).getAction().similarity(a2.get(i).getAction()) > solutionThreshold){
 				backtracking++;
 			}else{

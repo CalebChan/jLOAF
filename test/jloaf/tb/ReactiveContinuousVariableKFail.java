@@ -15,7 +15,7 @@ public class ReactiveContinuousVariableKFail extends BaselineTest{
 
 	public ReactiveContinuousVariableKFail(){
 		// kNN orders the runs by most similiar to least, thus this code does not work right now.
-		//super(true);
+		super(true);
 	}
 	
 	private static String problemRunString[] = {

@@ -75,7 +75,7 @@ public class EditDistanceRetrieval extends SimilarityComplexCaseMetricStrategy{
 			}
 		}
 
-		return 1.0 / d[pLength - 1][cLength - 1];
+		return 1.0 / (d[pLength - 1][cLength - 1] + 1.0);
 	}
 	
 }

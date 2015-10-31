@@ -20,7 +20,7 @@ public class EndRunRetrieval extends SimilarityComplexCaseMetricStrategy{
 		a2.add(c2.getCurrentCase());
 		a2.addAll(c2.getPastCases());
 		
-		int min = Math.min(a1.size(), a2.size());
+		int min = Math.min(a1.size(), a2.size()) - 1;
 		
 		return a1.get(min).getInput().similarity(a2.get(min).getInput());
 	}

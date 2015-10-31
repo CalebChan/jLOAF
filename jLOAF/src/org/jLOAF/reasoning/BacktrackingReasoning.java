@@ -1,6 +1,7 @@
 package org.jLOAF.reasoning;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.jLOAF.Reasoning;
@@ -15,7 +16,8 @@ import org.jLOAF.sim.cases.SimilarityAtomicCaseMetricStrategy;
 
 public abstract class BacktrackingReasoning  implements Reasoning{
 	
-	private static final double DEFAULT_THRESHOLD_FALLBACK = 0.75;
+	private static final double DEFAULT_THRESHOLD_FALLBACK = 0.5;
+	private static final int DEFAULT_K = 10;
 	
 	protected Case currentRun;
 	private CaseBase cb;
@@ -47,6 +49,12 @@ public abstract class BacktrackingReasoning  implements Reasoning{
 			for (ComplexCase c : this.cb.getRuns()){
 				candidates.addAll(c.getSubRuns(i, DEFAULT_THRESHOLD_FALLBACK));
 			}
+		}
+		if (DEFAULT_K != -1){
+			Collections.shuffle(candidates);
+			int min = Math.min(DEFAULT_K, candidates.size());
+			return new ArrayList<ComplexCase>(candidates.subList(0, min));
+			
 		}
 //		System.out.println("Candidate cases : " + candidates.size());
 		return candidates;
