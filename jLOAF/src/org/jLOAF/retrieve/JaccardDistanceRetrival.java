@@ -18,7 +18,9 @@ public class JaccardDistanceRetrival extends SimilarityComplexCaseMetricStrategy
 	public double complexCaseSimilarity(ComplexCase c1, ComplexCase c2) {
 		
 		List<Case> problemRun = new ArrayList<Case>();
-		problemRun.add(c1.getCurrentCase());
+		if (c1.getAction() != null){
+			problemRun.add(c1.getCurrentCase());
+		}
 		
 		for (Case cc1 : c1.getPastCases()){
 			boolean isIn = false;
@@ -36,7 +38,9 @@ public class JaccardDistanceRetrival extends SimilarityComplexCaseMetricStrategy
 		//problemRun.addAll(c1.getPastCases());
 		
 		List<Case> candidateRun = new ArrayList<Case>();
-		candidateRun.add(c2.getCurrentCase());
+		if (c1.getAction() != null){
+			candidateRun.add(c2.getCurrentCase());
+		}
 		
 		for (Case cc1 : c2.getPastCases()){
 			boolean isIn = false;

@@ -169,4 +169,21 @@ public class ComplexCase extends Case {
 	public void addCaseToBackPast(Case c){
 		this.pastCases.add(c);
 	}
+	
+
+	@Override
+	public String toString(){
+		String s = "";
+		s += "Input : " + this.in.toString() + " ";
+		if (this.act != null){
+			s += "Action : " + this.act.toString();
+		}else{
+			s += "Action : ?";
+		}
+		s += "\n";
+		for (Case c : this.pastCases){
+			s += c.toString() + "\n";
+		}
+		return s;
+	}
 }
