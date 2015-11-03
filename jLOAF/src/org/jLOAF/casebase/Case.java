@@ -37,9 +37,8 @@ public abstract class Case implements Serializable{
 	
 	@Override
 	public String toString(){
-		String runName = "NONE";
-		String s = "Case Run name : " + runName + "\n";
-		s += "Input : " + this.in.toString() + "\n";
+		String s = "";
+		s += "Input : " + this.in.toString() + " ";
 		if (this.act != null){
 			s += "Action : " + this.act.toString();
 		}else{

@@ -41,41 +41,39 @@ public class EditDistanceRetrieval extends SimilarityComplexCaseMetricStrategy{
 		
 		int pLength = problemRun.size() + 1;
 		int cLength = candidateRun.size() + 1;
-		double d[][] = new double[pLength][cLength];
-		for (int i = 0; i < pLength; i++){
-			d[i][0] = i;
-		}
+		double d[][] = new double[2][cLength];
 		for (int i = 0; i < cLength; i++){
 			d[0][i] = i;
 		}
-		
+		d[0][0] = 0;
 		for (int i = 0; i < problemRun.size(); i++){
 			Case pCase = problemRun.get(i);
+			d[(i + 1) % 2][0] = i + 1;
 			for (int j = 0; j < candidateRun.size(); j++){
 				Case cCase = candidateRun.get(j);
 				if (i == 0 || j == 0){
 					double sim = pCase.getInput().similarity(cCase.getInput());
 					if (sim > threshold){
-						d[i + 1][j + 1] = d[i][j];
+						d[(i + 1) % 2][j + 1] = d[i % 2][j];
 					}else{
-						double min = Math.min(d[i][j] + subWeight, d[i][j + 1] + delWeight);
-						min = Math.min(d[i + 1][j] + addWeight, min);
-						d[i + 1][j + 1] = min;
+						double min = Math.min(d[i % 2][j] + subWeight, d[i % 2][j + 1] + delWeight);
+						min = Math.min(d[(i + 1) % 2][j] + addWeight, min);
+						d[(i + 1) % 2][j + 1] = min;
 					}
 				}else{
 					double sim = pCase.similarity(cCase);
 					if (sim > threshold){
-						d[i + 1][j + 1] = d[i][j];
+						d[(i + 1) % 2][j + 1] = d[i % 2][j];
 					}else{
-						double min = Math.min(d[i][j] + subWeight, d[i][j + 1] + delWeight);
-						min = Math.min(d[i + 1][j] + addWeight, min);
-						d[i + 1][j + 1] = min;
+						double min = Math.min(d[i % 2][j] + subWeight, d[i % 2][j + 1] + delWeight);
+						min = Math.min(d[(i + 1) % 2][j] + addWeight, min);
+						d[(i + 1) % 2][j + 1] = min;
 					}
 				}
 			}
 		}
 
-		return 1.0 / (d[pLength - 1][cLength - 1] + 1.0);
+		return 1.0 / (d[(pLength - 1) % 2][cLength - 1] + 1.0);
 	}
 	
 }
