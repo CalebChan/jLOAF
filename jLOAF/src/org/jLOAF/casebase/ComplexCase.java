@@ -86,6 +86,13 @@ public class ComplexCase extends Case {
 		this.pastCases = new ArrayList<Case>(c.pastCases);
 	}
 	
+	public List<Case> toArrayList(){
+		ArrayList<Case> array = new ArrayList<Case>();
+		array.add(this.getCurrentCase());
+		array.addAll(this.getPastCases());
+		return array;
+	}
+	
 	public List<ComplexCase> getSubRunsEqual(Input input){
 		List<ComplexCase> runs = new ArrayList<ComplexCase>();
 		
@@ -161,12 +168,5 @@ public class ComplexCase extends Case {
 		}
 		this.act = action;
 		this.in = input;
-	}
-	
-	/**
-	 * This method will add a case to the run. This case will be the farthest case in the past
-	 */
-	public void addCaseToBackPast(Case c){
-		this.pastCases.add(c);
 	}
 }

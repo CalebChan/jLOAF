@@ -35,16 +35,12 @@ public class LeaveOneOut {
 		CaseBase cb = CaseBaseIO.loadCaseBase(filename);
 		ArrayList<ComplexCase> runs = new ArrayList<ComplexCase>();
 		
-		ComplexCase r = null;
+		ComplexCase r = new ComplexCase();
 		for (Case c : cb.getCases()){
-			if (r == null){
-				r = new ComplexCase(c.getInput(), c.getAction());	
-			}else{
-				r.addCaseToBackPast(c);
-			}
+			r.pushCurrentCase(c.getInput(), c.getAction());
 			if (r.getComplexCaseSize() >= runSize){
 				runs.add(r);
-				r = null;
+				r = new ComplexCase();
 			}
 		}
 		return new LeaveOneOut(runs, numOfTest);
