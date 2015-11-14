@@ -36,6 +36,7 @@ public abstract class BacktrackingReasoning  implements Reasoning{
 		this.currentRun = currentRun;
 	}
 	
+	@SuppressWarnings("unused")
 	public ArrayList<ComplexCase> generateCandidateRuns(Input i){
 		if (this.currentRun == null){
 			throw new RuntimeException("Current Run is not set");
@@ -50,6 +51,7 @@ public abstract class BacktrackingReasoning  implements Reasoning{
 				candidates.addAll(c.getSubRuns(i, DEFAULT_THRESHOLD_FALLBACK));
 			}
 		}
+		// Used to limit the time each test takes
 		if (DEFAULT_K != -1){
 			Collections.shuffle(candidates);
 			int min = Math.min(DEFAULT_K, candidates.size());
